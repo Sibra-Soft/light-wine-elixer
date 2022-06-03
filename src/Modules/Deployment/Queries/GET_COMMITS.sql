@@ -1,0 +1,11 @@
+SELECT
+	template.id,
+	template.`name`,
+	template.template_version_live AS `live_version`,
+	template.template_version_test AS `test_version`,
+	template.template_version_dev AS `current_version`,
+	template.type
+FROM `site_templates` AS template
+LEFT JOIN _commits_objects AS commit_objects ON commit_objects.template_id = template.id AND commit_objects.template_version = template.template_version_dev
+WHERE template.type NOT IN ('folder')
+	AND commit_objects.template_version IS NULL

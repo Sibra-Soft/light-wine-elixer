@@ -1,0 +1,20 @@
+{
+  "name": "sibra-soft/light-wine-elixer",
+  "description": "Webapplication for managing websites created using the LightWine framework",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alex van den Berg",
+      "email": "alex@sibra-soft.nl"
+    }
+  ],
+  "require": {
+    "sibra-soft/light-wine-framework": "1.0.0.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Elixer\\": "src/"
+    }
+  }
+}

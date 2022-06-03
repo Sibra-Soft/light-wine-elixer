@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1300
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "Sibra-Soft Elixer", "Sibra-Soft Elixer.phpproj", "{DD3EFA6F-2C99-4900-A786-5A97FFCE6E13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD3EFA6F-2C99-4900-A786-5A97FFCE6E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD3EFA6F-2C99-4900-A786-5A97FFCE6E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4644C1E5-6B5D-476F-8B9C-B0F2B64DC067}
+	EndGlobalSection
+EndGlobal

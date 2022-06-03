@@ -1,0 +1,146 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>Sibra-Soft Elixer</Name>
+    <ProjectGuid>{dd3efa6f-2c99-4900-a786-5a97ffce6e13}</ProjectGuid>
+    <RootNamespace>
+    </RootNamespace>
+    <OutputType>Library</OutputType>
+    <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <EnvName>PHPDev</EnvName>
+    <RuntimeVersion>8.0</RuntimeVersion>
+    <PHPDevHostName>localhost</PHPDevHostName>
+    <PHPDevAutoPort>true</PHPDevAutoPort>
+    <PHPDevRouting>router.php</PHPDevRouting>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\Core\" />
+    <Folder Include="src\Core\Interfaces\" />
+    <Folder Include="src\Core\Models\" />
+    <Folder Include="src\Core\Controllers\" />
+    <Folder Include="src\Core\Scripts\" />
+    <Folder Include="src\Core\Views\" />
+    <Folder Include="src\Core\Services\" />
+    <Folder Include="src\Core\Views\Partials\" />
+    <Folder Include="src\Core\Views\Popovers\" />
+    <Folder Include="src\Modules\" />
+    <Folder Include="src\Modules\Deployment\" />
+    <Folder Include="src\Modules\Deployment\Controllers\" />
+    <Folder Include="src\Modules\Deployment\Interfaces\" />
+    <Folder Include="src\Modules\Deployment\Services\" />
+    <Folder Include="src\Modules\Deployment\Queries\" />
+    <Folder Include="src\Modules\Deployment\Scripts\" />
+    <Folder Include="src\Modules\Deployment\Views\" />
+    <Folder Include="src\Modules\Deployment\Views\Dialogs\" />
+    <Folder Include="src\Modules\Files\" />
+    <Folder Include="src\Modules\Files\Controllers\" />
+    <Folder Include="src\Modules\Files\Interfaces\" />
+    <Folder Include="src\Modules\Files\Services\" />
+    <Folder Include="src\Modules\Files\Queries\" />
+    <Folder Include="src\Modules\Files\Scripts\" />
+    <Folder Include="src\Modules\Files\Views\" />
+    <Folder Include="src\Modules\Webforms\" />
+    <Folder Include="src\Modules\Routes\" />
+    <Folder Include="src\Modules\Routes\Controllers\" />
+    <Folder Include="src\Modules\Routes\Interfaces\" />
+    <Folder Include="src\Modules\Routes\Queries\" />
+    <Folder Include="src\Modules\Routes\Services\" />
+    <Folder Include="src\Modules\Routes\Scripts\" />
+    <Folder Include="src\Modules\Routes\Views\" />
+    <Folder Include="src\Modules\Templates\" />
+    <Folder Include="src\Modules\Templates\Controllers\" />
+    <Folder Include="src\Modules\Templates\Interfaces\" />
+    <Folder Include="src\Modules\Templates\Models\" />
+    <Folder Include="src\Modules\Templates\Queries\" />
+    <Folder Include="src\Modules\Templates\Scripts\" />
+    <Folder Include="src\Modules\Templates\Views\" />
+    <Folder Include="src\Modules\Templates\Services\" />
+    <Folder Include="src\" />
+    <Folder Include="src\Modules\Templates\Views\Dialogs\" />
+    <Folder Include="src\Modules\Webforms\Controllers\" />
+    <Folder Include="src\Modules\Webforms\Interfaces\" />
+    <Folder Include="src\Modules\Webforms\Views\" />
+    <Folder Include="src\Modules\Webforms\Services\" />
+    <Folder Include="src\Modules\Webforms\Scripts\" />
+    <Folder Include="src\Modules\Webforms\Queries\" />
+    <Folder Include="src\Stylesheets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="router.php" />
+    <Compile Include="src\Bootloader.php" />
+    <Compile Include="src\Core\Controllers\LoginController.php" />
+    <Compile Include="src\Core\Interfaces\IController.php" />
+    <Compile Include="src\Core\Models\ProjectModel.php" />
+    <Compile Include="src\Core\Models\UserModel.php" />
+    <Compile Include="src\Core\Services\LoginService.php" />
+    <Compile Include="index.php" />
+    <Compile Include="src\Core\Services\PageService.php" />
+    <Compile Include="src\Core\Services\RoutingService.php" />
+    <Compile Include="src\Core\Services\ServerService.php" />
+    <Compile Include="src\Modules\Deployment\Controllers\DeploymentController.php" />
+    <Compile Include="src\Modules\Deployment\Services\DeploymentService.php" />
+    <Compile Include="src\Modules\Files\Controllers\FilesController.php" />
+    <Compile Include="src\Modules\Files\Interfaces\IFileService.php" />
+    <Compile Include="src\Modules\Files\Services\FileService.php" />
+    <Compile Include="src\Modules\Routes\Controllers\RoutesController.php" />
+    <Compile Include="src\Modules\Routes\Interfaces\IRoutesService.php" />
+    <Compile Include="src\Modules\Routes\Services\RoutesService.php" />
+    <Compile Include="src\Modules\Templates\Controllers\TemplatesController.php" />
+    <Compile Include="src\Modules\Templates\Interfaces\ITemplatesService.php" />
+    <Compile Include="src\Modules\Templates\Models\TemplateModel.php" />
+    <Compile Include="src\Modules\Templates\Services\TemplatesService.php" />
+    <Compile Include="src\Modules\Webforms\Controllers\WebformsController.php" />
+    <Compile Include="src\Modules\Webforms\Services\WebformsService.php" />
+    <Compile Include="src\Stylesheets\bootstrap.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".htaccess" />
+    <Content Include="composer.json" />
+    <Content Include="src\Core\Scripts\dialogs.js" />
+    <Content Include="src\Core\Scripts\loader.js" />
+    <Content Include="src\Core\Scripts\login.js" />
+    <Content Include="src\Core\Scripts\masterpage.js" />
+    <Content Include="src\Core\Scripts\js-templater.js" />
+    <Content Include="src\Core\Scripts\utils.js" />
+    <Content Include="src\Core\Views\login.tpl" />
+    <Content Include="src\Core\Views\main.tpl" />
+    <Content Include="src\Core\Views\Partials\menu.tpl" />
+    <Content Include="src\Core\Views\Popovers\popover-file.tpl" />
+    <Content Include="src\Core\Views\Popovers\popover-help.tpl" />
+    <Content Include="src\Core\Views\Popovers\popover-modules.tpl" />
+    <Content Include="src\Core\Views\Popovers\popover-tools.tpl" />
+    <Content Include="src\Core\Views\start-screen.tpl" />
+    <Content Include="src\Modules\Deployment\Queries\AVAILABLE_COMMITS.sql" />
+    <Content Include="src\Modules\Deployment\Scripts\main.js" />
+    <Content Include="src\Modules\Deployment\Views\deployment.tpl" />
+    <Content Include="src\Modules\Deployment\Views\Dialogs\publish-templates.tpl" />
+    <Content Include="src\Modules\Files\Queries\GET_FILES.sql" />
+    <Content Include="src\Modules\Files\Scripts\main.js" />
+    <Content Include="src\Modules\Files\Views\files.tpl" />
+    <Content Include="src\Modules\Files\Views\upload-file.tpl" />
+    <Content Include="src\Modules\Routes\Queries\GET_ROUTES.sql" />
+    <Content Include="src\Modules\Routes\Scripts\main.js" />
+    <Content Include="src\Modules\Routes\Views\add-new-route.tpl" />
+    <Content Include="src\Modules\Routes\Views\routes.tpl" />
+    <Content Include="src\Modules\Templates\Queries\GET_TEMPLATE.sql" />
+    <Content Include="src\Modules\Templates\Queries\GET_TEMPLATES_TREEVIEW.sql" />
+    <Content Include="src\Modules\Templates\Queries\SAVE_TEMPLATE.sql" />
+    <Content Include="src\Modules\Templates\Scripts\main.js" />
+    <Content Include="src\Modules\Templates\Views\Dialogs\new-template.tpl" />
+    <Content Include="src\Modules\Templates\Views\Dialogs\template-properties.tpl" />
+    <Content Include="src\Modules\Templates\Views\templates.tpl" />
+    <Content Include="src\Modules\Webforms\Scripts\main.js" />
+    <Content Include="src\Modules\Webforms\Views\webforms.tpl" />
+    <Content Include="src\Stylesheets\alerts.css" />
+    <Content Include="src\Stylesheets\bootstrap - Copy.css" />
+    <Content Include="src\Stylesheets\contextmenu.css" />
+    <Content Include="src\Stylesheets\framework7.css" />
+    <Content Include="src\Stylesheets\over-rules.css" />
+  </ItemGroup>
+</Project>

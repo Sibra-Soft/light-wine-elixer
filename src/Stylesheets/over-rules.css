@@ -1,0 +1,78 @@
+﻿.treeview-item-root {
+    min-height: unset;
+    padding-left: 5px;
+}
+
+    .treeview-item-root:hover {
+        background-color: #F6F6F6 !important;
+        cursor: default;
+    }
+
+.treeview-item-label {
+    font-size: unset;
+}
+
+.CodeMirror {
+    font-size: 12px;
+}
+
+.pop-menu .list-button {
+    line-height: 35px;
+    text-align: left;
+}
+
+.hide {
+    display: none !important;
+}
+
+.toolbar-border.card-header::after {
+    background-color: unset !important;
+}
+
+.bg-button-face {
+    background-color: #F3F4F6 !important;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.scrollbar {
+    overflow: auto;
+}
+
+.pad-left-5 {
+    padding-left: 5px !important;
+}
+
+.mar-left-5 {
+    margin-left: 5px;
+}
+
+.data-table tbody td, .data-table tbody th {
+    height: 30px !important;
+}
+
+.v-align {
+    vertical-align: middle;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+table td a:hover {
+    text-decoration: underline;
+}
+
+.auto-scroll {
+    overflow: auto !important;
+}
+
+.size-400 {
+    width: 400px !important;
+}
+
+.label-margin {
+    margin-bottom: 0.5rem;
+}
