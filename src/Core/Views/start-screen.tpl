@@ -81,29 +81,7 @@
                     </div>
 
                     <div class="row margin-top">
-                        <div class="col">
-                            <div class="elevation-demo elevation-3 padding">
-                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
-                                    <ul>
-                                        <li>
-                                        <a href="/module/components" class="item-link item-content open-module">
-                                            <div class="item-media"><img src="/img/components.png" width="70"></div>
-                                            <div class="item-inner">
-                                                <div class="item-title-row">
-                                                    <div class="item-title">Components</div>
-                                                </div>
-                                                <div class="item-text">
-                                                    Use components to ease the way of creating websites. Components allow you to use plug-and-play functionality like login, logoff, shoppingbaskets, etc.
-                                                </div>
-                                            </div>
-                                        </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col">
+                        <div class="col-50">
                             <div class="elevation-demo elevation-3 padding">
                                 <div class="list media-list no-padding no-margin no-hairlines no-chevron">
                                     <ul>
@@ -125,7 +103,7 @@
                             </div>
                         </div>
 
-                        <div class="col">
+                        <div class="col-50">
                             <div class="elevation-demo elevation-3 padding">
                                 <div class="list media-list no-padding no-margin no-hairlines no-chevron">
                                     <ul>
@@ -138,74 +116,6 @@
                                                 </div>
                                                 <div class="item-text">
                                                     Manage the roles and users that have access to your website and Elixer. Reset passwords, create new users, etc.
-                                                </div>
-                                            </div>
-                                        </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row margin-top">
-                        <div class="col">
-                            <div class="elevation-demo elevation-3 padding">
-                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
-                                    <ul>
-                                        <li>
-                                        <a href="/module/analytics" class="item-link item-content open-module">
-                                            <div class="item-media"><img src="/img/analytics.png" width="70"></div>
-                                            <div class="item-inner">
-                                                <div class="item-title-row">
-                                                    <div class="item-title">Analytics</div>
-                                                </div>
-                                                <div class="item-text">
-                                                    This module allows you to view the amount of visitors of your website and tracing and logging information.
-                                                </div>
-                                            </div>
-                                        </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="elevation-demo elevation-3 padding">
-                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
-                                    <ul>
-                                        <li>
-                                        <a href="/module/webforms" class="item-link item-content open-module" data-name="webforms">
-                                            <div class="item-media"><img src="/img/webforms.png" width="70"></div>
-                                            <div class="item-inner">
-                                                <div class="item-title-row">
-                                                    <div class="item-title">Webforms</div>
-                                                </div>
-                                                <div class="item-text">
-                                                    Use the webforms module to create standarised forms that can be used over the complete website.
-                                                </div>
-                                            </div>
-                                        </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="elevation-demo elevation-3 padding">
-                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
-                                    <ul>
-                                        <li>
-                                        <a href="/module/webforms" class="item-link item-content open-module">
-                                            <div class="item-media"><img src="/img/content.png" width="70"></div>
-                                            <div class="item-inner">
-                                                <div class="item-title-row">
-                                                    <div class="item-title">Content</div>
-                                                </div>
-                                                <div class="item-text">
-                                                    The content module allows you to manage the content on your website.
                                                 </div>
                                             </div>
                                         </a>
@@ -230,33 +140,6 @@
             </div>
 	    </div>
     </div>
-</div>
-
-<!-- General popup -->
-<div class="popup" id="general-popup" data-close-by-backdrop-click="false">
-	<div class="view">
-		<div class="page">
-			<div class="navbar">
-				<div class="navbar-bg"></div>
-				<div class="navbar-inner">
-					<div class="title">
-						Popup
-					</div>
-				</div>
-			</div>
-			<div class="page-content bg-color-white">
-                <div class="content-container margin">
-
-                </div>
-            </div>
-            <div class="toolbar toolbar-bottom">
-                <div class="toolbar-inner">
-                    <a class="link close-popup">Cancel</a>
-                    <a class="link confirm">Select</a>
-                </div>
-            </div>
-		</div>
-	</div>
 </div>
 
 {{view::~\Popovers\popover-file.tpl}}
