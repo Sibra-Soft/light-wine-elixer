@@ -21,6 +21,14 @@
     text-align: left;
 }
 
+.clear {
+    clear: both;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
 .hide {
     display: none !important;
 }
@@ -75,4 +83,8 @@ table td a:hover {
 
 .label-margin {
     margin-bottom: 0.5rem;
+}
+
+.no-hover:hover {
+    text-decoration: none;
 }
