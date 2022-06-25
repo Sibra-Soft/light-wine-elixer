@@ -36,6 +36,7 @@ class Bootloader {
 
         // Deployment
         Route::Controller("/deployments/get-commits", "Modules\Deployment", "DeploymentController@GetCommits", "GET", []);
+        Route::Controller("/deployments/commit", "Modules\Deployment", "DeploymentController@Commit", "POST", []);
 
         // Routes
         Route::Controller("/routes/get", "Modules\Routes", "RoutesController@Get", "GET", []);
