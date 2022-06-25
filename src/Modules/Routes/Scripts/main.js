@@ -7,6 +7,19 @@
         this.module = module;
     }
 
+    Delete() {
+        const selected = this.module.selected();
+
+        elixer.dialog.confirm("Are you sure you want to delete the selected route(s)", "", async () => {
+            const request = await elixer.request.post("/routes/delete", {
+                "ids": selected.ids.join(",")
+            });
+
+            if (request.status == 200)
+                $(selected.elements).fadeOut(800);
+        });
+    }
+
     /**
      * Search for a route based on the specified value
      * @param {string} value The name of the route you are searching for
@@ -20,11 +33,13 @@
 class RoutesModule {
     constructor() {
         this.actions = new RoutesModuleActions(this);
+        this.views = new Views();
+        this.templater = new JsTemplater();
         this.id = utils.guid();
         this.init();
     }
 
-    init() {
+    async init() {
         masterpage.addNewTaskbarElement("Routes", this.id);
 
         document.querySelector("div.page#module-routes").dataset.module = this.id;
@@ -33,7 +48,9 @@ class RoutesModule {
 
         this.initBindings();
         this.resize();
-        this.getRoutes();
+
+        await this.templater.Render("/routes/get", "template#route-item-template");
+        this.initTableBindings();
     }
 
     initBindings() {
@@ -41,8 +58,16 @@ class RoutesModule {
             this.resize();
         });
 
-        $("a.button[data-actions='search']").on("click", () => {
-            $(".searchbar").addClass("searchbar-enabled");
+        $("a.button").on("click", (event) => {
+            switch (event.currentTarget.dataset.action) {
+                case "search": alert("search"); break;
+                case "add-route": this.views.Show("add-new-route"); break;
+                case "remove": this.actions.Delete(); break;
+            }
+        });
+
+        $(".return-to-main").on("click", () => {
+            this.views.Close();
         });
 
         $("#table-search").on("keyup", (event) => {
@@ -65,43 +90,44 @@ class RoutesModule {
         });
     }
 
+    /** Get the selected files (single or multiple) */
+    selected() {
+        var returnObject = {};
+        const multiple = $("#routes-table td.checkbox-cell input:checked").length;
+
+        if (multiple > 0) {
+            var ids = [];
+            var elements = [];
+
+            $("#routes-table td.checkbox-cell input:checked").each((index, element) => {
+                const rowId = parseInt(element.closest("tr").dataset.id);
+
+                ids.push(rowId);
+                elements.push(element.closest("tr"));
+            });
+
+            returnObject = {
+                "multiple": true,
+                "count": multiple,
+                "elements": elements,
+                "ids": ids
+            };
+        } else {
+            returnObject = {
+                "multiple": false,
+                "count": 1,
+                "elements": this.rightClickElement,
+                "ids": parseInt(this.rightClickElement.dataset.id)
+            };
+        }
+
+        return returnObject;
+    }
+
     resize() {
         const pageHeight = $(".page").height();
 
         $("div.page#module-routes").height(pageHeight - 48 + "px");
-    }
-
-    /** Get all the routes from a query */
-    async getRoutes() {
-        const request = await elixer.request.get("/routes/get");
-
-        if (request.status == 200) {
-            const routes = JSON.parse(request.data);
-
-            routes.forEach((element, index) => {
-                var fileItem = $("div.page#module-routes template#route-item-template").html();
-                var color = "";
-
-                // Get the color based on the method
-                switch (element.method.toLowerCase()) {
-                    case "post": color = "blue"; break;
-                    case "get": color = "green"; break;
-                    case "put": color = "orange"; break;
-                    case "delete": color = "red"; break;
-                }
-
-                fileItem = fileItem.replace("{name}", element.name);
-                fileItem = fileItem.replace("{method}", element.method);
-                fileItem = fileItem.replace("{color}", color);
-                fileItem = fileItem.replace("{path}", element.url);
-                fileItem = fileItem.replace("{date_created}", element.date_created);
-                fileItem = fileItem.replace("{type}", element.type);
-
-                $("div.page#module-routes table#routes-table tbody").append(fileItem);
-            });
-
-            this.initTableBindings();
-        }
     }
 }
 

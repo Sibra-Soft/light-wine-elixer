@@ -4,7 +4,6 @@ namespace Elixer\Modules\Routes\Services;
 use Elixer\Modules\Routes\Interfaces\IRoutesService;
 
 use LightWine\Modules\Database\Services\MysqlConnectionService;
-use LightWine\Core\Helpers\RequestVariables;
 use LightWine\Core\Helpers\Helpers;
 use LightWine\Core\HttpResponse;
 
@@ -47,6 +46,6 @@ class RoutesService implements IRoutesService
         $query = Helpers::GetFileContent("../src/Modules/Routes/Queries/GET_ROUTES.sql");
         $dataset = $this->databaseConnection->GetDataset($query);
 
-        HttpResponse::SetReturnJson($dataset);
+        HttpResponse::SetReturnJson(["routes" => $dataset]);
     }
 }
