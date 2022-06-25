@@ -11,7 +11,9 @@
     <RuntimeVersion>8.0</RuntimeVersion>
     <PHPDevHostName>localhost</PHPDevHostName>
     <PHPDevAutoPort>true</PHPDevAutoPort>
-    <PHPDevRouting>router.php</PHPDevRouting>
+    <PHPDevRouting>
+    </PHPDevRouting>
+    <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -45,6 +47,12 @@
     <Folder Include="src\Modules\Files\Queries\" />
     <Folder Include="src\Modules\Files\Scripts\" />
     <Folder Include="src\Modules\Files\Views\" />
+    <Folder Include="src\Modules\Users\" />
+    <Folder Include="src\Modules\Users\Controllers\" />
+    <Folder Include="src\Modules\Users\Interfaces\" />
+    <Folder Include="src\Modules\Users\Scripts\" />
+    <Folder Include="src\Modules\Users\Queries\" />
+    <Folder Include="src\Modules\Users\Views\" />
     <Folder Include="src\Modules\Webforms\" />
     <Folder Include="src\Modules\Routes\" />
     <Folder Include="src\Modules\Routes\Controllers\" />
@@ -69,6 +77,7 @@
     <Folder Include="src\Modules\Webforms\Services\" />
     <Folder Include="src\Modules\Webforms\Scripts\" />
     <Folder Include="src\Modules\Webforms\Queries\" />
+    <Folder Include="src\Tests\" />
     <Folder Include="src\Stylesheets\" />
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +111,7 @@
   <ItemGroup>
     <Content Include=".htaccess" />
     <Content Include="composer.json" />
-    <Content Include="src\Core\Scripts\dialogs.js" />
+    <Content Include="src\Core\Scripts\views.js" />
     <Content Include="src\Core\Scripts\loader.js" />
     <Content Include="src\Core\Scripts\login.js" />
     <Content Include="src\Core\Scripts\masterpage.js" />
@@ -117,7 +126,9 @@
     <Content Include="src\Core\Views\Popovers\popover-tools.tpl" />
     <Content Include="src\Core\Views\start-screen.tpl" />
     <Content Include="src\Modules\Deployment\Queries\AVAILABLE_COMMITS.sql" />
+    <Content Include="src\Modules\Deployment\Queries\COMMIT.sql" />
     <Content Include="src\Modules\Deployment\Scripts\main.js" />
+    <Content Include="src\Modules\Deployment\Views\commit-templates.tpl" />
     <Content Include="src\Modules\Deployment\Views\deployment.tpl" />
     <Content Include="src\Modules\Deployment\Views\Dialogs\publish-templates.tpl" />
     <Content Include="src\Modules\Files\Queries\GET_FILES.sql" />
@@ -135,7 +146,9 @@
     <Content Include="src\Modules\Templates\Views\Dialogs\new-template.tpl" />
     <Content Include="src\Modules\Templates\Views\Dialogs\template-properties.tpl" />
     <Content Include="src\Modules\Templates\Views\templates.tpl" />
+    <Content Include="src\Modules\Users\Views\users.tpl" />
     <Content Include="src\Modules\Webforms\Scripts\main.js" />
+    <Content Include="src\Modules\Webforms\Views\new-webform.tpl" />
     <Content Include="src\Modules\Webforms\Views\webforms.tpl" />
     <Content Include="src\Stylesheets\alerts.css" />
     <Content Include="src\Stylesheets\bootstrap - Copy.css" />
