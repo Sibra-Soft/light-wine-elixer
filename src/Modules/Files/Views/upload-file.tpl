@@ -1,5 +1,5 @@
-﻿<div class="container">
-    <h1 class="title display-4">Upload File(s)</h1>
+﻿<div class="container view-container hide" id="upload-file">
+    <h1 class="title display-4"><a href="javascript:void();" class="return-to-main" ><i class="f7-icons">arrow_left_circle_fill</i></a> Upload File(s)</h1>
     <p class="lead no-margin">
         This form allows you to upload files to your website enviroment. You can upload one file or multiple file(s)
     </p>
@@ -13,31 +13,43 @@
 
                 <div class="form-group">
                     <label class="control-label label-margin">Name for this upload</label>
-                    <input asp-for="LoanApplication.FirstName" class="form-control size-400" />
-                    <span asp-validation-for="LoanApplication.FirstName" class="text-danger"></span>
+                    <input class="form-control size-400" name="upload-name" />
+                    <span class="text-danger"></span>
                 </div>
 
                 <div class="card data-table no-margin">
                     <div class="card-header">
 	                    <div class="data-table-links">
-		                    <a class="button"><i class="f7-icons">plus_circle_fill</i>&nbsp;Add Upload</a>
+		                    <a class="button" data-action="select-files"><i class="f7-icons">plus_circle_fill</i>&nbsp;Select files</a>
+                            <input type="file" name="upload" class="hide" multiple />
 	                    </div>
                     </div>
 	                <div class="card-content">
-                        <table>
+                        <table id="files-to-upload">
 		                    <thead>
 			                    <tr>
 				                    <th class="label-cell">Filename</th>
 				                    <th class="label-cell">Type</th>
 				                    <th class="numeric-cell">Size</th>
+                                    <th class="label-cell">Status</th>
+                                    <th class="label-cell"></th>
 			                    </tr>
 		                    </thead>
 		                    <tbody>
-			                    <tr>
-				                    <td class="label-cell">test.jpg</td>
-				                    <td class="label-cell">JPG File</td>
-				                    <td class="numeric-cell">56654 Bytes</td>
-			                    </tr>
+                                <template id="file-upload-item">
+			                        {{#each files}}
+                                        <tr data-index="{{@index}}">
+				                            <td class="label-cell">{{name}}</td>
+				                            <td class="label-cell">{{type}}</td>
+				                            <td class="numeric-cell">{{size}}</td>
+                                            <td>
+                                                <span class="text">Ready</span>
+                                                <p class="progbar hide"><span class="progressbar-infinite"></span></p>
+                                            </td>
+                                            <td class="label-cell"><a href="javascript:void(0);" class="delete no-hover" >&#9932;</a></td>
+			                            </tr>
+                                    {{/each}}
+                                </template>
 		                    </tbody>
 	                    </table>
                     </div>
@@ -45,7 +57,7 @@
                 
                 <div class="padding"></div>
 
-                <input type="button" class="btn btn-success" value="Upload" />
+                <input id="upload" type="button" class="btn btn-success disabled" value="Upload" />
             </form>
         </div>
         <div class="col-40">

@@ -1,5 +1,5 @@
 ﻿<div class="page page-home auto-scroll" id="module-files">
-    <div class="bg-color-white padding hide">
+    <div class="view-container" id="main">
         <div class="card data-table data-table-init no-margin">
             <div class="card-header">
                 <div class="data-table-links">
@@ -19,6 +19,9 @@
                         </div>
                     </div>
                 </form>
+                <div class="clear">
+
+                </div>
             </div>
             <div class="card-content">
                 <table id="files-table">
@@ -38,28 +41,34 @@
 				        </tr>
 			        </thead>
 			        <tbody>
-                        <!-- Filled by Javascript -->
+                        <template id="file-item-template" data-replace="false">
+                            {{#each files}}
+                                <tr data-id="{{id}}">
+                                    <td class="checkbox-cell">
+                                        <label class="checkbox">
+                                            <input type="checkbox"/>
+                                            <i class="icon-checkbox"></i>
+                                        </label>
+                                    </td>
+	                                <td class="label-cell">
+                                        {{#if is_folder}}
+                                            <img src="/img/icons-png/folder.png" class="v-align" /> <a href="javascript:void(0);" ><span class="name">{{name}}</span></a>
+                                        {{else}}
+                                            <img src="/img/icons-png/{{icon}}.png" class="v-align" /> <span class="name">{{name}}</span>
+                                        {{/if}}
+                                    </td>
+	                                <td class="label-cell">{{date_added}}</td>
+	                                <td class="label-cell">{{date_modified}}</td>
+	                                <td class="label-cell">{{type}}</td>
+	                                <td class="label-cell">{{size}}</td>
+                                </tr>
+                            {{/each}}
+                        </template>
 			        </tbody>
 		        </table>
             </div>		
         </div>
     </div>
-
-    <template id="file-item-template">
-        <tr data-id="{id}">
-            <td class="checkbox-cell">
-                <label class="checkbox">
-                    <input type="checkbox"/>
-                    <i class="icon-checkbox"></i>
-                </label>
-            </td>
-	        <td class="label-cell"><img src="/img/icons-png/{icon}.png" class="v-align" /> <span class="name">{name}</span></td>
-	        <td class="label-cell">{date_created}</td>
-	        <td class="label-cell">{date_changed}</td>
-	        <td class="label-cell">{type}</td>
-	        <td class="label-cell">{size}</td>
-        </tr>
-    </template>
 
     {{view::..\src\Modules\Files\Views\upload-file.tpl}}
 </div>

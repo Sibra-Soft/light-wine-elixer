@@ -54,29 +54,50 @@ class FileModuleActions {
         });
     }
 
+    UploadFile(index) {
+        return new Promise(async (resolve, reject) => {
+            const formData = new FormData();
+            const element = document.querySelector("input[name='upload']");
+
+            formData.append("file_upload", element.files[index]);
+
+            const ajaxRequest = new XMLHttpRequest();
+
+            // Check for progress
+            ajaxRequest.open("POST", "/files/upload");
+            ajaxRequest.upload.addEventListener('progress', (event) => {
+                var percentCompleted = Math.round((event.loaded / event.total) * 100);
+
+                $(`table#files-to-upload tr a.delete`).addClass("disabled");
+
+                $(`table#files-to-upload tr[data-index='${index}'] p.progbar`).removeClass("hide");
+                $(`table#files-to-upload tr[data-index='${index}'] span.text`).addClass("hide");
+            });
+
+            // Check if finished
+            ajaxRequest.addEventListener('load', async (event) => {
+                resolve();
+            });
+
+            ajaxRequest.send(formData);
+        });
+    }
+
     /** Upload a new file to the database */
     async Upload() {
-        let formData = new FormData();
-        const toast = elixer.toast.create({ text: 'Uploading file...' });
+        const element = document.querySelector("input[name='upload']");
 
-        $("input[name='file-upload']").trigger("click");
+        this.module.uploading = true;
 
-        $("input[name='file-upload']").off();
-        $("input[name='file-upload']").on("change", async () => {
-            const input = document.querySelector("input[name='file-upload']");
+        for (var count = 0; count < element.files.length; count++) {
+            await this.UploadFile(count);
+        }
 
-            if (input.files.length > 0) {
-                toast.open();
+        await this.module.templater.Render("/files/get", "template#file-item-template");
 
-                formData.append("file_upload", input.files[0]);
-
-                const request = await elixer.request.post("/files/upload", formData);
-
-                if (request.status == 200) {
-                    toast.close();
-                }
-            }
-        });
+        this.module.uploading = false;
+        this.module.initTableBindings();
+        this.module.views.Close();
     }
 
     /** Add a new folder to the database */
@@ -86,7 +107,8 @@ class FileModuleActions {
                 "name": value
             });
 
-            if (request.status == 200) this.module.getFiles();
+            if (request.status == 200)
+                await this.module.templater.Render("/files/get", "template#file-item-template");
         });
     }
 }
@@ -94,22 +116,43 @@ class FileModuleActions {
 /** File module main class */
 class FilesModule {
     constructor() {
+        this.uploading = false;
+
         this.actions = new FileModuleActions(this);
+        this.templater = new JsTemplater();
+        this.views = new Views();
         this.rightClickElement = {};
         this.id = utils.guid();
         this.init();
     }
 
-    init() {
+    async init() {
         document.querySelector("div.page#module-files").dataset.module = this.id;
 
         console.log("Ready -> Files module -> " + this.id);
 
         masterpage.addNewTaskbarElement("File Explorer", this.id);
 
-        this.getFiles();
+        await this.templater.Render("/files/get", "template#file-item-template");
+
+        this.initTableBindings();
         this.initBindings();
         this.resize();
+    }
+
+    removeFileFromFileList(index) {
+        const dt = new DataTransfer();
+        const input = document.querySelector("input[name='upload']");
+        const { files } = input;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i]
+
+            if (index !== i)
+                dt.items.add(file)
+        }
+
+        input.files = dt.files;
     }
 
     initBindings() {
@@ -117,13 +160,54 @@ class FilesModule {
             this.resize();
         });
 
+        $(".return-to-main").on("click", () => {
+            this.views.Close();
+        });
+
         $("a.button[data-action]").on("click", (event) => {
             switch (event.currentTarget.dataset.action) {
-                case "upload": this.actions.Upload(); break;
+                case "upload": this.views.Show("upload-file"); break;
                 case "remove": this.actions.Delete(); break;
                 case "download": this.actions.Download(); break;
+                case "select-files": $("input[name='upload']").trigger("click"); break;
             }
         });
+
+        $("input[type='button']#upload").on("click", () => {
+            this.actions.Upload();
+        });
+
+        // Check if the uploaded files have changed
+        $("input[name='upload']").on("change", (event) => {
+            var files = { "files": [] };
+
+            $(event.currentTarget.files).each((index, element) => {
+                files.files.push(element);
+            });
+
+            this.templater.RenderFromObject(files, "template#file-upload-item");
+
+            // Remove the added file
+            $("table#files-to-upload td a.delete").on("click", (event) => {
+                const fileIndex = parseInt(event.currentTarget.closest("tr").dataset.index);
+
+                this.removeFileFromFileList(fileIndex);
+
+                $("input[name='upload']").trigger("change");
+            });
+        });
+
+        // Enable & disable controls
+        setInterval(() => {
+            const fileCount = $("table#files-to-upload tbody tr").length;
+            const specifiedName = $("input[name='upload-name']").val();
+
+            if (specifiedName !== "" && fileCount > 0 && !this.uploading) {
+                $("input[type='button']#upload").removeClass("disabled");
+            } else {
+                $("input[type='button']#upload").addClass("disabled");
+            }
+        }, 10);
     }
 
     /** Get the selected files (single or multiple) */
@@ -211,40 +295,6 @@ class FilesModule {
         const pageHeight = $(".page").height();
 
         $("div.page#module-files").height(pageHeight - 48 + "px");
-    }
-
-    async getFiles() {
-        const request = await elixer.request.get("/files/get");
-        const files = JSON.parse(request.data);
-
-        files.forEach((element, index) => {
-            var fileItem = $("div.page#module-files template#file-item-template").html();
-            var icon = "";
-
-            switch (element.type) {
-                case "folder": icon = "folder"; break;
-                case "file":
-                    var extension = element.name.substr(element.name.length - 3);
-
-                    switch (extension) {
-                        case "png": icon = "image-png"; break;
-                        case "jpg": icon = "image-jpg"; break;
-                    }
-                    break;
-            }
-
-            fileItem = fileItem.replace("{name}", element.name);
-            fileItem = fileItem.replace("{icon}", icon);
-            fileItem = fileItem.replace("{date_created}", element.date_added);
-            fileItem = fileItem.replace("{date_changed}", element.date_modified);
-            fileItem = fileItem.replace("{type}", element.type);
-            fileItem = fileItem.replace("{size}", utils.formatBytes(element.size));
-            fileItem = fileItem.replace("{id}", element.id);
-
-            $("div.page#module-files table#files-table tbody").append(fileItem);
-        });
-
-        this.initTableBindings();
     }
 }
 

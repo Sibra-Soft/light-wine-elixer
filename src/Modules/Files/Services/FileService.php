@@ -16,8 +16,11 @@ class FileService implements IFileService
         $this->databaseConnection = new MysqlConnectionService();
     }
 
+    /**
+     * Upload a file that has been added to the Post formdata
+     */
     public function UploadFile(){
-
+        $this->databaseConnection->helpers->UploadBlob();
     }
 
     /**
@@ -39,7 +42,7 @@ class FileService implements IFileService
 
         $dataset = $this->databaseConnection->GetDataset($query);
 
-        HttpResponse::SetReturnJson($dataset);
+        HttpResponse::SetReturnJson(["files" => $dataset]);
     }
 
     /**
