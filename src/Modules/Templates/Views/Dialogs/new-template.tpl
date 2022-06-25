@@ -11,22 +11,11 @@
                 <div class="block">
                     Enter the details and select the type of template you want to add. When finished click on the `Save` button
                 </div>
-                <div class="list no-hairlines-md no-margin">
-	                <ul>
-		                <li class="item-content item-input">
-			                <div class="item-media">
-				                <i class="icon demo-list-icon"></i>
-			                </div>
-			                <div class="item-inner">
-				                <div class="item-title item-label">
-					                Name of the template
-				                </div>
-				                <div class="item-input-wrap">
-					                <input class="return-value" placeholder="Enter the name for the new template" type="text" name="template_name"> <span class="input-clear-button"></span>
-				                </div>
-			                </div>
-		                </li>
-	                </ul>
+                <div class="block no-margin">
+                    <div class="form-group">
+                        <label class="control-label label-margin">Name</label>
+                        <input class="form-control size-400" type="text" />
+                    </div>
                 </div>
                 <div class="block-title">Type</div>
                 <div class="list no-hairlines-md no-margin">

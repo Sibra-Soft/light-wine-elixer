@@ -44,7 +44,7 @@
 		    </div>
             <div class="block no-margin bg-color-white no-padding pad-left-5" id="template-info-bar"></div>
 
-		    <textarea id="coremirror" style="width:100%;height:100%;"></textarea> <span class="resize-handler"></span>
+		    <textarea class="hide" id="coremirror" style="width:100%;height:100%;"></textarea> <span class="resize-handler"></span>
 	    </div>
     </div>
 </div>

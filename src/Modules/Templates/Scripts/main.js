@@ -86,6 +86,7 @@
 
             if (response.status == 200) {
                 element.remove();
+                this.module.refreshFolderView();
             }
         });
     }
@@ -384,12 +385,23 @@ class TemplatesModule {
             lastParent = parent;
         });
 
+        this.initTreeviewBindings();
+        this.refreshFolderView();
+    }
+
+    refreshFolderView() {
         // When no child remove the toggle
         $(".treeview-item:not([data-type='folder'])").each((index, element) => {
             $(element.querySelector(".treeview-toggle")).remove();
-        })
+        });
 
-        this.initTreeviewBindings();
+        // Hide toggels for folders without items
+        $(".treeview-item[data-type='folder']").each((index, element) => {
+            var subItems = element.querySelectorAll(".treeview-item-children .treeview-item");
+
+            if (subItems.length == 0)
+                element.querySelector(".treeview-toggle").classList.add("hidden");
+        });
     }
 }
 
