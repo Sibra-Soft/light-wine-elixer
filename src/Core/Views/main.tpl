@@ -52,6 +52,7 @@
         </div>
 
         <!-- Scripts -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/template7@1.4.2/dist/template7.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqueryui@1.11.1/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/framework7@7.0.2/framework7-bundle.min.js"></script>
@@ -59,6 +60,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
         <script type="text/javascript" src="https://draggable.github.io/formeo/assets/js/formeo.min.js"></script>
 
+        <script type="text/javascript" src="/src/Core/Scripts/views.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/utils.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/login.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/masterpage.js" ></script>
