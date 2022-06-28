@@ -14,7 +14,7 @@
                 <div class="block no-margin">
                     <div class="form-group">
                         <label class="control-label label-margin">Name</label>
-                        <input class="form-control size-400" type="text" />
+                        <input class="form-control size-400 return-value" type="text" name="template_name" />
                     </div>
                 </div>
                 <div class="block-title">Type</div>

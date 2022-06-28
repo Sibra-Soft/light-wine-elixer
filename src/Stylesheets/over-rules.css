@@ -21,6 +21,11 @@
     text-align: left;
 }
 
+.context-disabled {
+    pointer-events: none;
+    color: gray !important;
+}
+
 .clear {
     clear: both;
 }

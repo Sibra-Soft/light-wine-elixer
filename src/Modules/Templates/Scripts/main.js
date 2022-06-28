@@ -125,7 +125,7 @@
     /**
      * Add a new template to the database
      */
-    async AddTemplate() {
+    async AddTemplate(parent) {
         const popup = await masterpage.showPopup("add-template");
 
         if (popup.result === "confirm") {
@@ -135,9 +135,8 @@
                 "type": popup.values.template_type
             });
 
-            if (request.status == 200) {
+            if (request.status == 200)
                 this.module.populateTreeview();
-            }
         }
     }
 
@@ -269,6 +268,7 @@ class TemplatesModule {
             build: (trigger, event) => {
                 const element = trigger[0];
                 const id = element.dataset.id;
+                const type = element.dataset.type;
 
                 var items = {
                     open: { name: "Open" },
@@ -281,6 +281,11 @@ class TemplatesModule {
                     properties: { name: "Properties" },
                     cdnPackages: { name: "Content Delivery Network" }
                 };
+
+                if (type !== "folder") {
+                    items["newTemplate"].className = "context-disabled";
+                    items["newFolder"].className = "context-disabled";
+                }
 
                 return {
                     callback: (key) => {

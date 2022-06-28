@@ -67,7 +67,9 @@ class TemplatesController
         $model->Folder = RequestVariables::Get("folder");
         $model->Type = RequestVariables::Get("type");
 
-        $this->templateService->AddNewTemplate($model);
+        $newTemplateId = $this->templateService->AddNewTemplate($model);
+
+        HttpResponse::SetReturnJson(["template_id" => $newTemplateId]);
     }
 
     /**
