@@ -25,6 +25,7 @@ class Bootloader {
         Route::Controller("/templates/get", "Modules\Templates", "TemplatesController@Get", "GET", []);
         Route::Controller("/templates/move", "Modules\Templates", "TemplatesController@Move", "POST", []);
         Route::Controller("/templates/copy", "Modules\Templates", "TemplatesController@Copy", "POST", []);
+        Route::Controller("/templates/new-binding", "Modules\Templates", "TemplatesController@NewBinding", "POST", []);
 
         // Files
         Route::Controller("/files/get", "Modules\Files", "FilesController@Get", "GET", []);
@@ -42,6 +43,9 @@ class Bootloader {
         Route::Controller("/routes/get", "Modules\Routes", "RoutesController@Get", "GET", []);
         Route::Controller("/routes/add", "Modules\Routes", "RoutesController@Create", "POST", []);
 
+        // Users
+        Route::Controller("/users/get-users", "Modules\Users", "UsersController@GetUsers", "GET", []);
+
         // Views
         Route::View("/", "../src/Core/Views/login.tpl", []);
         Route::View("/dashboard", "../src/Core/Views/start-screen.tpl", ["LoginRequired" => true]);
@@ -52,6 +56,8 @@ class Bootloader {
         Route::View("/dialogs/template-properties", "../src/Modules/Templates/Views/Dialogs/template-properties.tpl", ["LoginRequired" => true]);
         Route::View("/module/routes", "../src/Modules/Routes/Views/routes.tpl", ["LoginRequired" => true]);
         Route::View("/module/webforms", "../src/Modules/Webforms/Views/webforms.tpl", ["LoginRequired" => true]);
+        Route::View("/dialogs/new-binding", "../src/Modules/Templates/Views/Dialogs/new-binding.tpl", ["LoginRequired" => true, "ViewData" => ["datasources" => "../src/Modules/Templates/queries/GET_BINDING_DATASOURCES.sql"]]);
+        Route::View("/module/users", "../src/Modules/Users/Views/users.tpl", ["LoginRequired" => true]);
 
         // Add variables
         if(!array_key_exists("CsrfToken", $_SESSION)) $_SESSION["CsrfToken"]  = uniqid(time());

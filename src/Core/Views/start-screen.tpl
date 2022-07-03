@@ -108,7 +108,7 @@
                                 <div class="list media-list no-padding no-margin no-hairlines no-chevron">
                                     <ul>
                                         <li>
-                                        <a href="/module/deployment" class="item-link item-content open-module" data-name="deployment">
+                                        <a href="/module/users" class="item-link item-content open-module" data-name="users">
                                             <div class="item-media"><img src="/img/users.png" width="70"></div>
                                             <div class="item-inner">
                                                 <div class="item-title-row">
