@@ -121,4 +121,15 @@ class TemplatesController
 
         exit();
     }
+
+    /**
+     * Adds a new binding to a specified template
+     */
+    public function NewBinding(){
+        $name = RequestVariables::Get("name");
+        $templateId = (int)RequestVariables::Get("template_id");
+        $datasource = (int)RequestVariables::Get("datasource");
+
+        $this->templateService->NewBinding($name, $templateId, $datasource);
+    }
 }

@@ -145,8 +145,17 @@ class TemplatesService implements ITemplatesService
         // Get the number of the next version of the template
         $this->databaseService->ClearParameters();
         $this->databaseService->AddParameter("templateId", $id);
-        $this->databaseService->GetDataset("SELECT MAX(version) + 1 AS next_version FROM `site_template_versioning` WHERE template_id = ?templateId LIMIT 1;");
+        $this->databaseService->GetDataset("
+            SELECT
+	            MAX(version) + 1 AS next_version,
+	            template.`name` AS template_name
+            FROM `site_template_versioning` AS version
+            INNER JOIN `site_templates` AS template ON template.id = version.template_id
+            WHERE template_id = ?templateId
+            LIMIT 1
+        ");
 
+        $templateName = $this->databaseService->DatasetFirstRow("template_name", "string");
         $newVersionNumber = $this->databaseService->DatasetFirstRow("next_version", "integer");
 
         // Save the new version of the template to the database
@@ -161,7 +170,11 @@ class TemplatesService implements ITemplatesService
         $this->databaseService->AddParameter("template_version_dev", $newVersionNumber);
         $this->databaseService->helpers->UpdateOrInsertRecordBasedOnParameters("site_templates", $id);
 
-        HttpResponse::SetReturnJson(["template" => $id, "version" => $newVersionNumber]);
+        HttpResponse::SetReturnJson([
+            "template" => $id,
+            "version" => $newVersionNumber,
+            "name" => $templateName
+        ]);
     }
 
     /**
@@ -203,5 +216,28 @@ class TemplatesService implements ITemplatesService
         $model->Folder = $this->databaseService->DatasetFirstRow("parent_id");
 
         return $model;
+    }
+
+    /**
+     * This function creates a new binding for the specified template
+     * @param string $name The name of the new binding to add
+     * @param int $templateId The id of the template you want to add the binding to
+     * @param int $datasourceTemplateId The id of the query template containg the query that fetches the data
+     * @param bool $datasourceEmpty Tels if the result of the query can be empty
+     * @param bool $returnJson Will return the result of the query in json format
+     */
+    public function NewBinding(string $name, int $templateId, int $datasourceTemplateId, bool $datasourceEmpty = false, bool $returnJson = false){
+        $this->databaseService->ClearParameters();
+
+        $this->databaseService->AddParameter("name", $name);
+        $this->databaseService->AddParameter("type", "query-template");
+        $this->databaseService->AddParameter("destination_template_id", $templateId);
+        $this->databaseService->AddParameter("source_template_id", $datasourceTemplateId);
+        $this->databaseService->AddParameter("result_can_be_empty", $datasourceEmpty, 0);
+        $this->databaseService->AddParameter("result_as_json", $returnJson, 0);
+
+        $bindingId = $this->databaseService->helpers->UpdateOrInsertRecordBasedOnParameters("site_bindings");
+
+        HttpResponse::SetReturnJson(["binding_id" => $bindingId]);
     }
 }
