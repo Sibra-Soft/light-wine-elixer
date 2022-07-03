@@ -97,6 +97,10 @@
                 case "text":
                     object[inputName] = element.value;
                     break;
+
+                case "select-one":
+                    object[inputName] = element.value;
+                    break;
             }
         });
 

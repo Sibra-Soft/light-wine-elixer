@@ -21,6 +21,20 @@
     text-align: left;
 }
 
+.treeview-item-label.binding:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.treeview-item-label.template:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.login-view input,select {
+    border: 0px;
+}
+
 .context-disabled {
     pointer-events: none;
     color: gray !important;

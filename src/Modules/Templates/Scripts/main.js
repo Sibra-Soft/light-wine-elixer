@@ -12,6 +12,24 @@
 
     }
 
+    async AddBinding(id) {
+        const popup = await masterpage.showPopup("new-binding", {
+            "template_id": id
+        });
+
+        if (popup.result === "confirm") {
+            const request = await elixer.request.post("/templates/new-binding", {
+                "name": popup.values.binding_name,
+                "template_id": parseInt(id),
+                "datasource": parseInt(popup.values.datasource_template)
+            });
+
+            if (request.status == 200) {
+                this.module.populateTreeview();
+            }
+        }
+    }
+
     /**
      * Show the properties dialog for the specified template
      * @param {number} id The id of the template you want to show the properties of
@@ -28,15 +46,22 @@
 
     /** Save the content of the template to the database */
     async SaveTemplate() {
+        const toast = elixer.toast.create({ "text": "Saving..." });
+        toast.open();
+
         const content = this.module.codeMirror.getValue();
         const request = await elixer.request.post("/templates/save", {
             "template_id": this.module.template.Id,
             "content": content
         });
 
+        var responseData = JSON.parse(request.data);
         if (request.status == 200) {
             $("#save-template").addClass("disabled");
-        }
+            $("#template-info-bar").html(`Template: <strong>${responseData.name} (${responseData.template})</strong> - Version: <strong>${responseData.version}</strong>`)
+
+            toast.close();
+        }          
     }
 
     /**
@@ -241,13 +266,20 @@ class TemplatesModule {
     }
 
     initTreeviewBindings() {
-        $(".treeview-item:not([data-type='folder'])[data-type][data-id]").off();
-        $(".treeview-item:not([data-type='folder'])[data-type][data-id]").on("click", async (event) => {
+        $(".treeview-item-content").off();
+        $(".treeview-item-content").on("click", async (event) => {
+            const element = event.currentTarget;
+            const elementItem = element.closest(".treeview-item");
+            const type = element.closest(".treeview-item").dataset.type;
+            const templateId = element.closest(".treeview-item").dataset.id;
+
+            if (type == 'folder' || type == "binding")
+                return;
+
             $(".treeview-item-selected").removeClass("treeview-item-selected");
-            $(event.currentTarget).addClass("treeview-item-selected");
+            $(elementItem).addClass("treeview-item-selected");
 
             const loader = elixer.dialog.preloader();
-            const templateId = event.currentTarget.dataset.id;
             const request = await elixer.request.get(`/templates/get?template_id=${templateId}`);
             const template = JSON.parse(request.data);
 
@@ -268,12 +300,13 @@ class TemplatesModule {
             build: (trigger, event) => {
                 const element = trigger[0];
                 const id = element.dataset.id;
-                const type = element.dataset.type;
+                const group = element.dataset.group;
 
                 var items = {
                     open: { name: "Open" },
                     newFolder: { name: "Add folder" },
                     newTemplate: { name: "Add template" },
+                    newBindng: { name: "Add binding" },
                     move: { name: "Move" },
                     copy: { name: "Copy" },
                     delete: { name: "Delete" },
@@ -282,9 +315,22 @@ class TemplatesModule {
                     cdnPackages: { name: "Content Delivery Network" }
                 };
 
-                if (type !== "folder") {
-                    items["newTemplate"].className = "context-disabled";
-                    items["newFolder"].className = "context-disabled";
+                console.log(group);
+
+                switch (group) {
+                    case "binding":
+                    case "template":
+                        items["newTemplate"].className = "context-disabled";
+                        items["newFolder"].className = "context-disabled";
+                        break;
+
+                    case "folder":
+                        items["open"].className = "context-disabled";
+                        items["properties"].className = "context-disabled";
+                        items["move"].className = "context-disabled";
+                        items["copy"].className = "context-disabled";
+                        items["newBindng"].className = "context-disabled";
+                        break;
                 }
 
                 return {
@@ -297,6 +343,7 @@ class TemplatesModule {
                             case "properties": this.actions.Properties(id); break;
                             case "copy": this.actions.Copy(id); break;
                             case "move": this.actions.Move(id); break;
+                            case "newBindng": this.actions.AddBinding(id); break;
                         }
                     },
                     items: items
@@ -336,8 +383,8 @@ class TemplatesModule {
             indentUnit: 3,
             styleActiveLine: true,
             extraKeys: {
-                "Ctrl-S": function (instance) {
-
+                "Ctrl-S": async (instance) => {
+                    await this.actions.SaveTemplate();
                 }
             }
         });
@@ -354,13 +401,13 @@ class TemplatesModule {
         const treeview = await elixer.request.get("/templates/treeview");
         const elements = JSON.parse(treeview.data);
 
+        // Remove all treeview items
+        $(".treeview.folders[data-treeview-key='root'] div.treeview-item").remove();
+
         var lastParent = "root";
         var treeviewSubItem = document.createElement("div");
 
         elements.forEach((element, index) => {
-            if ($(`.treeview-item[data-id=${element.id}]`).length > 0)
-                return;
-
             var treeviewItem = $("template#treeview-item").html();
             var parent = element.parent_key.toLowerCase();
 
@@ -371,11 +418,12 @@ class TemplatesModule {
                 $(`[data-treeview-key='${parent}']`).append(treeviewSubItem);
             }
 
-            treeviewItem = treeviewItem.replace("{caption}", element.name);
-            treeviewItem = treeviewItem.replace("{icon}", element.type);
-            treeviewItem = treeviewItem.replace("{key}", element.object_key.toLowerCase());
-            treeviewItem = treeviewItem.replace("{id}", element.id);
-            treeviewItem = treeviewItem.replace("{type}", element.type.toLowerCase());
+            treeviewItem = treeviewItem.replaceAll("{caption}", element.name);
+            treeviewItem = treeviewItem.replaceAll("{icon}", element.type);
+            treeviewItem = treeviewItem.replaceAll("{key}", element.object_key.toLowerCase());
+            treeviewItem = treeviewItem.replaceAll("{id}", element.id);
+            treeviewItem = treeviewItem.replaceAll("{type}", element.type.toLowerCase());
+            treeviewItem = treeviewItem.replaceAll("{group}", element.group.toLowerCase());
 
             if (parent !== lastParent) {
                 treeviewSubItem.insertAdjacentHTML("beforeend", treeviewItem);
@@ -395,17 +443,17 @@ class TemplatesModule {
     }
 
     refreshFolderView() {
-        // When no child remove the toggle
-        $(".treeview-item:not([data-type='folder'])").each((index, element) => {
-            $(element.querySelector(".treeview-toggle")).remove();
-        });
-
         // Hide toggels for folders without items
-        $(".treeview-item[data-type='folder']").each((index, element) => {
+        $(".treeview-item").each((index, element) => {
             var subItems = element.querySelectorAll(".treeview-item-children .treeview-item");
 
-            if (subItems.length == 0)
-                element.querySelector(".treeview-toggle").classList.add("hidden");
+            if (subItems.length == 0) {
+                const toggleElement = element.querySelector(".treeview-toggle");
+
+                if (toggleElement) {
+                    toggleElement.remove();
+                }
+            }
         });
     }
 }

@@ -2,18 +2,41 @@
 namespace Elixer\Core\Services;
 
 use LightWine\Core\Models\PageModel;
+use LightWine\Modules\Database\Services\MysqlConnectionService;
 use LightWine\Modules\Routing\Models\RouteModel;
 use LightWine\Core\Helpers\Helpers;
 use LightWine\Modules\Templating\Services\StringTemplaterService;
 use LightWine\Core\Helpers\StringHelpers;
 use LightWine\Core\Helpers\RequestVariables;
+use LightWine\Modules\Templating\Services\TemplatingEngineService;
 
 class PageService
 {
     private StringTemplaterService $stringTemplater;
+    private TemplatingEngineService $templatingEngine;
 
     public function __construct(){
         $this->stringTemplater = new StringTemplaterService();
+        $this->templatingEngine = new TemplatingEngineService();
+    }
+
+    private function GetViewData(array $templateOptions): array {
+        $return = [];
+
+        if(array_key_exists("ViewData", $templateOptions)){
+            $databaseService = new MysqlConnectionService();
+
+            foreach($templateOptions["ViewData"] as $name => $query){
+                $queryFile = Helpers::GetFileContent($query);
+                $dataset = $databaseService->GetDataset($queryFile);
+
+                $return = [$name => json_decode(json_encode($dataset), false)];
+            }
+
+            return $return;
+        }else{
+            return $return;
+        }
     }
 
     /**
@@ -41,10 +64,12 @@ class PageService
      */
     public function Render(RouteModel $route): PageModel {
         $pageModel = new PageModel;
+        $viewData = [];
 
         $start = microtime(true); // Start recording the render time
         $masterpage = Helpers::GetFileContent(Helpers::MapPath("../src/Core/Views/main.tpl"));
         $content = Helpers::GetFileContent(Helpers::MapPath($route->Datasource));
+        $viewData = $this->GetViewData($route->Options);
 
         $this->stringTemplater->ClearVariables();
         $this->stringTemplater->AssignVariable("body_content", $content);
@@ -52,10 +77,13 @@ class PageService
 
         $this->HandleTemplateImports($content);
 
-        if(RequestVariables::Get("masterpage") !== "false"){
-            $content = $this->stringTemplater->DoReplacements($masterpage);
-        }
+        if(RequestVariables::Get("masterpage") !== "false") $content = $this->stringTemplater->DoReplacements($masterpage);
+
         $content = $this->stringTemplater->DoReplacements($content);
+
+        if(count($viewData) > 0){
+            $content = $this->templatingEngine->RunEngineCompilers($content, $viewData);
+        }
 
         $pageModel->Content = $content;
         $pageModel->SizeInBytes = strlen($content);

@@ -50,12 +50,12 @@
 </div>
 
 <template id="treeview-item">
-    <div class="treeview-item" data-treeview-key="{key}" data-id="{id}" data-type="{type}">
+    <div class="treeview-item" data-treeview-key="{key}" data-id="{id}" data-type="{type}" data-group="{group}">
         <div class="treeview-item-root">
             <div class="treeview-toggle"></div>
             <div class="treeview-item-content">
                 <img src="/img/icons-png/{icon}.png">
-                <div class="treeview-item-label">{caption}</div>
+                <div class="treeview-item-label {group}">{caption}</div>
             </div>
         </div>
     </div>
