@@ -18,54 +18,83 @@
                     </div>
                 </div>
                 <div class="block-title">Type</div>
-                <div class="list no-hairlines-md no-margin">
-                    <ul>
-                        <li>
-                            <label class="item-radio item-radio-icon-start item-content">
-                            <input type="radio" name="template_type" value="html" checked="checked" class="return-value" />
-                            <i class="icon icon-radio"></i>
-                            <div class="item-inner">
-                                <div class="item-title">HTML (Hypertext Markup Language)</div>
-                            </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="item-radio item-radio-icon-start item-content">
-                            <input type="radio" name="template_type" value="sql" class="return-value" />
-                            <i class="icon icon-radio"></i>
-                            <div class="item-inner">
-                                <div class="item-title">Sql Query</div>
-                            </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="item-radio item-radio-icon-start item-content">
-                            <input type="radio" name="template_type" value="css" class="return-value" />
-                            <i class="icon icon-radio"></i>
-                            <div class="item-inner">
-                                <div class="item-title">CSS (Cascading Stylesheet)</div>
-                            </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="item-radio item-radio-icon-start item-content">
-                            <input type="radio" name="template_type" value="module" class="return-value" />
-                            <i class="icon icon-radio"></i>
-                            <div class="item-inner">
-                                <div class="item-title">Module</div>
-                            </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="item-radio item-radio-icon-start item-content">
-                            <input type="radio" name="template_type" value="javascript" class="return-value" />
-                            <i class="icon icon-radio"></i>
-                            <div class="item-inner">
-                                <div class="item-title">Javascript</div>
-                            </div>
-                            </label>
-                        </li>
-                    </ul>
+                <div class="row no-gap">
+                    <div class="col">
+                        <div class="list no-hairlines-md no-margin">
+                            <ul>
+                                <li>
+                                    <label class="item-radio item-radio-icon-start item-content">
+                                    <input type="radio" name="template_type" value="html" checked="checked" class="return-value" />
+                                    <i class="icon icon-radio"></i>
+                                    <div class="item-inner">
+                                        <div class="item-title">HTML (Hypertext Markup Language)</div>
+                                    </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="item-radio item-radio-icon-start item-content">
+                                    <input type="radio" name="template_type" value="sql" class="return-value" />
+                                    <i class="icon icon-radio"></i>
+                                    <div class="item-inner">
+                                        <div class="item-title">Sql Query</div>
+                                    </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="item-radio item-radio-icon-start item-content">
+                                    <input type="radio" name="template_type" value="css" class="return-value" />
+                                    <i class="icon icon-radio"></i>
+                                    <div class="item-inner">
+                                        <div class="item-title">CSS (Cascading Stylesheet)</div>
+                                    </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="item-radio item-radio-icon-start item-content">
+                                    <input type="radio" name="template_type" value="module" class="return-value" />
+                                    <i class="icon icon-radio"></i>
+                                    <div class="item-inner">
+                                        <div class="item-title">Module</div>
+                                    </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="item-radio item-radio-icon-start item-content">
+                                    <input type="radio" name="template_type" value="javascript" class="return-value" />
+                                    <i class="icon icon-radio"></i>
+                                    <div class="item-inner">
+                                        <div class="item-title">Javascript</div>
+                                    </div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="list no-hairlines-md no-margin">
+                            <ul>
+                                <li>
+                                    <label class="item-radio item-radio-icon-start item-content">
+                                    <input type="radio" name="template_type" value="worker" class="return-value" />
+                                    <i class="icon icon-radio"></i>
+                                    <div class="item-inner">
+                                        <div class="item-title">Background Worker</div>
+                                    </div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="item-radio item-radio-icon-start item-content">
+                                    <input type="radio" name="template_type" value="mail" class="return-value" />
+                                    <i class="icon icon-radio"></i>
+                                    <div class="item-inner">
+                                        <div class="item-title">Mail</div>
+                                    </div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 			</div>
             <div class="toolbar toolbar-bottom">
