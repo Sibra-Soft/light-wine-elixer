@@ -15,6 +15,11 @@ class DeploymentService
         $this->databaseService = new MysqlConnectionService();
     }
 
+    /**
+     * Commits the selected template(s) to the specified enviroment(s)
+     * @param array $templates Array of template id's to commit
+     * @param array $environments The enviroment the templates must be commited to
+     */
     public function CommitTemplates(array $templates, array $environments){
         $templateIds = StringHelpers::JoinString($templates, ",");
 

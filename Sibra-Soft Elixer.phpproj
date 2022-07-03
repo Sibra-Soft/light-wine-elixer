@@ -39,7 +39,6 @@
     <Folder Include="src\Modules\Deployment\Queries\" />
     <Folder Include="src\Modules\Deployment\Scripts\" />
     <Folder Include="src\Modules\Deployment\Views\" />
-    <Folder Include="src\Modules\Deployment\Views\Dialogs\" />
     <Folder Include="src\Modules\Files\" />
     <Folder Include="src\Modules\Files\Controllers\" />
     <Folder Include="src\Modules\Files\Interfaces\" />
@@ -50,6 +49,7 @@
     <Folder Include="src\Modules\Users\" />
     <Folder Include="src\Modules\Users\Controllers\" />
     <Folder Include="src\Modules\Users\Interfaces\" />
+    <Folder Include="src\Modules\Users\Services\" />
     <Folder Include="src\Modules\Users\Scripts\" />
     <Folder Include="src\Modules\Users\Queries\" />
     <Folder Include="src\Modules\Users\Views\" />
@@ -103,7 +103,11 @@
     <Compile Include="src\Modules\Templates\Controllers\TemplatesController.php" />
     <Compile Include="src\Modules\Templates\Interfaces\ITemplatesService.php" />
     <Compile Include="src\Modules\Templates\Models\TemplateModel.php" />
+    <Compile Include="src\Modules\Templates\Queries\GET_BINDING_DATASOURCES.sql" />
     <Compile Include="src\Modules\Templates\Services\TemplatesService.php" />
+    <Compile Include="src\Modules\Users\Controllers\UsersController.php" />
+    <Compile Include="src\Modules\Users\Queries\GET_USERS.sql" />
+    <Compile Include="src\Modules\Users\Services\UsersService.php" />
     <Compile Include="src\Modules\Webforms\Controllers\WebformsController.php" />
     <Compile Include="src\Modules\Webforms\Services\WebformsService.php" />
     <Compile Include="src\Stylesheets\bootstrap.css" />
@@ -130,7 +134,6 @@
     <Content Include="src\Modules\Deployment\Scripts\main.js" />
     <Content Include="src\Modules\Deployment\Views\commit-templates.tpl" />
     <Content Include="src\Modules\Deployment\Views\deployment.tpl" />
-    <Content Include="src\Modules\Deployment\Views\Dialogs\publish-templates.tpl" />
     <Content Include="src\Modules\Files\Queries\GET_FILES.sql" />
     <Content Include="src\Modules\Files\Scripts\main.js" />
     <Content Include="src\Modules\Files\Views\files.tpl" />
@@ -143,9 +146,13 @@
     <Content Include="src\Modules\Templates\Queries\GET_TEMPLATES_TREEVIEW.sql" />
     <Content Include="src\Modules\Templates\Queries\SAVE_TEMPLATE.sql" />
     <Content Include="src\Modules\Templates\Scripts\main.js" />
+    <Content Include="src\Modules\Templates\Views\Dialogs\new-binding.tpl" />
     <Content Include="src\Modules\Templates\Views\Dialogs\new-template.tpl" />
     <Content Include="src\Modules\Templates\Views\Dialogs\template-properties.tpl" />
     <Content Include="src\Modules\Templates\Views\templates.tpl" />
+    <Content Include="src\Modules\Users\Scripts\main.js" />
+    <Content Include="src\Modules\Users\Views\new-user.tpl" />
+    <Content Include="src\Modules\Users\Views\roles.tpl" />
     <Content Include="src\Modules\Users\Views\users.tpl" />
     <Content Include="src\Modules\Webforms\Scripts\main.js" />
     <Content Include="src\Modules\Webforms\Views\new-webform.tpl" />
