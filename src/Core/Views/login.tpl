@@ -1,4 +1,4 @@
-﻿<div class="view">
+﻿<div class="view login-view">
     <div class="page login-screen-page">
         <!-- page-content has additional login-screen content -->
         <div class="page-content login-screen-content">
@@ -62,7 +62,9 @@
                         </a>
                     </li>
                 </ul>
-                <div class="block-footer">Login to get access to your Elixer management enviroment.</div>
+                <div class="block-footer">
+                    Login to get access to your Elixer management enviroment. Or <a href="">create</a> a new website project.
+                </div>
             </div>
         </form>
         </div>
