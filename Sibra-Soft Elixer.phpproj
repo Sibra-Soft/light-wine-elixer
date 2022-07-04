@@ -150,6 +150,7 @@
     <Content Include="src\Modules\Templates\Views\Dialogs\new-template.tpl" />
     <Content Include="src\Modules\Templates\Views\Dialogs\template-properties.tpl" />
     <Content Include="src\Modules\Templates\Views\templates.tpl" />
+    <Content Include="src\Modules\Users\Queries\GET_ROLES.sql" />
     <Content Include="src\Modules\Users\Scripts\main.js" />
     <Content Include="src\Modules\Users\Views\new-user.tpl" />
     <Content Include="src\Modules\Users\Views\roles.tpl" />

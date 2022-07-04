@@ -78,6 +78,27 @@
 
             loader.Require(name, "main");
         });
+
+        $(".popover a.item-link[data-name]").off();
+        $(".popover a.item-link[data-name]").on("click", (event) => {
+            const actionName = event.currentTarget.dataset.name;
+
+            switch (actionName) {
+                case "templates-module": this.openModule("templates"); break;
+                case "file-explorer-module": this.openModule("file-explorer"); break;
+                case "routes-module": this.openModule("routes"); break;
+                case "deployment-module": this.openModule("deployment"); break;
+                case "users-roles-module": this.openModule("users"); break;
+            }
+        });
+    }
+
+    /**
+     * Open a specifie module, based on the name
+     * @param {string} name The name of the module you want to open
+     */
+    openModule(name) {
+        $(`a.open-module[data-name=${name}]`).trigger("click");
     }
 
     getPopupOutput() {

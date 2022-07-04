@@ -45,6 +45,7 @@ class Bootloader {
 
         // Users
         Route::Controller("/users/get-users", "Modules\Users", "UsersController@GetUsers", "GET", []);
+        Route::Controller("/users/get-roles", "Modules\Users", "UsersController@GetRoles", "GET", []);
 
         // Views
         Route::View("/", "../src/Core/Views/login.tpl", []);
