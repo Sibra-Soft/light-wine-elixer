@@ -5,12 +5,8 @@
 			    <li><a class="list-button item-link" data-name="templates-module">Templates</a></li>
                 <li><a class="list-button item-link" data-name="file-explorer-module">File Explorer</a></li>
                 <li><a class="list-button item-link" data-name="routes-module">Routes</a></li>
-                <li><a class="list-button item-link" data-name="components-module">Components</a></li>
                 <li><a class="list-button item-link" data-name="deployment-module">Deployment</a></li>
                 <li><a class="list-button item-link" data-name="users-roles-module">Users &amp; Roles</a></li>
-                <li><a class="list-button item-link" data-name="analytics-module">Analytics</a></li>
-                <li><a class="list-button item-link" data-name="webforms-module">Webforms</a></li>
-                <li><a class="list-button item-link" data-name="content-module">Content</a></li>
 		    </ul>
 	    </div>
     </div>
