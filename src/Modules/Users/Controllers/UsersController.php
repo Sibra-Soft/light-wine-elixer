@@ -2,7 +2,6 @@
 namespace Elixer\Modules\Users\Controllers;
 
 use Elixer\Modules\Users\Services\UsersService;
-use LightWine\Core\Helpers\RequestVariables;
 
 class UsersController
 {
@@ -12,7 +11,17 @@ class UsersController
         $this->usersService = new UsersService();
     }
 
+    /**
+     * Gets the users
+     */
     public function GetUsers(){
         $this->usersService->GetUsers();
+    }
+
+    /**
+     * Gets the roles
+     */
+    public function GetRoles(){
+        $this->usersService->GetRoles();
     }
 }

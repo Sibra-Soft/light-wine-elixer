@@ -18,19 +18,16 @@
 				        <th class="label-cell">Description</th>
 				        <th class="label-cell">Date Created</th>
 				        <th class="label-cell">Created By</th>
+						<th class="label-cell"></th>
 			        </tr>
 		        </thead>
 		        <tbody>
-                    <template id="file-upload-item">
+                    <template id="roles-item-template">
 			            {{#each roles}}
                             <tr data-index="{{@index}}">
-				                <td class="label-cell">{{name}}</td>
-				                <td class="label-cell">{{type}}</td>
-				                <td class="label-cell">{{size}}</td>
-                                <td>
-                                    <span class="text">Ready</span>
-                                    <p class="progbar hide"><span class="progressbar-infinite"></span></p>
-                                </td>
+				                <td class="label-cell">{{description}}</td>
+				                <td class="label-cell">{{created_on}}</td>
+				                <td class="label-cell">{{created_by}}</td>
                                 <td class="label-cell"><a href="javascript:void(0);" class="delete no-hover" >&#9932;</a></td>
 			                </tr>
                         {{/each}}

@@ -6,6 +6,15 @@
     constructor(module) {
         this.module = module;
     }
+
+    async GetRoles() {
+        const request = await elixer.request.get("/users/get-roles");
+        const requestData = JSON.parse(request.data);
+
+        if (request.status == 200) {
+            this.module.templater.RenderFromObject(requestData, "#roles template#roles-item-template");
+        }
+    }
 }
 
 class UsersModule {
@@ -29,6 +38,8 @@ class UsersModule {
         this.initBindings();
 
         await this.templater.Render("/users/get-users", "template#user-item-template");
+
+        this.actions.GetRoles();
     }
 
     resize() {

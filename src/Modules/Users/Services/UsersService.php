@@ -21,4 +21,13 @@ class UsersService
 
         HttpResponse::SetReturnJson(["users" => $dataset]);
     }
+
+    public function GetRoles(){
+        $query = Helpers::GetFileContent("../src/Modules/Users/Queries/GET_ROLES.sql");
+
+        $this->databaseService->ClearParameters();
+        $dataset = $this->databaseService->GetDataset($query);
+
+        HttpResponse::SetReturnJson(["roles" => $dataset]);
+    }
 }
