@@ -206,7 +206,7 @@ class TemplatesService implements ITemplatesService
         $model->Id = $this->databaseService->DatasetFirstRow("id");
         $model->Name = $this->databaseService->DatasetFirstRow("name");
         $model->Content = $this->databaseService->DatasetFirstRow("content");
-        $model->SizeInBytes = $this->databaseService->DatasetFirstRow("size");
+        $model->SizeInBytes = $this->databaseService->DatasetFirstRow("size", "integer");
         $model->Scripts = explode(",", $this->databaseService->DatasetFirstRow("scripts"));
         $model->Stylesheets = explode(",", $this->databaseService->DatasetFirstRow("stylesheets"));
         $model->DateCreated = $this->databaseService->DatasetFirstRow("date_added", "datetime");
