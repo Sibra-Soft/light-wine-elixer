@@ -16,6 +16,12 @@
     font-size: 12px;
 }
 
+.row-disabled {
+    background-color: #eee;
+    opacity: .55 !important;
+    pointer-events: none !important;
+}
+
 .pop-menu .list-button {
     line-height: 35px;
     text-align: left;

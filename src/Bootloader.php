@@ -42,6 +42,9 @@ class Bootloader {
         // Routes
         Route::Controller("/routes/get", "Modules\Routes", "RoutesController@Get", "GET", []);
         Route::Controller("/routes/add", "Modules\Routes", "RoutesController@Create", "POST", []);
+        Route::Controller("/routes/get-datasources", "Modules\Routes", "RoutesController@GetDatasources", "GET", []);
+        Route::Controller("/routes/delete", "Modules\Routes", "RoutesController@Delete", "GET", []);
+        Route::Controller("/routes/publish", "Modules\Routes", "RoutesController@Publish", "GET", []);
 
         // Users
         Route::Controller("/users/get-users", "Modules\Users", "UsersController@GetUsers", "GET", []);
@@ -59,6 +62,7 @@ class Bootloader {
         Route::View("/module/webforms", "../src/Modules/Webforms/Views/webforms.tpl", ["LoginRequired" => true]);
         Route::View("/dialogs/new-binding", "../src/Modules/Templates/Views/Dialogs/new-binding.tpl", ["LoginRequired" => true, "ViewData" => ["datasources" => "../src/Modules/Templates/queries/GET_BINDING_DATASOURCES.sql"]]);
         Route::View("/module/users", "../src/Modules/Users/Views/users.tpl", ["LoginRequired" => true]);
+        Route::View("/dialogs/add-parameter", "../src/Modules/Routes/Views/Dialogs/add-parameter.tpl", ["LoginRequired" => true]);
 
         // Add variables
         if(!array_key_exists("CsrfToken", $_SESSION)) $_SESSION["CsrfToken"]  = uniqid(time());

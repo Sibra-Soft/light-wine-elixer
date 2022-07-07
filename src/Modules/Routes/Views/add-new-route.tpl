@@ -11,35 +11,73 @@
             <form method="post">
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
-                            <label class="control-label label-margin">Type</label>
-                            <select class="form-control" asp-items="items">
-                                <option value="page">Page</option>
-                                <option value="api">Api</option>
-                                <option value="redirect">Redirect</option>
-                            </select>
+                        <div class="block-title no-margin">Route Type</div>
+                        <div class="block bg-color-white padding">
+                            <label class="radio"><input type="radio" value="page" name="type" checked="checked"><i class="icon-radio"></i></label>&nbsp; Page<br />
+                            <label class="radio"><input type="radio" value="api" name="type"><i class="icon-radio"></i></label>&nbsp; Api<br />
+                            <label class="radio"><input type="radio" value="redirect" name="type"><i class="icon-radio"></i></label>&nbsp; Redirect
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
-                            <label class="control-label label-margin">Method</label>
-                            <select class="form-control">
-                                <option value="get">Get</option>
-                                <option value="post">Post</option>
-                                <option value="put">Put</option>
-                                <option value="delete">Delete</option>
-                            </select>
+                        <div class="block-title no-margin">Method</div>
+                        <div class="block bg-color-white padding">
+                            <div class="for api-type page-type"><label class="radio"><input type="radio" value="get" name="method" checked="checked"><i class="icon-radio"></i></label>&nbsp; GET</div>
+                            <div class="for redirect-type"><label class="radio"><input type="radio" value="get-301" name="method" checked="checked"><i class="icon-radio"></i></label>&nbsp; GET - 301</div>
+                            <div class="for redirect-type"><label class="radio"><input type="radio" value="get-302" name="method" checked="checked"><i class="icon-radio"></i></label>&nbsp; GET - 302</div>
+                            <div class="for api-type page-type"><label class="radio"><input type="radio" value="post" name="method"><i class="icon-radio"></i></label>&nbsp; POST</div>
+                            <div class="for api-type page-type"><label class="radio"><input type="radio" value="put" name="method"><i class="icon-radio"></i></label>&nbsp; PUT</div>
+                            <div class="for api-type page-type"><label class="radio"><input type="radio" value="delete" name="method"><i class="icon-radio"></i></label>&nbsp; DELETE</div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
-                            <label class="control-label label-margin">Datasource</label>
-                            <select class="form-control">
-                                <option value="get">Template</option>
-                                <option value="post">Query</option>
-                                <option value="put">Table</option>
-                            </select>
+                        <div class="block-title no-margin">Datasource</div>
+                        <div class="block bg-color-white padding">
+                            <div class="hide for page-type redirect-type"><label class="radio"><input type="radio" value="template" name="datasource"><i class="icon-radio"></i></label>&nbsp; Template</div>
+                            <div class="hide for api-type"><label class="radio"><input type="radio" value="query" name="datasource"><i class="icon-radio"></i></label>&nbsp; Query</div>
+                            <div class="hide for api-type"><label class="radio"><input type="radio" value="table" name="datasource"><i class="icon-radio"></i></label>&nbsp; Table</div>
+                            <div class="hide for redirect-type"><label class="radio"><input type="radio" value="url" name="datasource"><i class="icon-radio"></i></label>&nbsp; Url</div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="block-title no-margin">Datasource</div>
+                <div class="block bg-color-white padding datasources">
+                    <div class="form-group for template-type">
+                        <label class="control-label label-margin">Templates</label>
+                        <select class="form-control" name="datasource_template">
+                            <template id="datasource-template-item">
+                                {{#each templates}}
+                                    <option value="{{value}}">{{caption}} ({{value}})</option>
+                                {{/each}}
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="form-group for query-type">
+                        <label class="control-label label-margin">Query</label>
+                        <select class="form-control" name="datasource_query">
+                            <template id="datasource-query-item">
+                                {{#each queries}}
+                                    <option value="{{value}}">{{caption}}</option>
+                                {{/each}}
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="form-group for table-type">
+                        <label class="control-label label-margin">Tables</label>
+                        <select class="form-control" name="datasource_table">
+                            <template id="datasource-table-item">
+                                {{#each tables}}
+                                    <option value="{{value}}">{{caption}}</option>
+                                {{/each}}
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="form-group for url-type">
+                        <label class="control-label label-margin">Url</label>
+                        <input class="form-control" type="text" name="url" />
                     </div>
                 </div>
 
@@ -47,32 +85,26 @@
                     <div class="col">
                         <div class="form-group">
                             <label class="control-label label-margin">Name</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" type="text" name="name" />
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
                             <label class="control-label label-margin">Path</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" type="text" name="path" />
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-
                     </div>
                 </div>
 
                 <div class="data-table card no-margin">
                     <div class="card-header">
                         <div class="data-table-links">
-                            <a class="button" data-action="upload"><i class="icon f7-icons">plus_circle_fill</i>&nbsp;Add Parameter</a>
+                            <a class="button" data-action="add_paramter"><i class="icon f7-icons">plus_circle_fill</i>&nbsp;Add Parameter</a>
                         </div>
                     </div>
                     <div class="card-content">
-                        <table id="route-table">
+                        <table id="parameters-table">
 	                        <thead>
 		                        <tr>
                                     <th class="label-cell"></th>
@@ -83,20 +115,32 @@
 		                        </tr>
 	                        </thead>
                             <tbody>
-                                <tr>
-                                    <td class="label-cell"><a href="javascript:void(0);" class="delete no-hover" >&#9932;</a></td>
-                                    <td>description</td>
-                                    <td>String</td>
-                                    <td>&#10003;</td>
-                                    <td>&#10003;</td>
-                                </tr>
+			                    <template id="template-parameter-item" data-replace="false">
+                                    {{#each parameters}}
+                                    <tr>
+                                        <td class="label-cell"><a href="javascript:void(0);" class="delete no-hover" >&#9932;</a></td>
+                                        <td>{{parameter_name}}</td>
+                                        <td>{{data_type}}</td>
+                                        <td>
+                                            {{#if is_primary_key}}
+                                            &#10003;
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            {{#if is_required}}
+                                            &#10003;
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </template>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="padding"></div>
-                <input type="button" class="btn btn-success" value="Add" />
+                <input type="button" class="btn btn-success disabled" value="Add" id="btn-add-new-route" />
                 <div class="padding"></div>
             </form>
         </div>

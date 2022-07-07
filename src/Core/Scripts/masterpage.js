@@ -115,6 +115,14 @@
                     }
                     break;
 
+                case "checkbox":
+                    if (element.checked) {
+                        object[element.value] = true;
+                    } else {
+                        object[element.value] = false;
+                    }
+                    break;
+
                 case "text":
                     object[inputName] = element.value;
                     break;

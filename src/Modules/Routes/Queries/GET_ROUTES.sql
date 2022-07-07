@@ -13,7 +13,8 @@ FROM (
 		page_routes.`name`,
 		page_routes.url AS path,
 		DATE_FORMAT(page_routes.date_created, '%d-%m-%Y %H:%i:%s') AS date_created,
-		'PAGE' AS type
+		'PAGE' AS type,
+		IF(page_routes.published = 1, TRUE, FALSE) AS is_published
 	FROM site_routes AS page_routes
 	UNION
 	SELECT
@@ -22,7 +23,8 @@ FROM (
 		api_routes.`name`,
 		api_routes.match_pattern,
 		DATE_FORMAT(api_routes.date_created, '%d-%m-%Y %H:%i:%s') AS date_created,
-		'API' AS type
+		'API' AS type,
+		TRUE AS is_published
 	FROM site_rest_api AS api_routes
 ) AS x
 ORDER BY x.`name`

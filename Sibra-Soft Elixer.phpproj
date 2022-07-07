@@ -46,6 +46,7 @@
     <Folder Include="src\Modules\Files\Queries\" />
     <Folder Include="src\Modules\Files\Scripts\" />
     <Folder Include="src\Modules\Files\Views\" />
+    <Folder Include="src\Modules\Routes\Views\Dialogs\" />
     <Folder Include="src\Modules\Users\" />
     <Folder Include="src\Modules\Users\Controllers\" />
     <Folder Include="src\Modules\Users\Interfaces\" />
@@ -141,6 +142,7 @@
     <Content Include="src\Modules\Routes\Queries\GET_ROUTES.sql" />
     <Content Include="src\Modules\Routes\Scripts\main.js" />
     <Content Include="src\Modules\Routes\Views\add-new-route.tpl" />
+    <Content Include="src\Modules\Routes\Views\Dialogs\add-parameter.tpl" />
     <Content Include="src\Modules\Routes\Views\routes.tpl" />
     <Content Include="src\Modules\Templates\Queries\GET_TEMPLATE.sql" />
     <Content Include="src\Modules\Templates\Queries\GET_TEMPLATES_TREEVIEW.sql" />

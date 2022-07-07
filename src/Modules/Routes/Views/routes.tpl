@@ -5,6 +5,7 @@
                 <div class="data-table-links">
                     <a class="button" data-action="add-route"><i class="icon f7-icons">placemark_fill</i> New Route</a>
                     <a class="button disabled" data-action="remove"><i class="icon f7-icons">trash_fill</i> Remove</a>
+                    <a class="button disabled" data-action="publish"><i class="icon f7-icons">arrow_up_square</i> Publish</a>
                     <a class="button" data-action="search"><i class="icon f7-icons">search</i> Search</a>
                 </div>
                 <form class="searchbar searchbar-expandable searchbar searchbar-init">
@@ -35,9 +36,9 @@
 				        </tr>
 			        </thead>
 			        <tbody>
-                        <template id="route-item-template" data-replace="true">
+                        <template id="route-item-template" data-replace="false">
                             {{#each routes}}
-                                <tr data-id="{{id}}">
+                                <tr data-id="{{id}}" data-published="{{is_published}}">
                                     <td class="checkbox-cell">
                                         <label class="checkbox">
                                             <input type="checkbox"/>
