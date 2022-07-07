@@ -19,14 +19,12 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="form-group">
-                            <label class="control-label label-margin">Datasource</label>
-                            <select class="form-control return-value" name="datasource_template">
-                                @foreach($datasources as $datasource)
-                                    <option value="{{$datasource->id}}">{{$datasource->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <label class="control-label label-margin">Datasource</label>
+                        <select class="form-control return-value" name="datasource_template">
+                            @foreach($datasources as $datasource)
+                                <option value="{{$datasource->id}}">{{$datasource->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
