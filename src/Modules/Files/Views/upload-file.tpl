@@ -9,8 +9,6 @@
     <div class="row">
         <div class="col-60">
             <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                 <div class="form-group">
                     <label class="control-label label-margin">Name for this upload</label>
                     <input class="form-control size-400" name="upload-name" />
