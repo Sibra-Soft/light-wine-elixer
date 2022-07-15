@@ -1,12 +1,12 @@
 <?php
 namespace Elixer\Modules\Files\Services;
 
-use Elixer\Modules\Files\Interfaces\IFileService;
-
 use LightWine\Core\Helpers\Helpers;
 use LightWine\Core\HttpResponse;
 use LightWine\Modules\Database\Services\MysqlConnectionService;
 use LightWine\Core\Helpers\RequestVariables;
+
+use Elixer\Modules\Files\Interfaces\IFileService;
 
 class FileService implements IFileService
 {

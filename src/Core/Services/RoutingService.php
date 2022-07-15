@@ -5,7 +5,9 @@ use LightWine\Modules\RegexBuilder\Services\RegexBuilderService;
 use LightWine\Core\Route;
 use LightWine\Modules\Routing\Models\RouteModel;
 
-class RoutingService
+use Elixer\Core\Interfaces\IRoutingService;
+
+class RoutingService implements IRoutingService
 {
 
     /**

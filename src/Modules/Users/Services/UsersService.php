@@ -5,7 +5,9 @@ use LightWine\Core\Helpers\Helpers;
 use LightWine\Core\HttpResponse;
 use LightWine\Modules\Database\Services\MysqlConnectionService;
 
-class UsersService
+use Elixer\Modules\Users\Interfaces\IUsersService;
+
+class UsersService implements IUsersService
 {
     private MysqlConnectionService $databaseService;
 

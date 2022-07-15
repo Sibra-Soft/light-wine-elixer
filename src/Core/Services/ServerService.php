@@ -6,7 +6,9 @@ use LightWine\Core\HttpResponse;
 use LightWine\Core\HttpRequest;
 use LightWine\Core\Helpers\StringHelpers;
 
-class ServerService
+use Elixer\Core\Interfaces\IServerService;
+
+class ServerService implements IServerService
 {
     private RoutingService $routingService;
     private PageService $pageService;

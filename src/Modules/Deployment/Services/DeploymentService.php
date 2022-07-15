@@ -7,7 +7,9 @@ use LightWine\Core\HttpResponse;
 use LightWine\Modules\Database\Services\MysqlConnectionService;
 use LightWine\Core\Helpers\Helpers;
 
-class DeploymentService
+use Elixer\Modules\Deployment\Interfaces\IDeploymentService;
+
+class DeploymentService implements IDeploymentService
 {
     private MysqlConnectionService $databaseService;
 

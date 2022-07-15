@@ -10,7 +10,9 @@ use LightWine\Core\Helpers\StringHelpers;
 use LightWine\Core\Helpers\RequestVariables;
 use LightWine\Modules\Templating\Services\TemplatingEngineService;
 
-class PageService
+use Elixer\Core\Interfaces\IPageService;
+
+class PageService implements IPageService
 {
     private StringTemplaterService $stringTemplater;
     private TemplatingEngineService $templatingEngine;

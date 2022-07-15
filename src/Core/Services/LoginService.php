@@ -1,15 +1,17 @@
 <?php
 namespace Elixer\Core\Services;
 
+use Elixer\Core\Interfaces\ILoginService;
 use Elixer\Core\Models\ProjectModel;
 
+use LightWine\Modules\Database\Services\MysqlConnectionService;
 use LightWine\Modules\Sam\Services\SamService;
 use LightWine\Core\Helpers\RequestVariables;
 use LightWine\Core\Helpers\StringHelpers;
 use LightWine\Core\HttpResponse;
 use LightWine\Core\Helpers\Helpers;
 
-class LoginService
+class LoginService implements ILoginService
 {
     /**
      * Login the user using the specified username and password
@@ -20,20 +22,29 @@ class LoginService
         $project = RequestVariables::Get("project_id");
 
         if(StringHelpers::IsNullOrWhiteSpace($project)){
-            $this->ProjectFromNewFile();
+            $projectModel = $this->ProjectFromNewFile();
         }else{
-            $this->ProjectFromPreviousFile($project);
+            $projectModel = $this->ProjectFromPreviousFile($project);
         }
 
+        $databaseService = new MysqlConnectionService();
         $sam = new SamService();
         $sam->passwordBlowFish = "SeQ3H55Dp9XxndP";
 
-        $login = $sam->Login($username, $password);
+        $databaseService->ClearParameters();
+        $databaseService->GetDataset("SELECT COUNT(*) AS `count` FROM information_schema.`TABLES` WHERE TABLE_SCHEMA = ?currentDatabase;");
+        $tableCount = $databaseService->DatasetFirstRow("count", "integer");
 
-        if($login->LoginCorrect){
-            $response = ["response" => "LOGIN_CORRECT"];
+        if($tableCount == 0){
+            $response = ["response" => "MUST_BE_INSTALLED", "project" => $projectModel->Hash];
         }else{
-            $response = ["response" => "LOGIN_INCORRECT"];
+            $login = $sam->Login($username, $password);
+
+            if($login->LoginCorrect){
+                $response = ["response" => "LOGIN_CORRECT", "project" => $projectModel->Hash];
+            }else{
+                $response = ["response" => "LOGIN_INCORRECT", "project" => $projectModel->Hash];
+            }
         }
 
         HttpResponse::SetContentType("application/json");
@@ -70,6 +81,7 @@ class LoginService
 
         $model->File = $projectFile;
         $model->Name = json_decode(Helpers::GetFileContent($projectFile), true)["Name"];
+        $model->Hash = $hash;
 
         array_push($projects, ["project" => $hash, "name" => $model->Name]);
 
@@ -87,6 +99,9 @@ class LoginService
 
         $projectFile = Helpers::MapPath("../temp/".$projectId.".json");
         $_SESSION["ConfigFile"] = $projectFile;
+
+        $model->File = $projectFile;
+        $model->Hash = $projectId;
 
         return $model;
     }
