@@ -12,6 +12,10 @@
     font-size: unset;
 }
 
+.w-100 {
+    width: 100%;
+}
+
 .CodeMirror {
     font-size: 12px;
 }
@@ -37,7 +41,7 @@
     cursor: pointer;
 }
 
-.login-view input,select {
+.login-view input, select {
     border: 0px;
 }
 
