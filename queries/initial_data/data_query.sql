@@ -1,8 +1,7 @@
 INSERT INTO `_user_roles` VALUES (1, 'Administrators');
-
 INSERT INTO `_users` VALUES (2, 'admin', '0f57035e9d62c86b6ae3bbe6edc5c8653cb89c550571a357c2665efc2f392be804309dc7561cc5e8f8557812de7109a81cd8808fc178659a0abfb7426e72e296', 1, NULL, '1', '2022-3-18 11:03:18', NULL, 'Administrator', NULL);
 
-INSERT INTO `site_routes` VALUES ('9', 'index', '/', '9', null, '1', 'Hello world', null, '1', 'template-link', null, 'GET', null, null, '2022-07-15 12:35:01', null);
+INSERT INTO `site_routes` VALUES ('9', 'index', '/', '9', '1', 'Hello world', null, '1', 'template-link', null, 'GET', null, null, null, '2022-07-15 12:35:01', null);
 
 INSERT INTO `site_templates` VALUES (1, 'Templates', 'folder', NULL, NULL, NULL, '2022-1-21 12:23:36', NULL, 'System', NULL, NULL, NULL, NULL, NULL, 0, '1004,1005,1006,1007', 0, 0, 1);
 INSERT INTO `site_templates` VALUES (2, 'Scripts', 'folder', NULL, NULL, NULL, '2022-1-21 12:23:36', NULL, 'System', NULL, NULL, NULL, NULL, NULL, 0, '1004,1005,1006,1007', 0, 0, 1);
