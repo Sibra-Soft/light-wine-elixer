@@ -7,9 +7,51 @@
         this.module = module;
     }
 
-    /** Add new external file to the database */
-    AddExternalFile() {
+    /**
+     * Closes the specified template based on the uniqueId
+     * @param {any} uniqueId The uniqueId of the template you want to close
+     */
+    CloseTemplate(uniqueId) {
+        $(`#editor-tabs li[data-id='${uniqueId}']`).remove();
+        $(`.editors .editor[data-id='${uniqueId}']`).remove();
 
+        delete this.module.editors[uniqueId];
+    }
+
+    /**
+     * Opens the specified template in a CodeMirror editor
+     * @param {number} templateId The id of the template you want to open
+     */
+    async OpenTemplate(templateId) {
+        const uniqueId = utils.guid();
+        const loader = elixer.dialog.preloader();
+        const request = await elixer.request.get(`/templates/get?template_id=${templateId}`);
+        const template = JSON.parse(request.data);
+        const editorHtml = $("#editor-template").html();
+
+        let instance = {};
+
+        $(".editors .editor").addClass("hide"); // Hide all editors
+        $(".editors").append(editorHtml); // Add a new editor
+
+        // Sets the statusbar of the current editor
+        document.querySelector(".editors .editor:last-child").dataset.id = uniqueId;
+        document.querySelector(".editors .editor:last-child #template-info-bar").innerHTML = `Template: <strong>${template.Name} (${template.Id})</strong> - Version: <strong>${template.Version}</strong>`;
+
+        // Adds a new tab for the current editor
+        $("#editor-tabs li").removeClass("selected");
+        $("#editor-tabs").append(`<li data-id="${uniqueId}" class="selected"><span class="caption">${template.Name}</span>&nbsp;<div class="close"><img src="/img/icons-png/close.png" /></div></li>`);
+
+        const editor = this.module.initCodeMirror(uniqueId, template.Type, template.Content);
+        this.module.initEditorBindings(uniqueId);
+
+        // Add the editor to the module
+        instance[uniqueId] = editor;
+        instance[uniqueId].template = template;
+
+        Object.assign(this.module.editors, instance);
+
+        loader.close();
     }
 
     async AddBinding(id) {
@@ -45,23 +87,29 @@
     }
 
     /** Save the content of the template to the database */
-    async SaveTemplate() {
+    async SaveTemplate(uniqueId) {
+        const editor = this.module.editors[uniqueId];
         const toast = elixer.toast.create({ "text": "Saving..." });
         toast.open();
 
-        const content = this.module.codeMirror.getValue();
+        console.log("Saving: ", uniqueId);
+
+        const content = editor.getValue();
         const request = await elixer.request.post("/templates/save", {
-            "template_id": this.module.template.Id,
+            "template_id": editor.template.Id,
             "content": content
         });
 
-        var responseData = JSON.parse(request.data);
+        const responseData = JSON.parse(request.data);
         if (request.status == 200) {
             $("#save-template").addClass("disabled");
-            $("#template-info-bar").html(`Template: <strong>${responseData.name} (${responseData.template})</strong> - Version: <strong>${responseData.version}</strong>`)
+            $(`.editors .editor[data-id='${uniqueId}'] #template-info-bar`).html(`Template: <strong>${responseData.name} (${responseData.template})</strong> - Version: <strong>${responseData.version}</strong>`)
+
+            var caption = $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text().replaceAll("*", "");
+            $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text(caption);
 
             toast.close();
-        }          
+        }
     }
 
     /**
@@ -188,7 +236,7 @@ class TemplatesModule {
         this.id = utils.guid();
         this.actions = new TemplateModuleActions(this);
         this.template = {};
-        this.codeMirror = {};
+        this.editors = {};;
 
         this.init();
     }
@@ -246,7 +294,26 @@ class TemplatesModule {
         $($('.col.resizable')[1]).css("width", "calc(80% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))");
 
         $("div.treeview").height(pageHeight - 96 + "px");
-        $("div.CodeMirror").height(pageHeight - 96 - 21 + "px");
+        $("div.CodeMirror").height(pageHeight - 96 - 52 + "px");
+    }
+
+    initEditorBindings() {
+        $("#editor-tabs.tabs li").on("click", (event) => {
+            const element = event.currentTarget;
+            const uniqueId = event.currentTarget.dataset.id;
+
+            $("#editor-tabs.tabs li").removeClass("selected");
+            element.classList.add("selected");
+
+            $(".editors .editor").addClass("hide");
+            $(`.editors .editor[data-id='${uniqueId}']`).removeClass("hide");
+        });
+
+        $("#editor-tabs.tabs li .close").on("click", (event) => {
+            const id = event.currentTarget.closest("li").dataset.id;
+
+            this.actions.CloseTemplate(id);
+        });
     }
 
     initBindings() {
@@ -279,20 +346,7 @@ class TemplatesModule {
             $(".treeview-item-selected").removeClass("treeview-item-selected");
             $(elementItem).addClass("treeview-item-selected");
 
-            const loader = elixer.dialog.preloader();
-            const request = await elixer.request.get(`/templates/get?template_id=${templateId}`);
-            const template = JSON.parse(request.data);
-
-            $("#template-info-bar").html(`Template: <strong>${template.Name} (${template.Id})</strong> - Version: <strong>${template.Version}</strong>`)
-
-            $(".CodeMirror").remove();
-            this.initCodeMirror(template.Type);
-            this.template = template;
-
-            this.codeMirror.setValue(template.Content);
-            loader.close();
-
-            $("#save-template").addClass("disabled");
+            this.actions.OpenTemplate(templateId);
         });
 
         $.contextMenu({
@@ -356,8 +410,9 @@ class TemplatesModule {
      * Initialize the Codemirror editor based on the specified type
      * @param {any} type The type of code you want to edit
      */
-    initCodeMirror(type = "html") {
+    initCodeMirror(uniqueId, type = "html", content = "") {
         var templateType = "";
+        var editor = {};
 
         switch (type) {
             case "html": templateType = { name: "htmlmixed" }; break;
@@ -368,7 +423,7 @@ class TemplatesModule {
             case "worker": templateType = { name: "htmlmixed" }; break;
         }
 
-        this.codeMirror = CodeMirror.fromTextArea(document.getElementById("coremirror"), {
+        editor = CodeMirror.fromTextArea(document.querySelector(`div.editors .editor[data-id='${uniqueId}'] textarea.codemirror`), {
             mode: templateType,
             gutters: ["CodeMirror-linenumbers", "breakpoints"],
             selectionPointer: true,
@@ -384,16 +439,46 @@ class TemplatesModule {
             styleActiveLine: true,
             extraKeys: {
                 "Ctrl-S": async (instance) => {
-                    await this.actions.SaveTemplate();
-                }
+                    await this.actions.SaveTemplate(uniqueId);
+                },
+                "'@'": this.completeAfter
             }
         });
 
-        this.codeMirror.on("change", function () {
+        // Set the content of the current document before the change event
+        editor.getDoc().setValue(content);
+
+        editor.on("change", function () {
+            var caption = $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text().replaceAll("*", "");
+
+            $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text(caption + "*");
             $("#save-template").removeClass("disabled");
         });
 
         this.resize();
+
+        return editor;
+    }
+
+    completeAfter(cm, pred) {
+        var cur = cm.getCursor();
+        var autoCompleteOptions = {
+            hint: function () {
+                return {
+                    from: cm.getDoc().getCursor(),
+                    to: cm.getDoc().getCursor(),
+                    list: ['auth', 'include', 'if', 'else', 'endif', 'foreach', 'endforeach', 'translate', 'form', 'image']
+                }
+            }
+        };
+
+        if (!pred || pred()) setTimeout(function () {
+            if (!cm.state.completionActive)
+
+                cm.showHint(autoCompleteOptions);
+        }, 100);
+
+        return CodeMirror.Pass;
     }
 
     /** Populate the treeview with items from the database */

@@ -42,9 +42,21 @@
 				    </div>
 			    </div>
 		    </div>
-            <div class="block no-margin bg-color-white no-padding pad-left-5" id="template-info-bar"></div>
 
-		    <textarea class="hide" id="coremirror" style="width:100%;height:100%;"></textarea> <span class="resize-handler"></span>
+			<ul class="tabs" id="editor-tabs">
+				<!-- Filled by Javascript -->
+			</ul>
+
+		    <div class="editors">
+				<template id="editor-template">
+					<div class="editor">
+						<textarea class="codemirror" style="width:100%;height:100%;"><!-- Filled by Javascript --></textarea> 
+						<div id="template-info-bar"><!-- Filled by Javascript --></div>
+					</div>
+				</template>
+			</div>
+
+			<span class="resize-handler"></span>
 	    </div>
     </div>
 </div>
