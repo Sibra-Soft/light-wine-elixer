@@ -89,6 +89,7 @@
                 case "routes-module": this.openModule("routes"); break;
                 case "deployment-module": this.openModule("deployment"); break;
                 case "users-roles-module": this.openModule("users"); break;
+                case "about": this.showPopup("about"); break;
             }
         });
     }
@@ -172,5 +173,6 @@ $(document).ready(function () {
     window.utils = new Utils();
     window.masterpage = new Masterpage();
     window.login = new Login();
+    window.newProject = new NewProject();
     window.loader = new Loader();
 });

@@ -6,7 +6,7 @@
         <!-- Login form -->
         <form id="login-form" method="post">
             <div class="block">
-                <div class="alert alert-danger hide" id="message">asd</div>
+                <div class="alert alert-danger hide" id="message"><!-- Filled by JS --></div>
             </div>
             <div class="list">
             <ul>
@@ -63,7 +63,7 @@
                     </li>
                 </ul>
                 <div class="block-footer">
-                    Login to get access to your Elixer management enviroment. Or <a href="">create</a> a new website project.
+                    Login to get access to your Elixer management enviroment or <a href="/new-project" class="new-project">create</a> a new website project.
                 </div>
             </div>
         </form>

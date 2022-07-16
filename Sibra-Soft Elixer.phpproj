@@ -29,6 +29,7 @@
     <Folder Include="src\Core\Scripts\" />
     <Folder Include="src\Core\Views\" />
     <Folder Include="src\Core\Services\" />
+    <Folder Include="src\Core\Views\Dialogs\" />
     <Folder Include="src\Core\Views\Partials\" />
     <Folder Include="src\Core\Views\Popovers\" />
     <Folder Include="src\Modules\" />
@@ -46,7 +47,14 @@
     <Folder Include="src\Modules\Files\Queries\" />
     <Folder Include="src\Modules\Files\Scripts\" />
     <Folder Include="src\Modules\Files\Views\" />
+    <Folder Include="src\Modules\Translations\" />
     <Folder Include="src\Modules\Routes\Views\Dialogs\" />
+    <Folder Include="src\Modules\Translations\Controllers\" />
+    <Folder Include="src\Modules\Translations\Interfaces\" />
+    <Folder Include="src\Modules\Translations\Views\" />
+    <Folder Include="src\Modules\Translations\Services\" />
+    <Folder Include="src\Modules\Translations\Scripts\" />
+    <Folder Include="src\Modules\Translations\Queries\" />
     <Folder Include="src\Modules\Users\" />
     <Folder Include="src\Modules\Users\Controllers\" />
     <Folder Include="src\Modules\Users\Interfaces\" />
@@ -85,7 +93,10 @@
     <Compile Include="router.php" />
     <Compile Include="src\Bootloader.php" />
     <Compile Include="src\Core\Controllers\LoginController.php" />
-    <Compile Include="src\Core\Interfaces\IController.php" />
+    <Compile Include="src\Core\Interfaces\ILoginService.php" />
+    <Compile Include="src\Core\Interfaces\IPageService.php" />
+    <Compile Include="src\Core\Interfaces\IRoutingService.php" />
+    <Compile Include="src\Core\Interfaces\IServerService.php" />
     <Compile Include="src\Core\Models\ProjectModel.php" />
     <Compile Include="src\Core\Models\UserModel.php" />
     <Compile Include="src\Core\Services\LoginService.php" />
@@ -94,6 +105,7 @@
     <Compile Include="src\Core\Services\RoutingService.php" />
     <Compile Include="src\Core\Services\ServerService.php" />
     <Compile Include="src\Modules\Deployment\Controllers\DeploymentController.php" />
+    <Compile Include="src\Modules\Deployment\Interfaces\IDeploymentService.php" />
     <Compile Include="src\Modules\Deployment\Services\DeploymentService.php" />
     <Compile Include="src\Modules\Files\Controllers\FilesController.php" />
     <Compile Include="src\Modules\Files\Interfaces\IFileService.php" />
@@ -107,6 +119,7 @@
     <Compile Include="src\Modules\Templates\Queries\GET_BINDING_DATASOURCES.sql" />
     <Compile Include="src\Modules\Templates\Services\TemplatesService.php" />
     <Compile Include="src\Modules\Users\Controllers\UsersController.php" />
+    <Compile Include="src\Modules\Users\Interfaces\IUsersService.php" />
     <Compile Include="src\Modules\Users\Queries\GET_USERS.sql" />
     <Compile Include="src\Modules\Users\Services\UsersService.php" />
     <Compile Include="src\Modules\Webforms\Controllers\WebformsController.php" />
@@ -122,6 +135,8 @@
     <Content Include="src\Core\Scripts\masterpage.js" />
     <Content Include="src\Core\Scripts\js-templater.js" />
     <Content Include="src\Core\Scripts\utils.js" />
+    <Content Include="src\Core\Views\Dialogs\about.tpl" />
+    <Content Include="src\Core\Views\Dialogs\new-connection.tpl" />
     <Content Include="src\Core\Views\login.tpl" />
     <Content Include="src\Core\Views\main.tpl" />
     <Content Include="src\Core\Views\Partials\menu.tpl" />
@@ -161,7 +176,6 @@
     <Content Include="src\Modules\Webforms\Views\new-webform.tpl" />
     <Content Include="src\Modules\Webforms\Views\webforms.tpl" />
     <Content Include="src\Stylesheets\alerts.css" />
-    <Content Include="src\Stylesheets\bootstrap - Copy.css" />
     <Content Include="src\Stylesheets\contextmenu.css" />
     <Content Include="src\Stylesheets\framework7.css" />
     <Content Include="src\Stylesheets\over-rules.css" />

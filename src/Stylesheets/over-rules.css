@@ -17,6 +17,7 @@
 }
 
 .CodeMirror {
+    border: 1px solid silver;
     font-size: 12px;
 }
 
@@ -29,6 +30,15 @@
 .pop-menu .list-button {
     line-height: 35px;
     text-align: left;
+}
+
+#template-info-bar {
+    bottom: 47px;
+    position: fixed;
+    width: 100%;
+    border: 1px solid #C0C0C0;
+    padding-left: 5px;
+    height: 23px;
 }
 
 .treeview-item-label.binding:hover {
@@ -117,3 +127,48 @@ table td a:hover {
 .no-hover:hover {
     text-decoration: none;
 }
+
+ul.tabs {
+    list-style: none;
+    margin: 0 0 -1px 0;
+    padding: 0 0 0 37px;
+    font-family: "Ubuntu Mono", monospace;
+    overflow: hidden;
+}
+
+    ul.tabs li.selected {
+        background: white;
+        color: #222;
+        z-index: 3;
+        cursor: default;
+    }
+
+    ul.tabs li {
+        font-size: 10pt;
+        color: #777;
+        cursor: pointer;
+        margin: 0 2px 0 0;
+        padding: 2px 10px 5px;
+        border: 1px solid silver;
+        border-bottom-width: 1px;
+        border-bottom-width: 0px;
+        background: #f3f3f3;
+        display: inline-block;
+        z-index: 1;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        position: relative;
+        height: 20px;
+    }
+
+    ul.tabs .close {
+        width: 10px;
+        float: right;
+        margin-top: 4px;
+        opacity: 0.5;
+    }
+
+        ul.tabs .close:hover {
+            opacity: 1;
+            cursor: pointer;
+        }

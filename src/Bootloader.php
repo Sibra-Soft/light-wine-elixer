@@ -15,6 +15,11 @@ class Bootloader {
         Route::Controller("/account/login", "Core", "LoginController@HandleLogin", "POST", []);
         Route::Controller("/account/logoff", "Core", "LoginController@HandleLogoff", "GET", []);
 
+        // Project
+        Route::Controller("/project/new", "Core", "ProjectController@NewProject", "POST", []);
+        Route::Controller("/project/download", "Core", "ProjectController@Download", "GET", []);
+        Route::Controller("/project/setup", "Core", "ProjectController@Setup", "GET", []);
+
         // Templates
         Route::Controller("/templates/add-template", "Modules\Templates", "TemplatesController@AddTemplate", "POST", ["LoginRequired" => true]);
         Route::Controller("/templates/add-folder", "Modules\Templates", "TemplatesController@AddFolder", "POST", ["LoginRequired" => true]);
@@ -52,6 +57,7 @@ class Bootloader {
 
         // Views
         Route::View("/", "../src/Core/Views/login.tpl", []);
+        Route::View("/new-project", "../src/Core/Views/new-project.tpl", []);
         Route::View("/dashboard", "../src/Core/Views/start-screen.tpl", ["LoginRequired" => true]);
         Route::View("/module/templates", "../src/Modules/Templates/Views/templates.tpl", ["LoginRequired" => true]);
         Route::View("/module/deployment", "../src/Modules/Deployment/Views/deployment.tpl", ["LoginRequired" => true]);
@@ -63,6 +69,8 @@ class Bootloader {
         Route::View("/dialogs/new-binding", "../src/Modules/Templates/Views/Dialogs/new-binding.tpl", ["LoginRequired" => true, "ViewData" => ["datasources" => "../src/Modules/Templates/queries/GET_BINDING_DATASOURCES.sql"]]);
         Route::View("/module/users", "../src/Modules/Users/Views/users.tpl", ["LoginRequired" => true]);
         Route::View("/dialogs/add-parameter", "../src/Modules/Routes/Views/Dialogs/add-parameter.tpl", ["LoginRequired" => true]);
+        Route::View("/dialogs/new-connection", "../src/Core/Views/Dialogs/new-connection.tpl", []);
+        Route::View("/dialogs/about", "../src/Core/Views/Dialogs/about.tpl", []);
 
         // Add variables
         if(!array_key_exists("CsrfToken", $_SESSION)) $_SESSION["CsrfToken"]  = uniqid(time());

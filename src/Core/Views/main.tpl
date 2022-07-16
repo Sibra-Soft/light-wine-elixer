@@ -63,6 +63,7 @@
         <script type="text/javascript" src="/src/Core/Scripts/views.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/utils.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/login.js" ></script>
+        <script type="text/javascript" src="/src/Core/Scripts/new-project.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/masterpage.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/loader.js" ></script>
         <script type="text/javascript" src="/src/Core/Scripts/js-templater.js" ></script>

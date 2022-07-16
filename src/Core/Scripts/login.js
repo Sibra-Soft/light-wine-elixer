@@ -1,16 +1,23 @@
 ﻿class Login {
     constructor() {
+        this.projectHash = "";
+
         if (window.location.pathname === "/") {
             this.init();
             this.initBindings();
         }
     }
 
+    /**
+     * Shows a error message
+     * @param {string} message The message you want to show
+     */
     showMessage(message) {
         $("#message").text(message);
         $("#message").removeClass("hide").fadeIn(500);
     }
 
+    /** Gets the projects that are saved in the cookie */
     getProjectsFromCookie() {
         var cookie = utils.getCookie('projects');
 
@@ -28,6 +35,7 @@
         const projects = this.getProjectsFromCookie();
         const projectCount = $(projects).length;
         const select = document.getElementById('projects-dropdown');
+        const querystringProject = utils.getQuerystring().project;
 
         if (projectCount > 0) {
             projects.forEach((element) => {
@@ -48,9 +56,34 @@
             $("#select-project").addClass("hide");
             $("#upload-project").removeClass("hide");
         }
+
+        if (querystringProject) {
+            this.projectHash = querystringProject;
+
+            $("#upload-project").addClass("hide");
+        }
+    }
+
+    setup() {
+        elixer.dialog.confirm("This project has no data, do you want to complete the installation of this project?<br /><br />All the necessary tables will be created and all the required data will be added to those tables.", "", async () => {
+            const loader = elixer.dialog.preloader("Running setup");
+            const request = await elixer.request.post("/project/setup", {});
+
+            if (request.status == 200) {
+                loader.close();
+
+                elixer.dialog.alert("The setup has completed successfully<br />A user has been created:<br /><br />Username: <strong>admin</strong><br />Password: <strong>P@ssword123</strong><br /><br />Make sure to enter the details because this message is only shown once", "", () => {
+                    window.location.reload();
+                });
+            }
+        });
     }
 
     initBindings() {
+        $(".new-project").on("click", () => {
+            window.location.href = "/new-project";
+        });
+
         $("#select-project").on("change", (event) => {
             const selectedOption = $("#select-project option:selected").val();
 
@@ -79,7 +112,7 @@
 
             event.currentTarget.querySelector(".button-text").classList.add("hide");
             event.currentTarget.querySelector(".preloader").classList.remove("hide");
-            
+
             var data = new FormData();
             var file = $("input[name='project_file']")[0].files[0];
             var username = $("input[name='login-username']").val();
@@ -90,22 +123,46 @@
             data.append("login_password", password);
 
             if (uploading) {
-                data.append("project", file);
+                if (this.projectHash) {
+                    data.append("project_id", this.projectHash);
+                } else {
+                    data.append("project", file);
+                }
             } else {
-                data.append("project_id", $("#projects-dropdown option:selected").val());
+                if (this.projectHash) {
+                    data.append("project_id", this.projectHash);
+                } else {
+                    data.append("project_id", $("#projects-dropdown option:selected").val());
+                }  
             }
 
             elixer.request.post("/account/login", data).then((resp) => {
                 const response = JSON.parse(resp.data);
 
                 switch (response.response) {
-                    case "LOGIN_INCORRECT": this.showMessage("Wrong username or password"); break;
+                    case "LOGIN_INCORRECT":
+                        this.projectHash = response.project;
+                        this.showMessage("Wrong username or password");
+                        break;
+
                     case "LOGIN_CORRECT": window.location.href = "/dashboard"; break;
+                    case "MUST_BE_INSTALLED": this.setup(); break;
                 }
             }).finally(() => {
                 event.currentTarget.querySelector(".button-text").classList.remove("hide");
                 event.currentTarget.querySelector(".preloader").classList.add("hide");
             });
         });
+
+        setInterval(() => {
+            const username = $("input[name='login-username']").val();
+            const password = $("input[name='login-password']").val();
+
+            if (username !== "" && password !== "") {
+                $("#submit-button").removeClass("disabled");
+            } else {
+                $("#submit-button").addClass("disabled");
+            }
+        }, 10);
     }
 }
