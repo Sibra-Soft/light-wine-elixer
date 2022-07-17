@@ -289,9 +289,11 @@ class TemplatesModule {
 
     resize() {
         const pageHeight = $(".page").height();
+        const firstElementWidth = localStorage.getItem("resize").split(",")[0];
+        const secondElementWidth = localStorage.getItem("resize").split(",")[1];
 
-        $($('.col.resizable')[0]).css("width", "calc(20% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))");
-        $($('.col.resizable')[1]).css("width", "calc(80% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))");
+        $($('.col.resizable')[0]).css("width", `calc(${firstElementWidth}% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))`);
+        $($('.col.resizable')[1]).css("width", `calc(${secondElementWidth}% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))`);
 
         $("div.treeview").height(pageHeight - 96 + "px");
         $("div.CodeMirror").height(pageHeight - 96 - 52 + "px");
@@ -329,6 +331,13 @@ class TemplatesModule {
             elixer.dialog.prompt("Search for template", "", async (value) => {
                 this.actions.Search(value);
             });
+        });
+
+        $(".resize-handler").mouseup(() => {
+            const firstElementWidth = parseFloat($('.col.resizable')[0].style.width.split('calc(').pop().split('%')[0]);
+            const secondElementWidth = parseFloat($('.col.resizable')[1].style.width.split('calc(').pop().split('%')[0]);
+
+            localStorage.setItem("resize", [firstElementWidth, secondElementWidth]);
         });
     }
 
