@@ -8,7 +8,40 @@
 				</div>
 			</div>
 			<div class="page-content">
+				<div class="block">
+					@foreach($properties as $property)
+						<div class="row">
+							<div class="col-30">Name</div>
+							<div class="col-70">{{$property->name}}</div>
+						</div>
+						<div class="row">
+							<div class="col-30">Type</div>
+							<div class="col-70">{{$property->type}}</div>
+						</div>
+						<div class="row">
+							<div class="col-30">Created by</div>
+							<div class="col-70">{{$property->created_by}}</div>
+						</div>
 
+						<div class="row margin-top">
+							<div class="col-30">Date created</div>
+							<div class="col-70">{{$property->date_added}}</div>
+						</div>
+						<div class="row">
+							<div class="col-30">Date modified</div>
+							<div class="col-70">{{$property->date_modified}}</div>
+						</div>
+
+						<div class="row margin-top">
+							<div class="col-30">Current version</div>
+							<div class="col-70">{{$property->template_version_dev}}</div>
+						</div>
+						<div class="row">
+							<div class="col-30">Enabled</div>
+							<div class="col-70">{{$property->active}}</div>
+						</div>
+					@endforeach
+				</div>
 			</div>
             <div class="toolbar toolbar-bottom">
                 <div class="toolbar-inner">
