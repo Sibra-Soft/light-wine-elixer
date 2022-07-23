@@ -22,11 +22,21 @@ class PageService implements IPageService
         $this->templatingEngine = new TemplatingEngineService();
     }
 
+    /**
+     * Gets the view data based on the specified query
+     * @param array $templateOptions The extra options specified for this template
+     * @return array A array containg the data from the query
+     */
     private function GetViewData(array $templateOptions): array {
         $return = [];
 
         if(array_key_exists("ViewData", $templateOptions)){
             $databaseService = new MysqlConnectionService();
+
+            // Add the variables to the query
+            foreach($_POST as $name => $value){
+                $databaseService->AddParameter($name, $value);
+            }
 
             foreach($templateOptions["ViewData"] as $name => $query){
                 $queryFile = Helpers::GetFileContent($query);
