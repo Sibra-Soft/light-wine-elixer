@@ -19,6 +19,26 @@ class TemplatesController
     }
 
     /**
+     * Links specified resources to a specified template
+     */
+    public function LinkResources(){
+        $templateId = (int)RequestVariables::Get("template");
+        $scripts = RequestVariables::Get("scripts");
+        $stylesheets = RequestVariables::Get("stylesheets");
+
+        $this->templateService->LinkResources($templateId, $scripts, $stylesheets);
+    }
+
+    /**
+     * Gets the available resource templates
+     */
+    public function GetResources(){
+        $templateId = (int)RequestVariables::Get("template");
+
+        $this->templateService->GetResourceTemplates($templateId);
+    }
+
+    /**
      * Adds a external resource file to the database
      */
     public function AddExternalFile(){

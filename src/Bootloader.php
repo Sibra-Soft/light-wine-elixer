@@ -31,6 +31,8 @@ class Bootloader {
         Route::Controller("/templates/move", "Modules\Templates", "TemplatesController@Move", "POST", []);
         Route::Controller("/templates/copy", "Modules\Templates", "TemplatesController@Copy", "POST", []);
         Route::Controller("/templates/new-binding", "Modules\Templates", "TemplatesController@NewBinding", "POST", []);
+        Route::Controller("/templates/get-resources", "Modules\Templates", "TemplatesController@GetResources", "GET", []);
+        Route::Controller("/templates/link-resources", "Modules\Templates", "TemplatesController@LinkResources", "POST", []);
 
         // Files
         Route::Controller("/files/get", "Modules\Files", "FilesController@Get", "GET", []);
@@ -62,8 +64,9 @@ class Bootloader {
         Route::View("/module/templates", "../src/Modules/Templates/Views/templates.tpl", ["LoginRequired" => true]);
         Route::View("/module/deployment", "../src/Modules/Deployment/Views/deployment.tpl", ["LoginRequired" => true]);
         Route::View("/module/files", "../src/Modules/Files/Views/files.tpl", ["LoginRequired" => true]);
+        Route::View("/module/translations", "../src/Modules/Translations/Views/translations.tpl", ["LoginRequired" => true]);
         Route::View("/dialogs/add-template", "../src/Modules/Templates/Views/Dialogs/new-template.tpl", ["LoginRequired" => true]);
-        Route::View("/dialogs/template-properties", "../src/Modules/Templates/Views/Dialogs/template-properties.tpl", ["LoginRequired" => true]);
+        Route::View("/dialogs/template-properties", "../src/Modules/Templates/Views/Dialogs/template-properties.tpl", ["LoginRequired" => true, "ViewData" => ["properties" => "../src/Modules/Templates/queries/GET_TEMPLATE_PROPERTIES.sql"]]);
         Route::View("/module/routes", "../src/Modules/Routes/Views/routes.tpl", ["LoginRequired" => true]);
         Route::View("/module/webforms", "../src/Modules/Webforms/Views/webforms.tpl", ["LoginRequired" => true]);
         Route::View("/dialogs/new-binding", "../src/Modules/Templates/Views/Dialogs/new-binding.tpl", ["LoginRequired" => true, "ViewData" => ["datasources" => "../src/Modules/Templates/queries/GET_BINDING_DATASOURCES.sql"]]);
@@ -71,6 +74,7 @@ class Bootloader {
         Route::View("/dialogs/add-parameter", "../src/Modules/Routes/Views/Dialogs/add-parameter.tpl", ["LoginRequired" => true]);
         Route::View("/dialogs/new-connection", "../src/Core/Views/Dialogs/new-connection.tpl", []);
         Route::View("/dialogs/about", "../src/Core/Views/Dialogs/about.tpl", []);
+        Route::View("/dialogs/link-resource", "../src/Modules/Templates/Views/Dialogs/link-resource.tpl", []);
 
         // Add variables
         if(!array_key_exists("CsrfToken", $_SESSION)) $_SESSION["CsrfToken"]  = uniqid(time());

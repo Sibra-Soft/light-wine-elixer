@@ -14,4 +14,6 @@ interface ITemplatesService
     public function GetTreeview();
     public function Get(int $templateId): TemplateModel;
     public function AddExternalFile(string $url);
+    public function GetResourceTemplates(int $htmlTemplate);
+    public function LinkResources(int $templateId, string $scriptResources, string $styleResources);
 }

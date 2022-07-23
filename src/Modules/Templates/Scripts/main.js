@@ -7,6 +7,42 @@
         this.module = module;
     }
 
+    async LinkResourceTemplate(templateId) {
+        const dialog = await masterpage.showPopup("link-resource", {}, async () => {
+            const resources = await elixer.request.getJSON("/templates/get-resources", { "template": templateId });
+
+            if (resources.status == 200) {
+                this.module.templater.RenderFromObject(resources.data, "template#resource-item-template");
+
+                $("#popup-link-resource div.list li[data-selected='1'] input").prop("checked", true);
+            }
+        });
+
+        if (dialog.result === "confirm") {
+            const selected = { "scripts": [], "stylesheets": [] };
+            const toast = elixer.toast.create({ "text": "Saving..." });
+
+            toast.open();
+
+            $("#popup-link-resource div.list li input:checked").each((index, element) => {
+                const type = element.closest("label").querySelector(".item-after").innerText;
+
+                if (type === "javascript") {
+                    selected.scripts.push(element.value);
+                } else {
+                    selected.stylesheets.push(element.value);
+                }
+            });
+
+            const request = await elixer.request.post("/templates/link-resources", {
+                "template": templateId,
+                "scripts": selected.scripts.join(","),
+                "stylesheets": selected.stylesheets.join(",")
+            });
+            toast.close();
+        }
+    }
+
     /**
      * Closes the specified template based on the uniqueId
      * @param {any} uniqueId The uniqueId of the template you want to close
@@ -234,6 +270,7 @@
 class TemplatesModule {
     constructor() {
         this.id = utils.guid();
+        this.templater = new JsTemplater();
         this.actions = new TemplateModuleActions(this);
         this.template = {};
         this.editors = {};;
@@ -370,6 +407,7 @@ class TemplatesModule {
                     newFolder: { name: "Add folder" },
                     newTemplate: { name: "Add template" },
                     newBindng: { name: "Add binding" },
+                    linkResource: { name: "Link resource(s)" },
                     move: { name: "Move" },
                     copy: { name: "Copy" },
                     delete: { name: "Delete" },
@@ -377,8 +415,6 @@ class TemplatesModule {
                     properties: { name: "Properties" },
                     cdnPackages: { name: "Content Delivery Network" }
                 };
-
-                console.log(group);
 
                 switch (group) {
                     case "binding":
@@ -393,6 +429,7 @@ class TemplatesModule {
                         items["move"].className = "context-disabled";
                         items["copy"].className = "context-disabled";
                         items["newBindng"].className = "context-disabled";
+                        items["linkResource"].className = "context-disabled";
                         break;
                 }
 
@@ -407,6 +444,7 @@ class TemplatesModule {
                             case "copy": this.actions.Copy(id); break;
                             case "move": this.actions.Move(id); break;
                             case "newBindng": this.actions.AddBinding(id); break;
+                            case "linkResource": this.actions.LinkResourceTemplate(id); break;
                         }
                     },
                     items: items

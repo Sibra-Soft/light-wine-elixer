@@ -20,6 +20,36 @@ class TemplatesService implements ITemplatesService
     }
 
     /**
+     * Links the specified resources to a specified template
+     * @param int $templateId The id of the template you want to link the resources to
+     * @param string $scriptResources The linked script resources
+     * @param string $styleResources  The linked stylesheet resources
+     */
+    public function LinkResources(int $templateId, string $scriptResources, string $styleResources){
+        $this->databaseService->ClearParameters();
+        
+        $this->databaseService->AddParameter("scripts", $scriptResources);
+        $this->databaseService->AddParameter("stylesheets", $styleResources);
+
+        $this->databaseService->helpers->UpdateOrInsertRecordBasedOnParameters("site_templates", $templateId);
+
+        HttpResponse::SetReturnJson(["template" => $templateId, "updates" => $this->databaseService->rowsAffected]);
+    }
+
+    /**
+     * Gets the resources and linked resources of a specified template
+     * @param int $htmlTemplate The template you want to get the linked resources of
+     */
+    public function GetResourceTemplates(int $htmlTemplate){
+        $this->databaseService->ClearParameters();
+        $this->databaseService->AddParameter("selected_template", $htmlTemplate);
+
+        $dataset = $this->databaseService->ExecuteQueryBasedOnFile("../src/Modules/Templates/Queries/GET_RESOURCES.sql");
+
+        HttpResponse::SetReturnJson(["resources" => $dataset]);
+    }
+
+    /**
      * Adds a new folder to a parent folder
      * @param string $name The name of the new folder
      * @param int $parent The parent id of the folder to add the folder to
