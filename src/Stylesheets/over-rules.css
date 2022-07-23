@@ -172,3 +172,11 @@ ul.tabs {
             opacity: 1;
             cursor: pointer;
         }
+
+.statusbar {
+    bottom: 47px;
+    position: absolute;
+    border: 1px solid #C2C3C5;
+    width: 100%;
+    padding-left: 5px;
+}
