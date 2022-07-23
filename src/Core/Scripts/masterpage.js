@@ -137,7 +137,7 @@
         return object;
     }
 
-    async showPopup(name, parameters = {}) {
+    async showPopup(name, parameters = {}, callback = {}) {
         $(".popup").remove(); // Remove all added popups
 
         return new Promise(async (resolve, reject) => {
@@ -165,6 +165,8 @@
                 returnObject.result = "confirm";
                 resolve(returnObject);
             });
+
+            callback();
         });
     }
 }
