@@ -58,6 +58,14 @@
         });
     }
 
+    async logoff() {
+        var request = await elixer.request.getJSON("/account/logoff");
+
+        if (request.status == 200 && request.data.Result == "OK") {
+            window.location.href = "/";
+        }
+    }
+
     initBindings() {
         $(".open-module").off();
         $(".open-module").on("click", async (event) => {
@@ -90,6 +98,7 @@
                 case "deployment-module": this.openModule("deployment"); break;
                 case "users-roles-module": this.openModule("users"); break;
                 case "about": this.showPopup("about"); break;
+                case "logoff": this.logoff(); break;
             }
         });
     }

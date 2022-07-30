@@ -22,6 +22,6 @@ class LoginController
      * Handles the logoff
      */
     public function HandleLogoff(){
-        $this->HandleLogoff();
+        $this->loginService->Logoff();
     }
 }

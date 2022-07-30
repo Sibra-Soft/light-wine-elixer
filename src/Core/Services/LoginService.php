@@ -47,20 +47,18 @@ class LoginService implements ILoginService
             }
         }
 
-        HttpResponse::SetContentType("application/json");
-        HttpResponse::SetData(json_encode($response));
-        exit();
+        HttpResponse::SetReturnJson($response);
     }
 
     /**
      * Logoff the current user
      */
     public function Logoff(){
-        unset($_SESSION["Checksum"]);
+        $sam = new SamService();
 
-        HttpResponse::SetContentType("application/json");
-        HttpResponse::SetData(json_encode(["OK"]));
-        exit();
+        $sam->Logoff();
+
+        HttpResponse::SetReturnJson(["Result" => "OK"]);
     }
 
     /**
