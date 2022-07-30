@@ -20,6 +20,14 @@ class TemplatesService implements ITemplatesService
     }
 
     /**
+     * Adds a external file (CDN) to the database
+     * @param string $url The url of the file you want to add
+     */
+    public function AddExternalFile(string $url){
+
+    }
+
+    /**
      * Links the specified resources to a specified template
      * @param int $templateId The id of the template you want to link the resources to
      * @param string $scriptResources The linked script resources
@@ -27,9 +35,9 @@ class TemplatesService implements ITemplatesService
      */
     public function LinkResources(int $templateId, string $scriptResources, string $styleResources){
         $this->databaseService->ClearParameters();
-        
-        $this->databaseService->AddParameter("scripts", $scriptResources);
-        $this->databaseService->AddParameter("stylesheets", $styleResources);
+
+        $this->databaseService->AddParameter("scripts", $scriptResources, "");
+        $this->databaseService->AddParameter("stylesheets", $styleResources, "");
 
         $this->databaseService->helpers->UpdateOrInsertRecordBasedOnParameters("site_templates", $templateId);
 
@@ -91,14 +99,6 @@ class TemplatesService implements ITemplatesService
         $this->databaseService->helpers->UpdateOrInsertRecordBasedOnParameters("site_template_versioning");
 
         return $templateId;
-    }
-
-    /**
-     * Adds a external file (CDN) to the database
-     * @param string $url The url of the file you want to add
-     */
-    public function AddExternalFile(string $url){
-
     }
 
     /**

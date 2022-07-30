@@ -11,6 +11,21 @@
         const dialog = await masterpage.showPopup("link-resource", {}, async () => {
             const resources = await elixer.request.getJSON("/templates/get-resources", { "template": templateId });
 
+            $("#popup-link-resource .searchbar-enable").on("click", () => {
+                $("#popup-link-resource .searchbar-expandable").addClass("searchbar-enabled");
+            });
+            
+            $("#popup-link-resource .searchbar-expandable .input-clear-button").on("click", () => {
+                $("#popup-link-resource li").removeClass("hide");
+            });
+
+            $("#popup-link-resource .searchbar-expandable input").on("keyup", (event) => {
+                const searchValue = event.currentTarget.value;
+
+                $("#popup-link-resource li").addClass("hide");
+                $("#popup-link-resource li").filter(`[data-value*='${searchValue}']`).removeClass("hide");
+            });
+
             if (resources.status == 200) {
                 this.module.templater.RenderFromObject(resources.data, "template#resource-item-template");
 

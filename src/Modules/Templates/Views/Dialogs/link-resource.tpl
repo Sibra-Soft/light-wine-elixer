@@ -4,18 +4,33 @@
 			<div class="navbar">
 				<div class="navbar-bg"></div>
 				<div class="navbar-inner">
-					<div class="title">Link resource template</div>
+					<div class="title sliding">Link resource template</div>
+					<div class="right">
+						<a class="link icon-only searchbar-enable">
+							<i class="icon f7-icons if-not-md">search</i>
+						</a>
+					</div>
+
+					<form class="searchbar searchbar-expandable">
+						<div class="searchbar-inner">
+							<div class="searchbar-input-wrap">
+								<input type="search" placeholder="Search" class="" autofocus>
+								<i class="searchbar-icon"></i>
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 			<div class="page-content">
 				<div class="block">
 					Select the resource templates you want to link to the selected template.
 				</div>
-				<div class="list">
+				<div class="list search-list">
 					<ul>
 						<template id="resource-item-template">
 							{{#each resources}}
-							<li data-selected="{{linked}}">
+							<li data-selected="{{linked}}" data-value="{{name}}">
 								<label class="item-checkbox item-content">
 									<input type="checkbox" name="resource" value="{{id}}"><i class="icon icon-checkbox"></i>
 									<div class="item-inner">
