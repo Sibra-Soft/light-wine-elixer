@@ -3,7 +3,7 @@ SELECT * FROM (
 		SELECT
 			templates.id,
 			templates.`name`,
-			templates.type,
+			IF(templates.type = 'html' AND templates.`name` = 'masterpage', 'masterpage', templates.type) AS type,
 			IF(templates.parent_id = 0, 'ROOT', CONCAT(UPPER(parent.type), '|', parent.id)) AS parent_key,
 			IF(templates.type = 'folder', 'folder', 'template') AS `group`,
 			CONCAT(UPPER(templates.`type`), '|', templates.id) AS object_key,
@@ -26,5 +26,16 @@ SELECT * FROM (
 		2
 	FROM site_bindings AS bindings
 	INNER JOIN site_templates AS templates ON templates.id = bindings.destination_template_id
+	UNION
+	SELECT 
+		package.id,
+		package.`name`,
+		'package',
+		UPPER(CONCAT(templates.type, '|', templates.id)),
+		'package',
+		UPPER(CONCAT('package', '|', package.id)),
+		3
+	FROM site_packages AS package
+	INNER JOIN site_templates AS templates ON templates.id = package.parent_id
 ) AS x
 ORDER BY x.ordering, x.parent_key, x.`name`
