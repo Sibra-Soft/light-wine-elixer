@@ -1,5 +1,16 @@
 /*
-Date: 2022-03-17 21:19:37
+Navicat MySQL Data Transfer
+
+Source Server         : Webhosting Server - Vimexx - Sibra-Soft
+Source Server Version : 100328
+Source Host           : 185.104.29.106:3306
+Source Database       : u62338p93741_moviedos
+
+Target Server Type    : MYSQL
+Target Server Version : 100328
+File Encoding         : 65001
+
+Date: 2022-08-15 21:47:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
