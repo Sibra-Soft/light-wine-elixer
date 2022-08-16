@@ -14,6 +14,10 @@
             theme: 'aurora'
         });
 
+        jQuery.expr[':'].icontains = function (a, i, m) {
+            return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+        };
+
         if (window.location.pathname === "/dashboard")
             this.addNewTaskbarElement("Welcome", "95a2e176-ce01-4762-9681-1f9205d33ae9", false);
     }
@@ -175,6 +179,13 @@
                 resolve(returnObject);
             });
 
+            callback();
+        });
+    }
+
+    /** Show the folder browser dialog */
+    async showFolderBrowserDialog(callback) {
+        return await this.showPopup("folder-browse", {}, () => {
             callback();
         });
     }

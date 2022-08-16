@@ -8,6 +8,10 @@
         this.parameters = [];
     }
 
+    async Update() {
+
+    }
+
     async AddParameterToRoute() {
         const popup = await masterpage.showPopup("add-parameter", {});
 
@@ -75,17 +79,31 @@
     }
 
     /**
-     * Search for a route based on the specified value
-     * @param {string} value The name of the route you are searching for
+     * Search in the current view
      */
-    Search(value) {
-        $("div.page#module-routes table tr").addClass("hide");
-        $(`div.page#module-routes table tr td.name:contains('${value}')`).closest("tr").removeClass("hide");
+    Search() {
+        elixer.dialog.prompt("Search", "", (value) => {
+            $(`table#routes-table tbody tr`).addClass("hide");
+            $(`table#routes-table td:icontains('${value}')`).each((index, element) => {
+                element.closest("tr").classList.remove("hide");
+            });
+
+            $("a.button[data-action='delete_search']").removeClass("hide");
+            $("a.button[data-action='search']").addClass("hide");
+        });
+    }
+
+    /** Removes the active search */
+    DeleteSearch() {
+        $(`table#routes-table tbody tr`).removeClass("hide");
+        $("a.button[data-action='delete_search']").addClass("hide");
+        $("a.button[data-action='search']").removeClass("hide");
     }
 }
 
 class RoutesModule {
     constructor() {
+        this.rightClickElement = {};
         this.actions = new RoutesModuleActions(this);
         this.views = new Views();
         this.templater = new JsTemplater();
@@ -138,11 +156,12 @@ class RoutesModule {
 
         $("a.button").on("click", (event) => {
             switch (event.currentTarget.dataset.action) {
-                case "search": alert("search"); break;
-                case "add-route": this.views.Show("add-new-route"); break;
+                case "search": this.actions.Search(); break;
+                case "add_route": this.views.Show("add-new-route"); break;
                 case "remove": this.actions.Delete(); break;
                 case "publish": this.actions.Publish(); break;
                 case "add_paramter": this.actions.AddParameterToRoute(); break;
+                case "delete_search": this.actions.DeleteSearch(); break;
             }
         });
 
@@ -196,6 +215,18 @@ class RoutesModule {
         $(`div.for.${datasourceType}-type`).removeClass("hide");
     }
 
+    updateMetaTitle() {
+        elixer.dialog.prompt("Enter a meta title", "", (value) => {
+            this.actions.Update({ "meta_description": value });
+        });
+    }
+
+    updateMetaDescription() {
+        elixer.dialog.prompt("Enter a meta description", "", (value) => {
+            this.actions.Update({ "meta_title": value });
+        });
+    }
+
     initTableBindings() {
         $.contextMenu({
             selector: '#routes-table tr',
@@ -213,11 +244,9 @@ class RoutesModule {
                 return {
                     callback: (key) => {
                         switch (key) {
-                            case "rename": this.actions.Rename(id, element); break;
                             case "delete": this.actions.Delete(); break;
-                            case "newFolder": this.actions.AddFolder(); break;
-                            case "uploadFile": this.actions.Upload(); break;
-                            case "download": this.actions.Download(); break;
+                            case "addMetaDescription": this.updateMetaDescription(); break;
+                            case "addMetaTitle": this.updateMetaTitle(); break;
                         }
                     },
                     items: items

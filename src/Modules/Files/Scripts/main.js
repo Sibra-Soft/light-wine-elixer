@@ -83,6 +83,28 @@ class FileModuleActions {
         });
     }
 
+    /**
+     * Search in the current view
+     */
+    Search() {
+        elixer.dialog.prompt("Search", "", (value) => {
+            $(`table#files-table tbody tr`).addClass("hide");
+            $(`table#files-table td:icontains('${value}')`).each((index, element) => {
+                element.closest("tr").classList.remove("hide");
+            });
+
+            $("a.button[data-action='delete_search']").removeClass("hide");
+            $("a.button[data-action='search']").addClass("hide");
+        });
+    }
+
+    /** Removes the active search */
+    DeleteSearch() {
+        $(`table#files-table tbody tr`).removeClass("hide");
+        $("a.button[data-action='delete_search']").addClass("hide");
+        $("a.button[data-action='search']").removeClass("hide");
+    }
+
     /** Upload a new file to the database */
     async Upload() {
         const element = document.querySelector("input[name='upload']");
@@ -170,6 +192,8 @@ class FilesModule {
                 case "remove": this.actions.Delete(); break;
                 case "download": this.actions.Download(); break;
                 case "select-files": $("input[name='upload']").trigger("click"); break;
+                case "search": this.actions.Search(); break;
+                case "delete_search": this.actions.DeleteSearch(); break;
             }
         });
 

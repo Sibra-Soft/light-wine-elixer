@@ -9,6 +9,7 @@
                     <a class="button disabled" data-action="compress" ><i class="icon f7-icons">rectangle_compress_vertical</i> Compress</a>
                     <a class="button disabled" data-action="resize" ><i class="icon f7-icons">resize</i> Resize</a>
                     <a class="button" data-action="search"><i class="icon f7-icons">search</i> Search</a>
+                    <a class="button hide" data-action="delete_search"><i class="icon f7-icons">multiply_square_fill</i>&nbsp;Remove Search</a>
                 </div>
                 <form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-expandable searchbar-demo searchbar-init">
                     <div class="searchbar-inner">

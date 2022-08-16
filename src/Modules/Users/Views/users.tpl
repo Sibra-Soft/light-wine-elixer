@@ -7,6 +7,8 @@
                     <a class="button" data-action="roles"><i class="icon f7-icons">person_2_fill</i> Roles</a>
                     <a class="button disabled" data-action="change_password"><i class="icon f7-icons">pencil_ellipsis_rectangle</i> Change Password</a>
                     <a class="button disabled" data-action="remove"><i class="icon f7-icons">trash_fill</i> Remove</a>
+                    <a class="button" data-action="search"><i class="icon f7-icons">search</i> Search</a>
+                    <a class="button hide" data-action="delete_search"><i class="icon f7-icons">multiply_square_fill</i>&nbsp;Remove Search</a>
                 </div>
             </div>
             <div class="card-content">

@@ -3,10 +3,11 @@
         <div class="card data-table data-table-init no-margin">
             <div class="card-header">
                 <div class="data-table-links">
-                    <a class="button" data-action="add-route"><i class="icon f7-icons">placemark_fill</i> New Route</a>
-                    <a class="button disabled" data-action="remove"><i class="icon f7-icons">trash_fill</i> Remove</a>
-                    <a class="button disabled" data-action="publish"><i class="icon f7-icons">arrow_up_square</i> Publish</a>
-                    <a class="button" data-action="search"><i class="icon f7-icons">search</i> Search</a>
+                    <a class="button" data-action="add_route"><i class="icon f7-icons">placemark_fill</i>&nbsp;New Route</a>
+                    <a class="button disabled" data-action="remove"><i class="icon f7-icons">trash_fill</i>&nbsp;Remove</a>
+                    <a class="button disabled" data-action="publish"><i class="icon f7-icons">arrow_up_square</i>&nbsp;Publish</a>
+                    <a class="button" data-action="search"><i class="icon f7-icons">search</i>&nbsp;Search</a>
+                    <a class="button hide" data-action="delete_search"><i class="icon f7-icons">multiply_square_fill</i>&nbsp;Remove Search</a>
                 </div>
                 <form class="searchbar searchbar-expandable searchbar searchbar-init">
                     <div class="searchbar-inner">
