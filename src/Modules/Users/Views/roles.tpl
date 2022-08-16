@@ -18,7 +18,7 @@
 				        <th class="label-cell">Description</th>
 				        <th class="label-cell">Date Created</th>
 				        <th class="label-cell">Created By</th>
-						<th class="label-cell"></th>
+						<th class="numeric-cell"></th>
 			        </tr>
 		        </thead>
 		        <tbody>
@@ -28,7 +28,7 @@
 				                <td class="label-cell">{{description}}</td>
 				                <td class="label-cell">{{created_on}}</td>
 				                <td class="label-cell">{{created_by}}</td>
-                                <td class="label-cell"><a href="javascript:void(0);" class="delete no-hover" >&#9932;</a></td>
+                                <td class="numeric-cell"><a href="javascript:void(0);" class="delete no-hover" >&#9932;</a></td>
 			                </tr>
                         {{/each}}
                     </template>
