@@ -20,11 +20,23 @@ class TemplatesService implements ITemplatesService
     }
 
     /**
-     * Adds a external file (CDN) to the database
-     * @param string $url The url of the file you want to add
+     * Adds a CDN package to the framework
+     * @param string $url The url of the package you want to add
+     * @param int $folderId The id of the parent folder the package must be added to
      */
-    public function AddExternalFile(string $url){
+    public function AddExternalFile(string $url, int $folderId = 0){
+        $this->databaseService->ClearParameters();
 
+        $filename = basename($url);
+
+        $this->databaseService->AddParameter("link", $url);
+        $this->databaseService->AddParameter("parent_id", $folderId);
+        $this->databaseService->AddParameter("name", $filename);
+        $this->databaseService->AddParameter("filename", $filename);
+
+        $packageId = $this->databaseService->helpers->UpdateOrInsertRecordBasedOnParameters("site_packages");
+        
+        HttpResponse::SetReturnJson(["package" => $packageId]);
     }
 
     /**

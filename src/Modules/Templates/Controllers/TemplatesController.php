@@ -42,9 +42,10 @@ class TemplatesController
      * Adds a external resource file to the database
      */
     public function AddExternalFile(){
-        $url = RequestVariables::Get("url");
+        $url = RequestVariables::Get("package_url");
+        $folder = RequestVariables::Get("folder");
 
-        $this->templateService->AddExternalFile($url);
+        $this->templateService->AddExternalFile($url, $folder);
     }
 
     /**

@@ -12,18 +12,9 @@
                         </a>
                     </div>
 			    </div>
-			    <div class="treeview folders bg-color-white scrollbar" data-treeview-key="root">
-				    <div class="treeview-item add-after hide">
-					    <div class="treeview-item-root treeview-item-selectable">
-						    <div class="treeview-item-content no-margin">
-							    <img src="/img/icons-png/bin-empty.png">
-							    <div class="treeview-item-label">
-								    Recycle Bin
-							    </div>
-						    </div>
-					    </div>
-				    </div>
-			    </div>
+			    <div class="my-treeview">
+					<div class="treeview folders bg-color-white scrollbar" data-treeview-key="root"><!-- Filled by JS --></div>
+				</div>
 		    </div><span class="resize-handler"></span>
 	    </div>
 	    <div class="col resizable">
@@ -61,6 +52,7 @@
     </div>
 </div>
 
+<!-- Treeview item template -->
 <template id="treeview-item">
     <div class="treeview-item" data-treeview-key="{key}" data-id="{id}" data-type="{type}" data-group="{group}">
         <div class="treeview-item-root">

@@ -7,6 +7,24 @@
         this.module = module;
     }
 
+    /**
+     * Adds a CDN package to the framework, the package will be added to the selected folder
+     * @param {number} folderId The id of the folder the package must be added to
+     */
+    AddCdnPackage(folderId) {
+        elixer.dialog.prompt("Enter the url of the package you want to add", "", async (value) => {
+            const request = await elixer.request.post("/template/add-external-file", { "package_url": value, "folder": folderId });
+
+            if (request.status == 200) {
+                await templatesModule.populateTreeview();
+            }
+        });
+    }
+
+    /**
+     * Links a resource template to the specified template
+     * @param {number} templateId The id of the template you want to add the resource to
+     */
     async LinkResourceTemplate(templateId) {
         const dialog = await masterpage.showPopup("link-resource", {}, async () => {
             const resources = await elixer.request.getJSON("/templates/get-resources", { "template": templateId });
@@ -14,7 +32,7 @@
             $("#popup-link-resource .searchbar-enable").on("click", () => {
                 $("#popup-link-resource .searchbar-expandable").addClass("searchbar-enabled");
             });
-            
+
             $("#popup-link-resource .searchbar-expandable .input-clear-button").on("click", () => {
                 $("#popup-link-resource li").removeClass("hide");
             });
@@ -169,7 +187,12 @@
      * @param {number} targetFolderId The folder you want to copy the template to
      */
     async Copy(id) {
-        const targetFolderId = await this.module.showFolderBrowserDialog();
+        const dialog = await masterpage.showFolderBrowserDialog(() => {
+            templatesModule.generateTreeview(".browse-treeview", "template#treeview-item", { "type": "folders_only" });
+        });
+        const targetFolderId = 0;
+
+        console.log(dialog);
 
         const request = await elixer.request.post("/templates/copy", {
             "template_id": id,
@@ -187,7 +210,7 @@
      * @param {number} targetFolderId The id of the folder you want to move the template to
      */
     async Move(id) {
-        const targetFolderId = await this.module.showFolderBrowserDialog();
+        const targetFolderId = await masterpage.showFolderBrowserDialog();
 
         const request = await elixer.request.post("/templates/move", {
             "template_id": id,
@@ -305,40 +328,6 @@ class TemplatesModule {
         masterpage.addNewTaskbarElement("Templates", this.id);
     }
 
-    /** Show the folder browser dialog */
-    showFolderBrowserDialog() {
-        return new Promise(async (resolve, reject) => {
-            let selectedFolder = 0;
-
-            $("#general-popup .page-content .content-container").html($(".treeview.folders").html());
-            elixer.popup.open("#general-popup");
-
-            // Only show folders in the dialog
-            $("#general-popup .treeview-item:not([data-type='folder'])").addClass("hide");
-
-            $("#general-popup .treeview-item-root").off();
-            $("#general-popup .treeview-item-root").on("click", (event) => {
-                $("#general-popup .treeview-item-selected").removeClass("treeview-item-selected");
-                $(event.currentTarget).addClass("treeview-item-selected");
-
-                selectedFolder = event.currentTarget.closest(".treeview-item").dataset.id;
-                console.log(selectedFolder);
-            })
-
-            $("#general-popup .confirm").off();
-            $("#general-popup .confirm").on("click", (event) => {
-                elixer.popup.close("#general-popup");
-                resolve(selectedFolder);
-            });
-
-            $("#general-popup .close-popup").off();
-            $("#general-popup .close-popup").on("click", (event) => {
-                elixer.popup.close("#general-popup");
-                reject();
-            });
-        });
-    }
-
     resize() {
         const pageHeight = $(".page").height();
         const firstElementWidth = localStorage.getItem("resize").split(",")[0];
@@ -393,6 +382,7 @@ class TemplatesModule {
         });
     }
 
+    /** Init bindings specifik for the treeview of the template module */
     initTreeviewBindings() {
         $(".treeview-item-content").off();
         $(".treeview-item-content").on("click", async (event) => {
@@ -416,6 +406,7 @@ class TemplatesModule {
                 const element = trigger[0];
                 const id = element.dataset.id;
                 const group = element.dataset.group;
+                const type = element.dataset.type;
 
                 var items = {
                     open: { name: "Open" },
@@ -434,6 +425,11 @@ class TemplatesModule {
                 switch (group) {
                     case "binding":
                     case "template":
+                        if (type !== "html") {
+                            items["newBindng"].className = "context-disabled";
+                            items["linkResource"].className = "context-disabled";
+                        }
+
                         items["newTemplate"].className = "context-disabled";
                         items["newFolder"].className = "context-disabled";
                         break;
@@ -460,6 +456,7 @@ class TemplatesModule {
                             case "move": this.actions.Move(id); break;
                             case "newBindng": this.actions.AddBinding(id); break;
                             case "linkResource": this.actions.LinkResourceTemplate(id); break;
+                            case "cdnPackages": this.actions.AddCdnPackage(id); break;
                         }
                     },
                     items: items
@@ -543,26 +540,40 @@ class TemplatesModule {
         return CodeMirror.Pass;
     }
 
-    /** Populate the treeview with items from the database */
     async populateTreeview() {
-        const treeview = await elixer.request.get("/templates/treeview");
-        const elements = JSON.parse(treeview.data);
+        await this.generateTreeview(".my-treeview", "template#treeview-item");
 
-        // Remove all treeview items
-        $(".treeview.folders[data-treeview-key='root'] div.treeview-item").remove();
+        this.initTreeviewBindings();
+        this.refreshFolderView();
+    }
+
+    /**
+     * Generates a treeview based on the specified selectors
+     * @param {string} treeviewSelector The selector for the container holding the treeview
+     * @param {string} itemTemplateSelector The selector for the template containing the treeview item HTML
+     */
+    async generateTreeview(treeviewSelector, itemTemplateSelector, parameters = {}) {
+        const treeview = await elixer.request.get("/templates/treeview", parameters);
+        const elements = JSON.parse(treeview.data);
 
         var lastParent = "root";
         var treeviewSubItem = document.createElement("div");
 
         elements.forEach((element, index) => {
-            var treeviewItem = $("template#treeview-item").html();
+            var treeviewItem = $(itemTemplateSelector).html();
             var parent = element.parent_key.toLowerCase();
+
+            // Check if the item already exists
+            var itemSearch = $(treeviewSelector).find(`.treeview-item[data-treeview-key='${element.object_key.toLowerCase()}']`).length;
+            if (itemSearch > 0) {
+                return;
+            }
 
             if (parent !== lastParent) {
                 treeviewSubItem = document.createElement("div");
                 treeviewSubItem.className = "treeview-item-children";
 
-                $(`[data-treeview-key='${parent}']`).append(treeviewSubItem);
+                $(treeviewSelector).find(`[data-treeview-key='${parent}']`).append(treeviewSubItem);
             }
 
             treeviewItem = treeviewItem.replaceAll("{caption}", element.name);
@@ -576,7 +587,7 @@ class TemplatesModule {
                 treeviewSubItem.insertAdjacentHTML("beforeend", treeviewItem);
             } else {
                 if (parent === "root") {
-                    $(`[data-treeview-key='${parent}']`).append(treeviewItem);
+                    $(treeviewSelector).find(`[data-treeview-key='${parent}']`).append(treeviewItem);
                 } else {
                     treeviewSubItem.insertAdjacentHTML("beforeend", treeviewItem);
                 }
@@ -584,9 +595,6 @@ class TemplatesModule {
 
             lastParent = parent;
         });
-
-        this.initTreeviewBindings();
-        this.refreshFolderView();
     }
 
     refreshFolderView() {
