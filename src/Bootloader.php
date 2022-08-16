@@ -33,6 +33,7 @@ class Bootloader {
         Route::Controller("/templates/new-binding", "Modules\Templates", "TemplatesController@NewBinding", "POST", []);
         Route::Controller("/templates/get-resources", "Modules\Templates", "TemplatesController@GetResources", "GET", []);
         Route::Controller("/templates/link-resources", "Modules\Templates", "TemplatesController@LinkResources", "POST", []);
+        Route::Controller("/template/add-external-file", "Modules\Templates", "TemplatesController@AddExternalFile", "POST", []);
 
         // Files
         Route::Controller("/files/get", "Modules\Files", "FilesController@Get", "GET", []);
@@ -57,6 +58,10 @@ class Bootloader {
         Route::Controller("/users/get-users", "Modules\Users", "UsersController@GetUsers", "GET", []);
         Route::Controller("/users/get-roles", "Modules\Users", "UsersController@GetRoles", "GET", []);
 
+        // Translations
+        Route::Controller("/translations/get", "Modules\Translations", "TranslationsController@Get", "GET", []);
+        Route::Controller("/translations/get-stats", "Modules\Translations", "TranslationsController@GetStats", "GET", []);
+
         // Views
         Route::View("/", "../src/Core/Views/login.tpl", []);
         Route::View("/new-project", "../src/Core/Views/new-project.tpl", []);
@@ -75,6 +80,7 @@ class Bootloader {
         Route::View("/dialogs/new-connection", "../src/Core/Views/Dialogs/new-connection.tpl", []);
         Route::View("/dialogs/about", "../src/Core/Views/Dialogs/about.tpl", []);
         Route::View("/dialogs/link-resource", "../src/Modules/Templates/Views/Dialogs/link-resource.tpl", []);
+        Route::View("/dialogs/folder-browse", "../src/Core/Views/Dialogs/folder-browse.tpl", []);
 
         // Add variables
         if(!array_key_exists("CsrfToken", $_SESSION)) $_SESSION["CsrfToken"]  = uniqid(time());

@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="row margin-top">
-                        <div class="col-50">
+                        <div class="col">
                             <div class="elevation-demo elevation-3 padding">
                                 <div class="list media-list no-padding no-margin no-hairlines no-chevron">
                                     <ul>
@@ -103,7 +103,7 @@
                             </div>
                         </div>
 
-                        <div class="col-50">
+                        <div class="col">
                             <div class="elevation-demo elevation-3 padding">
                                 <div class="list media-list no-padding no-margin no-hairlines no-chevron">
                                     <ul>
@@ -116,6 +116,28 @@
                                                 </div>
                                                 <div class="item-text">
                                                     Manage the roles and users that have access to your website and Elixer. Reset passwords, create new users, etc.
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="elevation-demo elevation-3 padding">
+                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
+                                    <ul>
+                                        <li>
+                                        <a href="/module/translations" class="item-link item-content open-module" data-name="translations">
+                                            <div class="item-media"><img src="/img/translations.png" width="70"></div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">Translations</div>
+                                                </div>
+                                                <div class="item-text">
+                                                    Manage the languages, words and sentences that must be translated for your website.
                                                 </div>
                                             </div>
                                         </a>

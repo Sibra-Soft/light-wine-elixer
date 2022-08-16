@@ -7,6 +7,7 @@
                 <li><a class="list-button item-link" data-name="routes-module">Routes</a></li>
                 <li><a class="list-button item-link" data-name="deployment-module">Deployment</a></li>
                 <li><a class="list-button item-link" data-name="users-roles-module">Users &amp; Roles</a></li>
+                <li><a class="list-button item-link" data-name="translations-module">Translations</a></li>
 		    </ul>
 	    </div>
     </div>
