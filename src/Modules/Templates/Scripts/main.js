@@ -81,10 +81,19 @@
      * @param {any} uniqueId The uniqueId of the template you want to close
      */
     CloseTemplate(uniqueId) {
-        $(`#editor-tabs li[data-id='${uniqueId}']`).remove();
-        $(`.editors .editor[data-id='${uniqueId}']`).remove();
+        if (this.module.editors[uniqueId].changed) {
+            elixer.dialog.confirm("Are you sure you want to close the document without saving the changes?", "", () => {
+                $(`#editor-tabs li[data-id='${uniqueId}']`).remove();
+                $(`.editors .editor[data-id='${uniqueId}']`).remove();
 
-        delete this.module.editors[uniqueId];
+                delete this.module.editors[uniqueId];
+            });
+        } else {
+            $(`#editor-tabs li[data-id='${uniqueId}']`).remove();
+            $(`.editors .editor[data-id='${uniqueId}']`).remove();
+
+            delete this.module.editors[uniqueId];
+        }
     }
 
     /**
@@ -176,6 +185,8 @@
 
             var caption = $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text().replaceAll("*", "");
             $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text(caption);
+
+            this.module.editors[uniqueId].changed = false;
 
             toast.close();
         }
@@ -507,8 +518,10 @@ class TemplatesModule {
         // Set the content of the current document before the change event
         editor.getDoc().setValue(content);
 
-        editor.on("change", function () {
-            var caption = $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text().replaceAll("*", "");
+        editor.on("change", () => {
+            const caption = $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text().replaceAll("*", "");
+
+            this.editors[uniqueId].changed = true;
 
             $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text(caption + "*");
             $("#save-template").removeClass("disabled");
