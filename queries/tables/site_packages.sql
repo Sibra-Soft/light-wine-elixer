@@ -1,5 +1,5 @@
 /*
-Date: 2022-03-17 21:19:22
+Date: 2022-08-22 18:40:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -15,5 +15,6 @@ CREATE TABLE `site_packages` (
   `version` varchar(20) DEFAULT NULL,
   `filename` varchar(255) DEFAULT NULL,
   `link` text DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
