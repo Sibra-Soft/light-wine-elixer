@@ -147,6 +147,74 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row margin-top">
+                        <div class="col">
+                            <div class="elevation-demo elevation-3 padding">
+                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
+                                    <ul>
+                                        <li>
+                                        <a href="/module/components" class="item-link item-content open-module" data-name="components">
+                                            <div class="item-media"><img src="/img/components.png" width="70"></div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">Components</div>
+                                                </div>
+                                                <div class="item-text">
+                                                    Components are a easy way to add advanced functionality to your website, like a login form, or account form, etc.
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="elevation-demo elevation-3 padding hide">
+                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
+                                    <ul>
+                                        <li>
+                                        <a href="/module/webforms" class="item-link item-content open-module" data-name="webforms">
+                                            <div class="item-media"><img src="/img/webforms.png" width="70"></div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">Webforms</div>
+                                                </div>
+                                                <div class="item-text">
+                                                    Use the webforms module to easy create webforms that can be used on your website, like a contact form.
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="elevation-demo elevation-3 padding hide">
+                                <div class="list media-list no-padding no-margin no-hairlines no-chevron">
+                                    <ul>
+                                        <li>
+                                        <a href="/module/backups" class="item-link item-content open-module" data-name="backups">
+                                            <div class="item-media"><img src="/img/backups.png" width="70"></div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">Backups</div>
+                                                </div>
+                                                <div class="item-text">
+                                                    This module allows you to create backups of your website and database.
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
