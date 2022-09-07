@@ -96,6 +96,7 @@
             const actionName = event.currentTarget.dataset.name;
 
             switch (actionName) {
+                case "download": this.downloadProjectFile(); break;
                 case "templates-module": this.openModule("templates"); break;
                 case "file-explorer-module": this.openModule("file-explorer"); break;
                 case "routes-module": this.openModule("routes"); break;
@@ -105,6 +106,10 @@
                 case "logoff": this.logoff(); break;
             }
         });
+    }
+
+    downloadProjectFile() {
+        window.location.href = "/project/download";
     }
 
     /**
@@ -154,8 +159,9 @@
         $(".popup").remove(); // Remove all added popups
 
         return new Promise(async (resolve, reject) => {
+            elixer.preloader.show();
             const template = await elixer.request.post(`/dialogs/${name}?masterpage=false`, parameters);
-
+            
             $("body").append(template.data);
             elixer.popup.open(`#popup-${name}`);
 
@@ -177,7 +183,9 @@
 
                 returnObject.result = "confirm";
                 resolve(returnObject);
-            });
+            });       
+            
+            elixer.preloader.hide();
 
             callback();
         });

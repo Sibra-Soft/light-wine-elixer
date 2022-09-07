@@ -21,6 +21,10 @@ class FileModuleActions {
         }
     }
 
+    Properties() {
+
+    }
+
     /**
      * Rename a file
      * @param {any} id The id of the record in the database
@@ -48,9 +52,8 @@ class FileModuleActions {
                 "ids": selected.ids.join(",")
             });
 
-            if (request.status == 200) {
+            if (request.status == 200)
                 $(selected.elements).fadeOut(800);
-            }
         });
     }
 
@@ -130,7 +133,7 @@ class FileModuleActions {
             });
 
             if (request.status == 200)
-                await this.module.templater.Render("/files/get", "template#file-item-template");
+                await this.module.refreshDataTable();
         });
     }
 }
@@ -140,6 +143,7 @@ class FilesModule {
     constructor() {
         this.uploading = false;
 
+        this.module = $("div.page#module-files");
         this.actions = new FileModuleActions(this);
         this.templater = new JsTemplater();
         this.views = new Views();
@@ -148,18 +152,27 @@ class FilesModule {
         this.init();
     }
 
-    async init() {
+    init() {
+        this.module = $("div.page#module-files");
+
         document.querySelector("div.page#module-files").dataset.module = this.id;
 
         console.log("Ready -> Files module -> " + this.id);
 
         masterpage.addNewTaskbarElement("File Explorer", this.id);
 
-        await this.templater.Render("/files/get", "template#file-item-template");
-
-        this.initTableBindings();
+        this.refreshDataTable();
         this.initBindings();
         this.resize();
+    }
+
+    async refreshDataTable() {
+        await this.templater.Render("/files/get", "template#file-item-template");
+        this.initTableBindings();
+
+        this.module.find(".loader-container").hide();
+
+        console.log("Done", this.module.find(".loader-container"));
     }
 
     removeFileFromFileList(index) {
@@ -182,11 +195,11 @@ class FilesModule {
             this.resize();
         });
 
-        $(".return-to-main").on("click", () => {
+        this.module.find(".return-to-main").on("click", () => {
             this.views.Close();
         });
 
-        $("a.button[data-action]").on("click", (event) => {
+        this.module.find("a.button[data-action]").on("click", (event) => {
             switch (event.currentTarget.dataset.action) {
                 case "upload": this.views.Show("upload-file"); break;
                 case "remove": this.actions.Delete(); break;
@@ -197,12 +210,12 @@ class FilesModule {
             }
         });
 
-        $("input[type='button']#upload").on("click", () => {
+        this.module.find("input[type='button']#upload").on("click", () => {
             this.actions.Upload();
         });
 
         // Check if the uploaded files have changed
-        $("input[name='upload']").on("change", (event) => {
+        this.module.find("input[name='upload']").on("change", (event) => {
             var files = { "files": [] };
 
             $(event.currentTarget.files).each((index, element) => {
@@ -227,9 +240,9 @@ class FilesModule {
             const specifiedName = $("input[name='upload-name']").val();
 
             if (specifiedName !== "" && fileCount > 0 && !this.uploading) {
-                $("input[type='button']#upload").removeClass("disabled");
+                this.module.find("input[type='button']#upload").removeClass("disabled");
             } else {
-                $("input[type='button']#upload").addClass("disabled");
+                this.module.find("input[type='button']#upload").addClass("disabled");
             }
         }, 10);
     }
@@ -243,7 +256,7 @@ class FilesModule {
             var ids = [];
             var elements = [];
 
-            $("#files-table td.checkbox-cell input:checked").each((index, element) => {
+            this.module.find("#files-table td.checkbox-cell input:checked").each((index, element) => {
                 const rowId = parseInt(element.closest("tr").dataset.id);
 
                 ids.push(rowId);
@@ -280,7 +293,8 @@ class FilesModule {
                     newFolder: { name: "Add folder" },
                     uploadFile: { name: "Upload new file" },
                     rename: { name: "Rename" },
-                    delete: { name: "Remove" }
+                    delete: { name: "Remove" },
+                    properties: { name: "Properties" }
                 };
 
                 return {
@@ -291,6 +305,7 @@ class FilesModule {
                             case "newFolder": this.actions.AddFolder(); break;
                             case "uploadFile": this.actions.Upload(); break;
                             case "download": this.actions.Download(); break;
+                            case "properties": this.actions.Properties(); break;
                         }
                     },
                     items: items
@@ -298,7 +313,7 @@ class FilesModule {
             }
         });
 
-        $("table#files-table td input[type='checkbox']").on("change", () => {
+        this.module.find("table#files-table td input[type='checkbox']").on("change", () => {
             const selectedItemCount = $("table#files-table td input[type='checkbox']:checked").length;
 
             if (selectedItemCount > 0) {
@@ -317,8 +332,7 @@ class FilesModule {
 
     resize() {
         const pageHeight = $(".page").height();
-
-        $("div.page#module-files").height(pageHeight - 48 + "px");
+        this.module.height(pageHeight - 48 + "px");
     }
 }
 

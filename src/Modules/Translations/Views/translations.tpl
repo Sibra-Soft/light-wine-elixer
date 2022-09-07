@@ -53,6 +53,19 @@
             </div>	
 	    </div>
 
+        <div class="loader-container pad-10 text-align-center">
+            <div class="row">
+                <div class="col">&nbsp;</div>
+                <div class="col">
+                    <strong>Please wait...</strong><br />
+                    Loading the content of the module
+                    <div class="clear"></div>
+                    <img src="/img/loader.gif" />
+                </div>
+                <div class="col">&nbsp;</div>
+            </div>
+        </div>
+
         <div class="statusbar">Loading...</div>
     </div>
 

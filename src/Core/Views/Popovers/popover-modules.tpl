@@ -8,6 +8,7 @@
                 <li><a class="list-button item-link" data-name="deployment-module">Deployment</a></li>
                 <li><a class="list-button item-link" data-name="users-roles-module">Users &amp; Roles</a></li>
                 <li><a class="list-button item-link" data-name="translations-module">Translations</a></li>
+                <li><a class="list-button item-link" data-name="components-module">Components</a></li>
 		    </ul>
 	    </div>
     </div>

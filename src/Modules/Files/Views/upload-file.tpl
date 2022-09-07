@@ -1,5 +1,5 @@
 ﻿<div class="container view-container hide" id="upload-file">
-    <h1 class="title display-4"><a href="javascript:void();" class="return-to-main" ><i class="f7-icons">arrow_left_circle_fill</i></a> Upload File(s)</h1>
+    <h1 class="title display-4"><a href="javascript:void(0);" class="return-to-main" ><i class="f7-icons">arrow_left_circle_fill</i></a> Upload File(s)</h1>
     <p class="lead no-margin">
         This form allows you to upload files to your website enviroment. You can upload one file or multiple file(s)
     </p>

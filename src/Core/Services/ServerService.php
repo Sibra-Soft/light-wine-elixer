@@ -72,6 +72,13 @@ class ServerService implements IServerService
             HttpResponse::ShowError(403, "Forbidden", "You do not have permission to access the requested content");
         }
 
+        // Redirect the user when loggedin and options is set
+        if(array_key_exists("RedirectWhenLoggedIn", $route->Options)){
+            if(isset($_SESSION["Checksum"])){
+                header("location: ".$route->Options["RedirectWhenLoggedIn"]);
+            }
+        }
+
         // Check the type of the current route
         switch($route->Type){
             case RouteTypeEnum::VIEW: $content = $this->pageService->Render($route)->Content; break;

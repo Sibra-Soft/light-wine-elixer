@@ -14,6 +14,8 @@
     <PHPDevRouting>
     </PHPDevRouting>
     <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
+    <SpecificPageValue>src/Modules/Backups/</SpecificPageValue>
+    <StartAction>SpecificPage</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -33,6 +35,15 @@
     <Folder Include="src\Core\Views\Partials\" />
     <Folder Include="src\Core\Views\Popovers\" />
     <Folder Include="src\Modules\" />
+    <Folder Include="src\Modules\Components\Interfaces\" />
+    <Folder Include="src\Modules\Components\Controllers\" />
+    <Folder Include="src\Modules\Components\Models\" />
+    <Folder Include="src\Modules\Components\Queries\" />
+    <Folder Include="src\Modules\Components\Services\" />
+    <Folder Include="src\Modules\Components\Scripts\" />
+    <Folder Include="src\Modules\Components\Views\" />
+    <Folder Include="src\Modules\Components\Views\Dialogs\" />
+    <Folder Include="src\Modules\Components\Views\Templates\" />
     <Folder Include="src\Modules\Deployment\" />
     <Folder Include="src\Modules\Deployment\Controllers\" />
     <Folder Include="src\Modules\Deployment\Interfaces\" />
@@ -47,6 +58,7 @@
     <Folder Include="src\Modules\Files\Queries\" />
     <Folder Include="src\Modules\Files\Scripts\" />
     <Folder Include="src\Modules\Files\Views\" />
+    <Folder Include="src\Modules\Components\" />
     <Folder Include="src\Modules\Translations\" />
     <Folder Include="src\Modules\Routes\Views\Dialogs\" />
     <Folder Include="src\Modules\Translations\Controllers\" />
@@ -93,6 +105,7 @@
     <Compile Include="router.php" />
     <Compile Include="src\Bootloader.php" />
     <Compile Include="src\Core\Controllers\LoginController.php" />
+    <Compile Include="src\Core\Controllers\ProjectController.php" />
     <Compile Include="src\Core\Interfaces\ILoginService.php" />
     <Compile Include="src\Core\Interfaces\IPageService.php" />
     <Compile Include="src\Core\Interfaces\IRoutingService.php" />
@@ -102,8 +115,12 @@
     <Compile Include="src\Core\Services\LoginService.php" />
     <Compile Include="index.php" />
     <Compile Include="src\Core\Services\PageService.php" />
+    <Compile Include="src\Core\Services\ProjectService.php" />
     <Compile Include="src\Core\Services\RoutingService.php" />
     <Compile Include="src\Core\Services\ServerService.php" />
+    <Compile Include="src\Modules\Components\Controllers\ComponentsController.php" />
+    <Compile Include="src\Modules\Components\Models\ComponentFieldModel.php" />
+    <Compile Include="src\Modules\Components\Services\ComponentService.php" />
     <Compile Include="src\Modules\Deployment\Controllers\DeploymentController.php" />
     <Compile Include="src\Modules\Deployment\Interfaces\IDeploymentService.php" />
     <Compile Include="src\Modules\Deployment\Services\DeploymentService.php" />
@@ -149,6 +166,16 @@
     <Content Include="src\Core\Views\Popovers\popover-modules.tpl" />
     <Content Include="src\Core\Views\Popovers\popover-tools.tpl" />
     <Content Include="src\Core\Views\start-screen.tpl" />
+    <Content Include="src\Modules\Components\Queries\GET_COMPONENTS.sql" />
+    <Content Include="src\Modules\Components\Scripts\main.js" />
+    <Content Include="src\Modules\Components\Views\components.tpl" />
+    <Content Include="src\Modules\Components\Views\Dialogs\select-component.tpl" />
+    <Content Include="src\Modules\Components\Views\new-component.tpl" />
+    <Content Include="src\Modules\Components\Views\Templates\checkbox-field.tpl" />
+    <Content Include="src\Modules\Components\Views\Templates\codemirror-field.tpl" />
+    <Content Include="src\Modules\Components\Views\Templates\dropdown-field.tpl" />
+    <Content Include="src\Modules\Components\Views\Templates\field-container.tpl" />
+    <Content Include="src\Modules\Components\Views\Templates\input-field.tpl" />
     <Content Include="src\Modules\Deployment\Queries\AVAILABLE_COMMITS.sql" />
     <Content Include="src\Modules\Deployment\Queries\COMMIT.sql" />
     <Content Include="src\Modules\Deployment\Scripts\main.js" />

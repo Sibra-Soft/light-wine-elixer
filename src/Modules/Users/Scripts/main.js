@@ -51,6 +51,7 @@
 
 class UsersModule {
     constructor() {
+        this.module = $("div.page#module-users");
         this.actions = new UsersModuleActions(this);
         this.views = new Views();
         this.templater = new JsTemplater();
@@ -59,7 +60,9 @@ class UsersModule {
         this.init();
     }
 
-    async init() {
+    init() {
+        this.module = $("div.page#module-users");
+
         document.querySelector("div.page#module-users").dataset.module = this.id;
 
         console.log("Ready -> Users module -> " + this.id);
@@ -67,21 +70,23 @@ class UsersModule {
         masterpage.addNewTaskbarElement("Users &amp; Roles", this.id);
 
         this.resize();
+        this.refreshDataTable();
         this.initBindings();
-
-        await this.templater.Render("/users/get-users", "template#user-item-template");
-
         this.actions.GetRoles();
     }
 
-    resize() {
-        const pageHeight = $(".page").height();
+    async refreshDataTable() {
+        await this.templater.Render("/users/get-users", "template#user-item-template");
+        this.module.find(".loader-container").addClass("hide");
+    }
 
-        $("div.page#module-users").height(pageHeight - 48 + "px");
+    resize() {
+        const pageHeight = this.module.find(".page").height();
+        this.module.height(pageHeight - 48 + "px");
     }
 
     initBindings() {
-        $("a.button").on("click", (event) => {
+        this.module.find("a.button").on("click", (event) => {
             switch (event.currentTarget.dataset.action) {
                 case "roles": this.views.Show("roles"); break;
                 case "new-user": this.views.Show("new-user"); break;
@@ -92,7 +97,7 @@ class UsersModule {
             }
         });
 
-        $(".return-to-main").on("click", () => {
+        this.module.find(".return-to-main").on("click", () => {
             this.views.Close();
         });
     }

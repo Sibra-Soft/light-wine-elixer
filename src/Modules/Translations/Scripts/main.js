@@ -32,30 +32,37 @@
 
 class TranslationsModule {
     constructor() {
+        this.module = $("div.page#module-translations");
         this.id = utils.guid();
         this.templater = new JsTemplater();
         this.actions = new TranslationsModuleActions(this);
         this.init();
     }
 
-    async init() {
+    init() {
+        this.module = $("div.page#module-translations");
+
         document.querySelector("div.page#module-translations").dataset.module = this.id;
 
         console.log("Ready -> Translations module -> " + this.id);
 
         masterpage.addNewTaskbarElement("Translations", this.id);
 
-        await this.templater.Render("/translations/get", "template#translation-item-template");
-
+        this.refreshDataTable();
         this.initBindings();
         this.resize();
         this.stats();
     }
 
+    async refreshDataTable() {
+        await this.templater.Render("/translations/get", "template#translation-item-template");
+
+        this.module.find(".loader-container").addClass("hide");
+    }
+
     resize() {
         const pageHeight = $(".page").height();
-
-        $("div.page#module-translations").height(pageHeight - 48 - 23 + "px");
+        this.module.height(pageHeight - 48 - 23 + "px");
     }
 
     initBindings() {
@@ -63,7 +70,7 @@ class TranslationsModule {
             this.resize();
         });
 
-        $("a.button").on("click", (event) => {
+        this.module.find("a.button").on("click", (event) => {
             switch (event.currentTarget.dataset.action) {
                 case "search": this.actions.Search(); break;
                 case "delete_search": this.actions.DeleteSearch(); break;
@@ -78,8 +85,8 @@ class TranslationsModule {
         const percentage = 100 - ((100 * numberOfEmptyTranslations) / 132).toFixed(2);
         const languages = stats.languages.split(",");
 
-        $("#module-translations .statusbar").html(`<strong><a href="javscript:void(0);" data-popover=".my-popover" class="popover-open" >${stats.language}</a></strong> - Geupdate: ${stats.last_update} - ${percentage}% Translated, ${stats.translations_count} strings`);
-
+        this.module.find("#module-translations .statusbar").html(`<strong><a href="javscript:void(0);" data-popover=".my-popover" class="popover-open" >${stats.language}</a></strong> - Geupdate: ${stats.last_update} - ${percentage}% Translated, ${stats.translations_count} strings`);
+        
         this.templater.RenderFromObject({ "languages": languages }, "template#language-item");
     }
 }

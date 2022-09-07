@@ -62,11 +62,17 @@ class Bootloader {
         Route::Controller("/translations/get", "Modules\Translations", "TranslationsController@Get", "GET", []);
         Route::Controller("/translations/get-stats", "Modules\Translations", "TranslationsController@GetStats", "GET", []);
 
+        // Components
+        Route::Controller("/components/get-layout", "Modules\Components", "ComponentsController@GetLayout", "GET", []);
+        Route::Controller("/components/get", "Modules\Components", "ComponentsController@Get", "GET", []);
+        Route::Controller("/components/create", "Modules\Components", "ComponentsController@Create", "POST", []);
+
         // Views
-        Route::View("/", "../src/Core/Views/login.tpl", []);
+        Route::View("/", "../src/Core/Views/login.tpl", ["RedirectWhenLoggedIn" => "/dashboard"]);
         Route::View("/new-project", "../src/Core/Views/new-project.tpl", []);
         Route::View("/dashboard", "../src/Core/Views/start-screen.tpl", ["LoginRequired" => true]);
         Route::View("/module/templates", "../src/Modules/Templates/Views/templates.tpl", ["LoginRequired" => true]);
+        Route::View("/module/components", "../src/Modules/Components/Views/components.tpl", ["LoginRequired" => true]);
         Route::View("/module/deployment", "../src/Modules/Deployment/Views/deployment.tpl", ["LoginRequired" => true]);
         Route::View("/module/files", "../src/Modules/Files/Views/files.tpl", ["LoginRequired" => true]);
         Route::View("/module/translations", "../src/Modules/Translations/Views/translations.tpl", ["LoginRequired" => true]);
@@ -81,6 +87,7 @@ class Bootloader {
         Route::View("/dialogs/about", "../src/Core/Views/Dialogs/about.tpl", []);
         Route::View("/dialogs/link-resource", "../src/Modules/Templates/Views/Dialogs/link-resource.tpl", []);
         Route::View("/dialogs/folder-browse", "../src/Core/Views/Dialogs/folder-browse.tpl", []);
+        Route::View("/dialogs/select-component", "../src/Modules/Components/Views/Dialogs/select-component.tpl", []);
 
         // Add variables
         if(!array_key_exists("CsrfToken", $_SESSION)) $_SESSION["CsrfToken"]  = uniqid(time());

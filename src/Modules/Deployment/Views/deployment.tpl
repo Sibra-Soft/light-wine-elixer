@@ -147,6 +147,19 @@
         <div class="card data-table data-table-init hide no-margin" style="margin-top: 45px !important;" data-tab-name="releases">
             Test
         </div>
+
+        <div class="loader-container pad-10 text-align-center">
+            <div class="row">
+                <div class="col">&nbsp;</div>
+                <div class="col">
+                    <strong>Please wait...</strong><br />
+                    Loading the content of the module
+                    <div class="clear"></div>
+                    <img src="/img/loader.gif" />
+                </div>
+                <div class="col">&nbsp;</div>
+            </div>
+        </div>
     </div>
 
     {{view::..\src\Modules\Deployment\Views\commit-templates.tpl}}

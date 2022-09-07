@@ -103,6 +103,7 @@
 
 class RoutesModule {
     constructor() {
+        this.module = $("div.page#module-routes");
         this.rightClickElement = {};
         this.actions = new RoutesModuleActions(this);
         this.views = new Views();
@@ -112,6 +113,8 @@ class RoutesModule {
     }
 
     async init() {
+        this.module = $("div.page#module-routes");
+
         masterpage.addNewTaskbarElement("Routes", this.id);
 
         document.querySelector("div.page#module-routes").dataset.module = this.id;
@@ -135,18 +138,20 @@ class RoutesModule {
             const name = $("input[name='name']").val();
 
             if (path !== "" && name !== "") {
-                $("#btn-add-new-route").removeClass("disabled");
+                this.module.find("#btn-add-new-route").removeClass("disabled");
             } else {
-                $("#btn-add-new-route").addClass("disabled");
+                this.module.find("#btn-add-new-route").addClass("disabled");
             }
         }, 100);
     }
 
     async refreshDataTable() {
         await this.templater.Render("/routes/get", "template#route-item-template");
-        $("table#routes-table tr[data-published=0] td:not(:first-child)").addClass("row-disabled");
+        this.module.find("table#routes-table tr[data-published=0] td:not(:first-child)").addClass("row-disabled");
 
         this.initTableBindings();
+
+        this.module.find(".loader-container").addClass("hide");
     }
 
     initBindings() {
@@ -154,7 +159,7 @@ class RoutesModule {
             this.resize();
         });
 
-        $("a.button").on("click", (event) => {
+        this.module.find("a.button").on("click", (event) => {
             switch (event.currentTarget.dataset.action) {
                 case "search": this.actions.Search(); break;
                 case "add_route": this.views.Show("add-new-route"); break;
@@ -165,54 +170,54 @@ class RoutesModule {
             }
         });
 
-        $(".return-to-main").on("click", () => {
+        this.module.find(".return-to-main").on("click", () => {
             this.views.Close();
         });
 
-        $("#table-search").on("keyup", (event) => {
+        this.module.find("#table-search").on("keyup", (event) => {
             this.actions.Search(event.currentTarget.value);
         });
 
-        $("input[name='type']").on("change", () => {
+        this.module.find("input[name='type']").on("change", () => {
             this.enableDisableControls(true);
         });
 
-        $("input[name='datasource']").on("change", () => {
+        this.module.find("input[name='datasource']").on("change", () => {
             this.enableDisableControls(false);
         });
 
-        $("#btn-add-new-route").on("click", () => {
+        this.module.find("#btn-add-new-route").on("click", () => {
             this.actions.NewRoute();
         });
 
-        $("#routes-table tbody").sortable();
+        this.module.find("#routes-table tbody").sortable();
     }
 
     enableDisableControls(selectFirst) {
-        const selectedRouteType = $("input[name='type']:checked").val();
+        const selectedRouteType = this.module.find("input[name='type']:checked").val();
 
         // Show the correct buttons
-        $(".for").addClass("hide");
-        $(`div.for.${selectedRouteType}-type`).removeClass("hide");
+        this.module.find(".for").addClass("hide");
+        this.module.find(`div.for.${selectedRouteType}-type`).removeClass("hide");
 
         // Select the route specific datasource
         if (selectFirst) {
             if (selectedRouteType === "redirect") {
-                $("input[name='method'][value='get-301']").prop("checked", true);
+                this.module.find("input[name='method'][value='get-301']").prop("checked", true);
             } else {
-                $("input[name='method'][value='get']").prop("checked", true);
+                this.module.find("input[name='method'][value='get']").prop("checked", true);
             }
 
             if (selectedRouteType === "page" || selectedRouteType === "redirect") {
-                $("input[name='datasource'][value='template']").prop("checked", true);
+                this.module.find("input[name='datasource'][value='template']").prop("checked", true);
             } else {
-                $("input[name='datasource'][value='query']").prop("checked", true)
+                this.module.find("input[name='datasource'][value='query']").prop("checked", true)
             }
         }
 
         // Show the correct datasource
         const datasourceType = $("input[name='datasource']:checked").val();
-        $(`div.for.${datasourceType}-type`).removeClass("hide");
+        this.module.find(`div.for.${datasourceType}-type`).removeClass("hide");
     }
 
     updateMetaTitle() {
@@ -255,15 +260,15 @@ class RoutesModule {
         });
 
         // Enable or disable buttons based on the selected items
-        $("table#routes-table td input[type='checkbox']").on("change", () => {
+        this.module.find("table#routes-table td input[type='checkbox']").on("change", () => {
             const selectedItemCount = $("table#routes-table td input[type='checkbox']:checked").length;
 
             if (selectedItemCount > 0) {
-                $("a.button[data-action='remove']").removeClass("disabled");
-                $("a.button[data-action='publish']").removeClass("disabled");
+                this.module.find("a.button[data-action='remove']").removeClass("disabled");
+                this.module.find("a.button[data-action='publish']").removeClass("disabled");
             } else {
-                $("a.button[data-action='remove']").addClass("disabled");
-                $("a.button[data-action='publish']").addClass("disabled");
+                this.module.find("a.button[data-action='remove']").addClass("disabled");
+                this.module.find("a.button[data-action='publish']").addClass("disabled");
             }
         });
     }
@@ -277,7 +282,7 @@ class RoutesModule {
             var ids = [];
             var elements = [];
 
-            $("#routes-table td.checkbox-cell input:checked").each((index, element) => {
+            this.module.find("#routes-table td.checkbox-cell input:checked").each((index, element) => {
                 const rowId = parseInt(element.closest("tr").dataset.id);
 
                 ids.push(rowId);
@@ -304,8 +309,7 @@ class RoutesModule {
 
     resize() {
         const pageHeight = $(".page").height();
-
-        $("div.page#module-routes").height(pageHeight - 48 + "px");
+        this.module.height(pageHeight - 48 + "px");
     }
 }
 

@@ -2,6 +2,7 @@
     <div class="popover-inner">
 	    <div class="list">
 		    <ul>
+                <li><a class="list-button item-link" data-name="download">Download Project File</a></li>
                 <li><a class="list-button item-link" data-name="export">Import Template(s)</a></li>
                 <li><a class="list-button item-link" data-name="logoff">Logoff</a></li>
 		    </ul>

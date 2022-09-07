@@ -57,6 +57,7 @@
 
 class DeploymentModule {
     constructor() {
+        this.module = $("div.page#module-deployment");
         this.actions = new DeploymentModuleActions(this);
         this.views = new Views();
         this.templater = new JsTemplater();
@@ -65,7 +66,9 @@ class DeploymentModule {
         this.init();
     }
 
-    async init() {
+    init() {
+        this.module = $("div.page#module-deployment");
+
         document.querySelector("div.page#module-deployment").dataset.module = this.id;
 
         console.log("Ready -> Deployment module -> " + this.id);
@@ -74,15 +77,19 @@ class DeploymentModule {
 
         this.resize();
         this.initBindings();
+        this.refreshDataTable();
+    }
 
+    async refreshDataTable() {
         await this.templater.Render("/deployments/get-commits", "template#commit-item-template");
         this.initTableBindings();
+
+        this.module.find(".loader-container").addClass("hide");
     }
 
     resize() {
         const pageHeight = $(".page").height();
-
-        $("div.page#module-deployment").height(pageHeight - 48 + "px");
+        this.module.height(pageHeight - 48 + "px");
     }
 
     selected() {
@@ -96,12 +103,12 @@ class DeploymentModule {
             const rowHeaders = [];
 
             // Get the headers
-            $("#commits-table thead th.label-cell").each((index, element) => {
+            this.module.find("#commits-table thead th.label-cell").each((index, element) => {
                 rowHeaders.push(element.innerText.toLowerCase().replace(" ", "_"));
             });
 
             // Gets the items per row
-            $("#commits-table td.checkbox-cell input:checked").each((index, element) => {
+            this.module.find("#commits-table td.checkbox-cell input:checked").each((index, element) => {
                 const rowId = parseInt(element.closest("tr").dataset.id);
                 const rowElement = element.closest("tr");
                 const item = {};
@@ -133,7 +140,7 @@ class DeploymentModule {
             this.resize();
         });
 
-        $(".subnavbar button").on("click", (event) => {
+        this.module.find(".subnavbar button").on("click", (event) => {
             const tabName = event.currentTarget.dataset.showTab;
 
             $(`#module-deployment .card`).addClass("hide");
@@ -143,11 +150,11 @@ class DeploymentModule {
             $(event.currentTarget).addClass("button-active");
         });
 
-        $(".return-to-main").on("click", () => {
+        this.module.find(".return-to-main").on("click", () => {
             this.views.Close();
         });
 
-        $(".button").on("click", (event) => {
+        this.module.find(".button").on("click", (event) => {
             const action = event.currentTarget.dataset.action;
 
             switch (action) {
@@ -157,9 +164,9 @@ class DeploymentModule {
 
         setInterval(() => {
             if (deploymentModule.selected().count > 0) {
-                $(".button[data-action='commit']").removeClass("disabled");
+                this.module.find(".button[data-action='commit']").removeClass("disabled");
             } else {
-                $(".button[data-action='commit']").addClass("disabled");
+                this.module.find(".button[data-action='commit']").addClass("disabled");
             }
         }, 100);
     }

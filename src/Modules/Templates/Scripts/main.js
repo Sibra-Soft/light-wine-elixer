@@ -318,6 +318,7 @@
 
 class TemplatesModule {
     constructor() {
+        this.module = $("div.page#module-templates");
         this.id = utils.guid();
         this.templater = new JsTemplater();
         this.actions = new TemplateModuleActions(this);
@@ -344,15 +345,15 @@ class TemplatesModule {
         const firstElementWidth = localStorage.getItem("resize").split(",")[0];
         const secondElementWidth = localStorage.getItem("resize").split(",")[1];
 
-        $($('.col.resizable')[0]).css("width", `calc(${firstElementWidth}% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))`);
-        $($('.col.resizable')[1]).css("width", `calc(${secondElementWidth}% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))`);
+        this.module.find($('.col.resizable')[0]).css("width", `calc(${firstElementWidth}% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))`);
+        this.module.find($('.col.resizable')[1]).css("width", `calc(${secondElementWidth}% - (var(--f7-cols-per-row) - 1) * var(--f7-grid-gap) / var(--f7-cols-per-row))`);
 
-        $("div.treeview").height(pageHeight - 96 + "px");
-        $("div.CodeMirror").height(pageHeight - 96 - 52 + "px");
+        this.module.find("div.treeview").height(pageHeight - 96 + "px");
+        this.module.find("div.CodeMirror").height(pageHeight - 96 - 52 + "px");
     }
 
     initEditorBindings() {
-        $("#editor-tabs.tabs li").on("click", (event) => {
+        this.module.find("#editor-tabs.tabs li").on("click", (event) => {
             const element = event.currentTarget;
             const uniqueId = event.currentTarget.dataset.id;
 
@@ -363,7 +364,7 @@ class TemplatesModule {
             $(`.editors .editor[data-id='${uniqueId}']`).removeClass("hide");
         });
 
-        $("#editor-tabs.tabs li .close").on("click", (event) => {
+        this.module.find("#editor-tabs.tabs li .close").on("click", (event) => {
             const id = event.currentTarget.closest("li").dataset.id;
 
             this.actions.CloseTemplate(id);
@@ -375,17 +376,17 @@ class TemplatesModule {
             this.resize();
         });
 
-        $("#save-template").on("click", (event) => {
+        this.module.find("#save-template").on("click", (event) => {
             this.actions.SaveTemplate();
         });
 
-        $(".link#search").on("click", () => {
+        this.module.find(".link#search").on("click", () => {
             elixer.dialog.prompt("Search for template", "", async (value) => {
                 this.actions.Search(value);
             });
         });
 
-        $(".resize-handler").mouseup(() => {
+        this.module.find(".resize-handler").mouseup(() => {
             const firstElementWidth = parseFloat($('.col.resizable')[0].style.width.split('calc(').pop().split('%')[0]);
             const secondElementWidth = parseFloat($('.col.resizable')[1].style.width.split('calc(').pop().split('%')[0]);
 
@@ -395,8 +396,8 @@ class TemplatesModule {
 
     /** Init bindings specifik for the treeview of the template module */
     initTreeviewBindings() {
-        $(".treeview-item-content").off();
-        $(".treeview-item-content").on("click", async (event) => {
+        this.module.find(".treeview-item-content").off();
+        this.module.find(".treeview-item-content").on("click", async (event) => {
             const element = event.currentTarget;
             const elementItem = element.closest(".treeview-item");
             const type = element.closest(".treeview-item").dataset.type;
@@ -523,8 +524,8 @@ class TemplatesModule {
 
             this.editors[uniqueId].changed = true;
 
-            $(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text(caption + "*");
-            $("#save-template").removeClass("disabled");
+            this.module.find(`#editor-tabs li[data-id='${uniqueId}']`).find(".caption").text(caption + "*");
+            this.module.find("#save-template").removeClass("disabled");
         });
 
         this.resize();
@@ -612,7 +613,7 @@ class TemplatesModule {
 
     refreshFolderView() {
         // Hide toggels for folders without items
-        $(".treeview-item").each((index, element) => {
+        this.module.find(".treeview-item").each((index, element) => {
             var subItems = element.querySelectorAll(".treeview-item-children .treeview-item");
 
             if (subItems.length == 0) {
