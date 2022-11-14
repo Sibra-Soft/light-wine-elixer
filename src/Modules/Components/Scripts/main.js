@@ -1,4 +1,12 @@
 ﻿class ComponentsModuleActions {
+    /**
+     * Class constructor
+     * @param {ComponentsModule} module
+     */
+    constructor(module) {
+        this.module = module;
+    }
+
     async AddNewComponent() {
         masterpage.showPopup("select-component", {}, () => {
             $("#popup-select-component a.component").on("click", (event) => {
@@ -19,15 +27,45 @@
     }
 
     async SaveChanges() {
+        var settings = {};
+        const toast = elixer.toast.create({ "text": "Saving..." });
 
+        toast.open();
+
+        $(".control-container input,.control-container textarea,.control-container select").each((index, element) => {
+            if (element.name) {
+                switch (element.type) {
+                    case "checkbox":
+                        settings[element.name] = element.checked;
+                        break;
+
+                    case "textarea":
+                        settings[element.name] = this.module.codeMirrorInstances[element.name].getValue();
+                        break;
+
+                    default:
+                        settings[element.name] = element.value;
+                        break;
+                }
+            }
+        });
+
+        await elixer.request.post("/components/save", {
+            "component": this.module.componentId,
+            "settings": JSON.stringify(settings)
+        });
+
+        toast.close();
     }
 }
 
 /** Componenets module main class */
 class ComponentsModule {
     constructor() {
+        this.componentId = 0;
+        this.codeMirrorInstances = {};
         this.module = $("div#module-components");
-        this.actions = new ComponentsModuleActions();
+        this.actions = new ComponentsModuleActions(this);
         this.templater = new JsTemplater();
         this.views = new Views();
         this.id = utils.guid();
@@ -65,6 +103,7 @@ class ComponentsModule {
             const componentId = event.currentTarget.dataset.id;
 
             this.buildHtml(componentId);
+            this.componentId = componentId;
         });
     }
 
@@ -77,7 +116,7 @@ class ComponentsModule {
                 var optionTemplate = template.replace("{value}", values[key]);
                 var state = "";
 
-                if (values[key] === parseInt(currentValue)) state = "selected";
+                if (values[key] == parseInt(currentValue)) state = "selected";
 
                 optionTemplate = optionTemplate.replace("{state}", state);
                 optionTemplate = optionTemplate.replace("{caption}", key);
@@ -85,13 +124,11 @@ class ComponentsModule {
                 returnValue = returnValue + optionTemplate;
             }
         } else {
-            console.log(currentValue);
-
             values.forEach((element, index) => {
                 var optionTemplate = template.replace("{value}", element.id);
                 var state = "";
 
-                if (element.name === currentValue) state = "selected";
+                if (element.id == currentValue) state = "selected";
 
                 optionTemplate = optionTemplate.replace("{state}", state);
                 optionTemplate = optionTemplate.replace("{caption}", element.name);
@@ -188,9 +225,11 @@ class ComponentsModule {
 
         setTimeout(() => {
             $("textarea").each((index, element) => {
-                CodeMirror.fromTextArea(element, {
+                const editor = CodeMirror.fromTextArea(element, {
                     lineNumbers: true
                 });
+
+                this.codeMirrorInstances[element.name] = editor;
             });
         }, 100);
 
@@ -219,9 +258,7 @@ class ComponentsModule {
         });
 
         this.module.find("input#save-component").on("click", () => {
-            $(".control-container input,.control-container textarea,.control-container select").each((index, element) => {
-                console.log(element.name, element.value);
-            });
+            this.actions.SaveChanges();
         });
     }
 }

@@ -30,8 +30,20 @@ class ComponentService
 
     }
 
+    /**
+     * Saves the changed settings of a specified component
+     * @param int $id The id of the component
+     * @param string $settings Object containing all the settings of the component
+     */
     public function Save(int $id, string $settings){
+        $this->databaseService->ClearParameters();
 
+        $this->databaseService->AddParameter("componentId", $id);
+        $this->databaseService->AddParameter("settings", $settings);
+
+        $this->databaseService->ExecuteQuery("UPDATE `site_dynamic_content` SET settings = ?settings WHERE id = ?componentId LIMIT 1;");
+
+        HttpResponse::SetReturnJson(["result" => "ok"]);
     }
 
     /**
@@ -140,7 +152,7 @@ class ComponentService
                     // Get the values based on a query
                     if(StringHelpers::Contains($bluePrints["FieldValues"], "templates")){
                         $tempateType = StringHelpers::SplitString($bluePrints["FieldValues"], "~", 1);
-                        $dataset = $this->databaseService->GetDataset("SELECT name, id FROM `site_templates` WHERE type = '$tempateType' ORDER BY `name`");
+                        $dataset = $this->databaseService->GetDataset("SELECT `name`, `id` FROM `site_templates` WHERE type = '$tempateType' ORDER BY `name`");
                         $field->Values = ["Type" => "KeyValuePair", "Values" => $dataset];
                     }
                 }

@@ -46,6 +46,8 @@ class Bootloader {
         // Deployment
         Route::Controller("/deployments/get-commits", "Modules\Deployment", "DeploymentController@GetCommits", "GET", []);
         Route::Controller("/deployments/commit", "Modules\Deployment", "DeploymentController@Commit", "POST", []);
+        Route::Controller("/deployments/get-deployments", "Modules\Deployment", "DeploymentController@GetDeployments", "POST", []);
+        Route::Controller("/deployments/get-releases", "Modules\Deployment", "DeploymentController@GetReleases", "POST", []);
 
         // Routes
         Route::Controller("/routes/get", "Modules\Routes", "RoutesController@Get", "GET", []);
@@ -66,6 +68,7 @@ class Bootloader {
         Route::Controller("/components/get-layout", "Modules\Components", "ComponentsController@GetLayout", "GET", []);
         Route::Controller("/components/get", "Modules\Components", "ComponentsController@Get", "GET", []);
         Route::Controller("/components/create", "Modules\Components", "ComponentsController@Create", "POST", []);
+        Route::Controller("/components/save", "Modules\Components", "ComponentsController@Save", "POST", []);
 
         // Views
         Route::View("/", "../src/Core/Views/login.tpl", ["RedirectWhenLoggedIn" => "/dashboard"]);

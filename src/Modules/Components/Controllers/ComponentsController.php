@@ -13,6 +13,16 @@ class ComponentsController
     }
 
     /**
+     * Saves the changes of the component to the database
+     */
+    public function Save(){
+        $componentId = (int)RequestVariables::Get("component");
+        $settings = RequestVariables::Get("settings");
+
+        $this->componentService->Save($componentId, $settings);
+    }
+
+    /**
      * Gets the components from the database
      */
     public function Get(){
