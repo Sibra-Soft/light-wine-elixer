@@ -17,6 +17,24 @@ class DeploymentService implements IDeploymentService
         $this->databaseService = new MysqlConnectionService();
     }
 
+    public function GetReleases(){
+        $query = Helpers::GetFileContent("../src/Modules/Deployment/Queries/RELEASES.sql");
+
+        $this->databaseService->ClearParameters();
+        $dataset = $this->databaseService->GetDataset($query);
+
+        HttpResponse::SetReturnJson(["releases" => $dataset]);
+    }
+
+    public function GetDeployments(){
+        $query = Helpers::GetFileContent("../src/Modules/Deployment/Queries/DEPLOYMENTS.sql");
+
+        $this->databaseService->ClearParameters();
+        $dataset = $this->databaseService->GetDataset($query);
+
+        HttpResponse::SetReturnJson(["deployments" => $dataset]);
+    }
+
     /**
      * Commits the selected template(s) to the specified enviroment(s)
      * @param array $templates Array of template id's to commit

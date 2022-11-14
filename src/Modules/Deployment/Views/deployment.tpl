@@ -74,7 +74,7 @@
         <div class="card data-table data-table-init hide no-margin" style="margin-top: 45px !important;" data-tab-name="deployment">
             <div class="card-header">
                 <div class="data-table-links">
-                    <a class="button" data-action="deploy"><i class="icon f7-icons">arrow_right_circle_fill</i>&nbsp;New Release</a>
+                    <a class="button disabled" data-action="deploy"><i class="icon f7-icons">arrow_right_circle_fill</i>&nbsp;New Release</a>
                     <a class="button" data-action="select-all"><i class="icon f7-icons">layers_alt_fill</i>&nbsp;Select all</a>
                 </div>
                 <form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-expandable searchbar-demo searchbar-init">
@@ -106,38 +106,34 @@
 				        </tr>
 			        </thead>
 			        <tbody>
-                        <tr>
-                            <td>
-                                <label class="checkbox">
-                                    <input type="checkbox"/>
-                                    <i class="icon-checkbox"></i>
-                                </label>
-                            </td>
-                            <td><img src="/img/icons-png/rocket.png" class="v-align" /> Dit is een test commit</td>
-                            <td>14-06-2022 16:50:12</td>
-                            <td>Alex van den Berg</td>
-                            <td>
-                                <div class="padding">
-                                    <small>
-                                        masterpage<br />
-                                        homepage<br />
-                                        framework-utils
-                                    </small>
-                                </div>
-                            </td>
-                            <td>
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" disabled="disabled" />
-                                    <i class="icon-checkbox"></i>
-                                </label>
-                            </td>
-                            <td>
-                                <label class="checkbox">
-                                    <input type="checkbox" disabled="disabled" />
-                                    <i class="icon-checkbox"></i>
-                                </label>
-                            </td>
-                        </tr>
+                        <template id="deployment-item-template" data-replace="false">
+                            {{#each deployments}}
+                                <tr>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox"/>
+                                            <i class="icon-checkbox"></i>
+                                        </label>
+                                    </td>
+                                    <td><img src="/img/icons-png/rocket.png" class="v-align" />&nbsp;{{description}}</td>
+                                    <td>{{created_on}}</td>
+                                    <td>{{created_by}}</td>
+                                    <td>{{template_count}}</td>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked="checked" disabled="disabled" />
+                                            <i class="icon-checkbox"></i>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input type="checkbox" disabled="disabled" />
+                                            <i class="icon-checkbox"></i>
+                                        </label>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </template>
 			        </tbody>
 		        </table>
             </div>	
@@ -145,7 +141,33 @@
 
         <!-- Releases -->
         <div class="card data-table data-table-init hide no-margin" style="margin-top: 45px !important;" data-tab-name="releases">
-            Test
+            <div class="card-header">
+                <div class="data-table-links">
+
+                </div>
+            </div>
+            <div class="card-content">
+                <table id="deployments-table">
+			        <thead>
+				        <tr>
+					        <th class="label-cell">Version</th>
+					        <th class="label-cell">Created by</th>
+                            <th class="label-cell">Date created</th>
+				        </tr>
+			        </thead>
+			        <tbody>
+                        <template id="release-item-template" data-replace="false">
+                            {{#each releases}}
+                                <tr>
+                                    <td>{{version}}</td>
+                                    <td>{{created_on}}</td>
+                                    <td>{{created_by}}</td>
+                                </tr>
+                            {{/each}}
+                        </template>
+			        </tbody>
+		        </table>
+            </div>	
         </div>
 
         <div class="loader-container pad-10 text-align-center">

@@ -16,7 +16,10 @@
         $("#btn-commit").on("click", async (event) => {
             event.preventDefault();
 
+            const toast = elixer.toast.create({ "text": "Deploying..." });
             const commitDescription = $("input[name='commit-description']").val();
+
+            toast.open();
 
             // Get the selected environments
             var environments = $("input#env-acceptance:checked,input#env-test:checked").map((index, element) => {
@@ -34,7 +37,9 @@
 
             if (request.status == 200) {
                 await this.module.templater.Render("/deployments/get-commits", "template#commit-item-template");
+
                 this.module.views.Close();
+                toast.close();
             }
         });
 
@@ -82,8 +87,10 @@ class DeploymentModule {
 
     async refreshDataTable() {
         await this.templater.Render("/deployments/get-commits", "template#commit-item-template");
-        this.initTableBindings();
+        await this.templater.Render("/deployments/get-deployments", "template#deployment-item-template");
+        await this.templater.Render("/deployments/get-releases", "template#release-item-template");
 
+        this.initTableBindings();
         this.module.find(".loader-container").addClass("hide");
     }
 

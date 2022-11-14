@@ -12,6 +12,14 @@ class DeploymentController
         $this->deploymentService = new DeploymentService();
     }
 
+    public function GetReleases(){
+        $this->deploymentService->GetReleases();
+    }
+
+    public function GetDeployments(){
+        $this->deploymentService->GetDeployments();
+    }
+
     public function GetCommits(){
         $this->deploymentService->GetCommits();
     }
